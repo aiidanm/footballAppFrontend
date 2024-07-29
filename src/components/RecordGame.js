@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PlayerCard from './playerCard';
+import PlayerCard from './playerCards/playerCard';
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
