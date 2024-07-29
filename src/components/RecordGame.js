@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PlayerCard from './playerCard';
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const [testData, setTestData] = useState([{id: 1, name: "Aidan", preferred_position: "defender", goals: 5, assists: 1, games_played: 5, over_fence: 5, wins: 3}])
 
   useEffect(() => {
-    const fetchPlayers = async () => {
-      const result = await axios.get('http://localhost:5000/players');
-      setPlayers(result.data);
-    };
-    fetchPlayers();
+    // const fetchPlayers = async () => {
+    //   const result = await axios.get('http://localhost:5000/players');
+    //   setPlayers(result.data);
+    // };
+    // fetchPlayers();
+    setPlayers(testData)
   }, []);
 
   const handleChange = (index, field, value) => {
@@ -31,30 +34,7 @@ const RecordGame = () => {
   return (
     <form onSubmit={handleSubmit}>
       {players.map((player, index) => (
-        <div key={player.id}>
-          <h3>{player.name}</h3>
-          <label>
-            Played:
-            <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'played', e.target.checked)}
-            />
-          </label>
-          <label>
-            Scored:
-            <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'scored', e.target.checked)}
-            />
-          </label>
-          <label>
-            Assisted:
-            <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'assisted', e.target.checked)}
-            />
-          </label>
-        </div>
+        <PlayerCard index={index} player={player} handleChange={handleChange} page={"recordGame"}/>
       ))}
       <button type="submit">Record Game</button>
     </form>
