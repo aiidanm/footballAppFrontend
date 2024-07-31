@@ -36,17 +36,103 @@
   }
 }
 
-.HomePage {
+.pageContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.HomePage button {
+.pageContainer button {
   margin-bottom: 10px;
   border-radius: 5px;
   padding: 10px 20px;
   width: 100%;
   max-width: 300px;
 }
+
+.MainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers horizontally */
+  min-height: 100vh; /* Sets the minimum height to 100% of the viewport height */
+  background-color: #f0f0f0; /* Optional: Add a background color for visual appeal */
+  text-align: center; /* Centers text inside elements */
+}
+
+.TitleHeader {
+  margin-bottom: 20px; /* Adds space between the header and the HomePage component */
+  font-size: 2rem; /* Optional: Adjust the font size of the header */
+  color: #333; /* Optional: Adjust the text color */
+}
+
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Space between buttons */
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  width: 250px; /* Set a consistent width */
+  justify-content: flex-start; /* Aligns the content to the start */
+  text-decoration: none; /* Remove underline from links */
+  color: inherit; /* Inherit text color */
+}
+
+.HomeLink{
+  text-decoration: none; /* Remove underline from links */
+
+}
+
+.icon-button:hover {
+  background-color: #f0f0f0; /* Optional hover effect */
+}
+
+.icon {
+  margin-right: 10px; /* Fixed space between the icon and text */
+  font-size: 20px; /* Size of the icons */
+}
+
+.text {
+  flex: 1;
+  text-align: left; /* Align text to the left */
+}
+
+.icon-button:hover {
+  background-color: #f0f0f0; /* Optional hover effect */
+}
+
+.recordGameCardContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  justify-content: center; /* Centers the items horizontally */
+  gap: 20px; /* Adjust the gap between the cards */
+  max-width: 600px; /* Optional: max width for the container */
+  margin: 0 auto; /* Center the container in the page */
+}
+
+.playerCard {
+  flex: 0 1 calc(50% - 20px); /* Each card takes up 50% width minus the gap */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  padding: 10px; /* Optional: padding inside the cards */
+  border: 1px solid #ccc; /* Optional: border for the cards */
+  border-radius: 5px; /* Optional: rounded corners */
+  background-color: #f9f9f9; /* Optional: background color */
+}
+
+.playerCard h3 {
+  margin-bottom: 10px; /* Space below the player name */
+  font-size: 20px; /* Font size for player name */
+  color: #333; /* Text color for player name */
+}
+

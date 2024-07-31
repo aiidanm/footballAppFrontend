@@ -1,15 +1,16 @@
 import React from 'react';
 import AddPlayer from './components/AddPlayer';
 import RecordGame from './components/RecordGame';
-import HomePage from './components/HomePage';
+import HomePage from './components/Pages/HomePage';
+import TestApp from './components/TestPage';
 
 function App() {
   return (
-    <div>
-      <h1 className='AppTitle'>Football Stats Tracker</h1>
-      <HomePage/>
-    </div>
+    <HomePage/>
   );
 }
+
+
+
 
 export default App;
