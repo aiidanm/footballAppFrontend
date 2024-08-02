@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {addPlayer} from '../ApiFuncs';
 
 const AddPlayer = () => {
   const [name, setName] = useState('');
@@ -7,7 +8,7 @@ const AddPlayer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:5000/players', { name, preferred_position: position });
+    addPlayer({ name, position });
     setName('');
     setPosition('');
   };

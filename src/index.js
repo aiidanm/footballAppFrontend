@@ -7,6 +7,8 @@ import PlayerAdminPage from './components/Pages/PlayerAdminPage';
 import HomePage from './components/Pages/HomePage';
 import StatsPage from './components/Pages/StatsPage';
 import RecordGame from './components/RecordGame';
+import AddPlayer from './components/AddPlayer';
+import PlayerList from './components/Pages/playerList';
 
 
 const router = createBrowserRouter([
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
   },
   {path: "/RecordGame",
     element: <RecordGame/>
+  },
+  {
+    path: "/add-player",
+    element: <AddPlayer />,
+  },
+  {
+    path:"/playerList",
+    element: <PlayerList/>
   }
 ]);
 

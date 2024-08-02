@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://footballbackend-d13q.onrender.com';
 
 // add a new player
 export const addPlayer = (playerData) => {

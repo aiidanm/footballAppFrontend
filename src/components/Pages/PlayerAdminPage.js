@@ -25,6 +25,10 @@ const PlayerAdminPage = () => {
                         <FontAwesomeIcon icon={faTrash} className="icon" />
                         <span className="text">Delete Player</span>
                     </Link>
+                    <Link to='/playerList' className='icon-button'>
+                        <FontAwesomeIcon icon={faEdit} className="icon" />
+                        <span className="text">Player List</span>
+                    </Link>
                 </div>
             </div>
         );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PlayerCard from './playerCards/playerCard';
 import { Link } from 'react-router-dom';
+import { getPlayers } from '../ApiFuncs';
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -25,12 +26,9 @@ const RecordGame = () => {
   ] )
 
   useEffect(() => {
-    // const fetchPlayers = async () => {
-    //   const result = await axios.get('http://localhost:5000/players');
-    //   setPlayers(result.data);
-    // };
-    // fetchPlayers();
-    setPlayers(testData)
+    getPlayers().then((data) => {
+      setPlayers(data);
+    });
   }, []);
 
   const handleChange = (index, field, value) => {
