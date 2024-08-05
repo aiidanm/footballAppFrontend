@@ -1,0 +1,219 @@
+{
+  "baseURL": "https://your-api-base-url.com",
+  "endpoints": [
+    {
+      "name": "Get All Players",
+      "endpoint": "/players",
+      "method": "GET",
+      "description": "Retrieves a list of all players.",
+      "requestParameters": [],
+      "responseFormat": "JSON",
+      "exampleResponse": [
+        {
+          "id": 1,
+          "name": "Aidan",
+          "preferred_position": "defender",
+          "goals": 5,
+          "assists": 1,
+          "games_played": 5,
+          "over_fence": 2,
+          "wins": 3
+        }
+      ]
+    },
+    {
+      "name": "Get Player by ID",
+      "endpoint": "/players/:id",
+      "method": "GET",
+      "description": "Retrieves information about a specific player by their ID.",
+      "requestParameters": [
+        {
+          "name": "id",
+          "type": "URL Parameter",
+          "description": "The ID of the player to retrieve."
+        }
+      ],
+      "responseFormat": "JSON",
+      "exampleResponse": {
+        "id": 1,
+        "name": "Aidan",
+        "preferred_position": "defender",
+        "goals": 5,
+        "assists": 1,
+        "games_played": 5,
+        "over_fence": 2,
+        "wins": 3
+      }
+    },
+    {
+      "name": "Add a New Player",
+      "endpoint": "/players",
+      "method": "POST",
+      "description": "Adds a new player to the database.",
+      "requestParameters": [
+        {
+          "name": "body",
+          "type": "JSON",
+          "description": "Details of the player to add."
+        }
+      ],
+      "requestBodyExample": {
+        "name": "Bella",
+        "preferred_position": "midfielder",
+        "goals": 3,
+        "assists": 4,
+        "games_played": 6,
+        "over_fence": 0,
+        "wins": 4
+      },
+      "responseFormat": "JSON",
+      "exampleResponse": {
+        "id": 2,
+        "name": "Bella",
+        "preferred_position": "midfielder",
+        "goals": 3,
+        "assists": 4,
+        "games_played": 6,
+        "over_fence": 0,
+        "wins": 4
+      }
+    },
+    {
+      "name": "Update Player by ID",
+      "endpoint": "/players/:id",
+      "method": "PUT",
+      "description": "Updates the information of an existing player by their ID.",
+      "requestParameters": [
+        {
+          "name": "id",
+          "type": "URL Parameter",
+          "description": "The ID of the player to update."
+        },
+        {
+          "name": "body",
+          "type": "JSON",
+          "description": "Updated details of the player."
+        }
+      ],
+      "requestBodyExample": {
+        "name": "Charlie",
+        "preferred_position": "forward",
+        "goals": 10,
+        "assists": 5,
+        "games_played": 8,
+        "over_fence": 1,
+        "wins": 6
+      },
+      "responseFormat": "JSON",
+      "exampleResponse": {
+        "id": 3,
+        "name": "Charlie",
+        "preferred_position": "forward",
+        "goals": 10,
+        "assists": 5,
+        "games_played": 8,
+        "over_fence": 1,
+        "wins": 6
+      }
+    },
+    {
+      "name": "Record a New Game",
+      "endpoint": "/games",
+      "method": "POST",
+      "description": "Records a new game and the players' stats for that game.",
+      "requestParameters": [
+        {
+          "name": "body",
+          "type": "JSON",
+          "description": "Details of the game and player stats."
+        }
+      ],
+      "requestBodyExample": {
+        "date": "2024-07-23",
+        "players": [
+          {
+            "id": 1,
+            "played": true,
+            "scored": true,
+            "assisted": false
+          },
+          {
+            "id": 2,
+            "played": true,
+            "scored": false,
+            "assisted": true
+          }
+        ]
+      },
+      "responseFormat": "JSON",
+      "exampleResponse": {
+        "message": "Game recorded successfully"
+      }
+    },
+    {
+      "name": "Get Game by ID",
+      "endpoint": "/games/:id",
+      "method": "GET",
+      "description": "Retrieves details of a specific game by its ID.",
+      "requestParameters": [
+        {
+          "name": "id",
+          "type": "URL Parameter",
+          "description": "The ID of the game to retrieve."
+        }
+      ],
+      "responseFormat": "JSON",
+      "exampleResponse": {
+        "game": {
+          "id": 1,
+          "date": "2024-07-23"
+        },
+        "stats": [
+          {
+            "name": "Aidan",
+            "preferred_position": "defender",
+            "played": true,
+            "scored": true,
+            "assisted": false
+          },
+          {
+            "name": "Bella",
+            "preferred_position": "midfielder",
+            "played": true,
+            "scored": false,
+            "assisted": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Get Recent Games",
+      "endpoint": "/games",
+      "method": "GET",
+      "description": "Retrieves a list of the most recent games, limited to the 10 most recent by default.",
+      "requestParameters": [
+        {
+          "name": "limit",
+          "type": "Query Parameter",
+          "description": "The maximum number of games to retrieve (optional)."
+        }
+      ],
+      "responseFormat": "JSON",
+      "exampleResponse": [
+        {
+          "id": 1,
+          "date": "2024-07-23"
+        },
+        {
+          "id": 2,
+          "date": "2024-07-16"
+        }
+      ]
+    }
+  ],
+  "generalInformation": {
+    "authentication": "If authentication is required, details will be provided in the request headers using bearer tokens or another method as specified.",
+    "errorHandling": "All endpoints return a JSON object with an `error` field and appropriate HTTP status codes if an error occurs.",
+    "dataTypes": "Dates are represented in the ISO 8601 format (`YYYY-MM-DD`)."
+  }
+}

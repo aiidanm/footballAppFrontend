@@ -9,21 +9,21 @@ const PlayerGameInput = ({player, handleChange, index}) => {
             Played:
             <input
               type="checkbox"
-              onChange={(e) => handleChange(index, 'played', e.target.checked)}
+              onChange={(e) => handleChange(index, 'played', e.target.checked, player)}
             />
           </label>
           <label>
             Scored:
             <input
               type="number"
-              onChange={(e) => handleChange(index, 'scored', e.target.checked)}
+              onChange={(e) => handleChange(index, 'scored', e.target.value, player)}
             />
           </label>
           <label>
             Assisted:
             <input
               type="number"
-              onChange={(e) => handleChange(index, 'assisted', e.target.checked)}
+              onChange={(e) => handleChange(index, 'assisted', e.target.value, player)}
             />
           </label>
           </div>
