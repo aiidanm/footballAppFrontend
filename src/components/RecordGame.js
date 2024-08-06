@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -7,7 +7,7 @@ const RecordGame = () => {
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const result = await axios.get('http://localhost:5000/players');
+      const result = await axios.get("http://localhost:5000/players");
       setPlayers(result.data);
     };
     fetchPlayers();
@@ -24,7 +24,10 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:5000/games', { date: new Date(), players: selectedPlayers });
+    await axios.post("http://localhost:5000/games", {
+      date: new Date(),
+      players: selectedPlayers,
+    });
     setSelectedPlayers([]);
   };
 
@@ -37,21 +40,23 @@ const RecordGame = () => {
             Played:
             <input
               type="checkbox"
-              onChange={(e) => handleChange(index, 'played', e.target.checked)}
+              onChange={(e) => handleChange(index, "played", e.target.checked)}
             />
           </label>
           <label>
             Scored:
             <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'scored', e.target.checked)}
+              type="number"
+              onChange={(e) => handleChange(index, "scored", e.target.checked)}
             />
           </label>
           <label>
             Assisted:
             <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'assisted', e.target.checked)}
+              type="number"
+              onChange={(e) =>
+                handleChange(index, "assisted", e.target.checked)
+              }
             />
           </label>
         </div>
