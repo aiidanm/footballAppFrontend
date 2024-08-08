@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import {addPlayer} from '../ApiFuncs';
+import React, { useState } from "react";
+import "../App.css";
+import { addPlayer } from "../ApiFuncs";
+import EditPlayerForm from "../components/Pages/editPlayerForm";
 
-const AddPlayer = () => {
-  const [name, setName] = useState('');
-  const [position, setPosition] = useState('');
+const NewPlayer = () => {
+  const [newPlayer, setNewPlayer] = useState({
+    name: "",
+    preferred_position: "",
+    goals: 0,
+    assists: 0,
+    games_played: 0,
+    over_fence: 0,
+    wins: 0,
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    addPlayer({ name, position });
-    setName('');
-    setPosition('');
+  const handleSave = () => {
+    addPlayer(newPlayer).then(() => {
+      setNewPlayer({
+        name: "",
+        preferred_position: "",
+        goals: 0,
+        assists: 0,
+        games_played: 0,
+        over_fence: 0,
+        wins: 0,
+      });
+      
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-      </div>
-      <div>
-        <label>Preferred Position:</label>
-        <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} required />
-      </div>
-      <button type="submit">Add Player</button>
-    </form>
+    <EditPlayerForm
+      title="Add New Player"
+      player={newPlayer}
+      setPlayer={setNewPlayer}
+      handleSave={handleSave}
+    />
   );
 };
 
-export default AddPlayer;
+export default NewPlayer;
