@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+<PlayerCard
+        key={player.id}
+        player={player}
+        index={index}
+        expandedPlayer={expandedPlayer}
+        handleEdit={handleEdit}
+        onClick={() => handleExpand(player.id)}
+        />

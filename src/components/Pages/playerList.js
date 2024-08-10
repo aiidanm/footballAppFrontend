@@ -3,6 +3,7 @@ import "../../App.css";
 import { getPlayers, updatePlayerById } from "../../ApiFuncs";
 import EditPlayerForm from "./editPlayerForm";
 import { Link } from 'react-router-dom';
+import PlayerCard from "../playerCards/playerCard";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
@@ -42,22 +43,15 @@ const PlayerList = () => {
     </Link>
     <h2>Recent Games</h2>
     <div className="Players">
-    {players.map((player) => (
-        <div key={player.id} className={`player-card ${expandedPlayer === player.id ? 'expanded' : ''}`} onClick={() => handleExpand(player.id)}>
-          <h3>{player.name}</h3>
-          <div className="player-stats">
-            <p>Games: {player.games_played}</p>
-            {expandedPlayer === player.id && (
-              <>
-                <p>Goals: {player.goals}</p>
-                <p>Assists: {player.assists}</p>
-                <p>Wins: {player.wins}</p>
-                <p>Losses: {player.games_played - player.wins}</p>
-                <button onClick={(e) => { e.stopPropagation(); handleEdit(player); }}>Edit</button>
-              </>
-            )}
-          </div>
-        </div>
+    {players.map((player, index) => (
+        <PlayerCard
+        key={player.id}
+        player={player}
+        index={index}
+        expandedPlayer={expandedPlayer}
+        handleEdit={handleEdit}
+        onClick={() => handleExpand(player.id)}
+        />
       ))}
       {editPlayer && (
         <EditPlayerForm    title="Edit Player"

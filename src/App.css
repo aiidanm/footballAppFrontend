@@ -175,3 +175,7 @@
 .edit-form button:last-of-type {
   background-color: #ccc;
 }
+
+.player-card.selected {
+  border: 2px solid green;
+}
