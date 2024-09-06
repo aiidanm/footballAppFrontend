@@ -194,9 +194,7 @@ const RecordGame = () => {
     setExpandedPlayer(expandedPlayer === playerId ? null : playerId);
   };
 
-  const handleChangeColour = (colorid) => {
-  
-  };
+ 
 
   return (
     <div className="MainContainer">
@@ -208,12 +206,21 @@ const RecordGame = () => {
         <div className="recordGameCardContainer">
           {players.map((player) => {
             
-            const colorid = 0
+            let color = ""
+            const handleChangeColour = (colorid) => {
+              if (colorid === ""){
+                color = "red"
+              } else if (colorid === "red"){
+                color = "blue"
+              } else if (colorid === "blue"){ 
+                color = ""
+              }
+            }
             return (
             <div
               key={player.id}
-              className={`player-card red`}
-              onClick={handleChangeColour(colorid)}
+              className={`player-card ${color}`}
+              onClick={handleChangeColour(color)}
             >
               <h3>{player.name}</h3>
               <p>Goals: {player.goals}</p>
