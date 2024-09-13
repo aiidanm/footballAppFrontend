@@ -7,10 +7,11 @@ const PlayerGameInput = ({player, handleChange, index}) => {
         <div className='PlayerGameInput'>
         <label>
             Played:
-            <input
-              type="checkbox"
-              onChange={(e) => handleChange(index, 'played', e.target.checked, player)}
-            />
+            <select name="played" id="played">
+              <option value="no">No</option>
+  <option value="blue">Blue team</option>
+  <option value="red">Red team</option>
+</select>
           </label>
           <label>
             Scored:
