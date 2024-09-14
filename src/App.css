@@ -179,3 +179,8 @@
 .player-card.selected {
   border: 2px solid green;
 }
+
+.PlayerGameInput {
+  display: flex;
+  flex-direction: column;
+}

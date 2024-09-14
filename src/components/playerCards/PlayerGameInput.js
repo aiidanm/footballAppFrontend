@@ -7,7 +7,7 @@ const PlayerGameInput = ({player, handleChange, index}) => {
         <div className='PlayerGameInput'>
         <label>
             Played:
-            <select name="played" id="played">
+            <select name="played" id="played" onChange={(e) => handleChange(index, "played", e.target.value, player)}>
               <option value="no">No</option>
   <option value="blue">Blue team</option>
   <option value="red">Red team</option>
