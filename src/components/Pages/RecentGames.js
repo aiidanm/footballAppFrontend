@@ -1,19 +1,22 @@
-import React from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css'
-
+import { getGames } from '../../ApiFuncs';
 
 const RecentGames = () => {
-    const [players, setPlayers] = useState([]);
+    const [games, setGames] =useState([])
+    useEffect(() => {
+        getGames().then((dbgames) => {
+            console.log(dbgames)
+            setGames(dbgames)
+        })
+    },[])
 
     return (
         <div className='RecentGames'>
-            {players.map((player, index) => (
-                <div key={index} className='player-card'>
-                    <h3>{player.name}</h3>
-                    <p>{player.position}</p>
+            {games.map((game, index) => {
+                <div>
                 </div>
-            ))}
+            })}
         </div>
     );
 };

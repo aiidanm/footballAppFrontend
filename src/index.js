@@ -9,6 +9,7 @@ import StatsPage from './components/Pages/StatsPage';
 import RecordGame from './components/RecordGame';
 import AddPlayer from './components/AddPlayer';
 import PlayerList from './components/Pages/playerList';
+import RecentGames from './components/Pages/RecentGames';
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path:"/playerList",
     element: <PlayerList/>
+  },
+  {
+    path:"/games",
+    element: <RecentGames/>
   }
 ]);
 

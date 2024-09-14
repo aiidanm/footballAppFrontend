@@ -26,7 +26,7 @@ const RecordGame = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ date: new Date(), players: selectedPlayers })
-    // recordGame({ date: new Date(), players: selectedPlayers });
+    recordGame({ date: new Date(), players: selectedPlayers });
     setSelectedPlayers([]);
   };
 
