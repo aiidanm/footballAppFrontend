@@ -25,9 +25,9 @@ const HomePage = () => {
         <FontAwesomeIcon icon={faClipboardList} className="icon" />
         <span className="text">Record a game</span>
       </Link>
-      <Link to="/ViewGames" className="icon-button">
+      <Link to="/Games" className="icon-button">
         <FontAwesomeIcon icon={faGamepad} className="icon" />
-        <span className="text">View games</span>
+        <span className="text">Games</span>
       </Link>
     </div>
   </div>

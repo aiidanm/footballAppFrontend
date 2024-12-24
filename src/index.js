@@ -1,21 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import PlayerAdminPage from './components/Pages/PlayerAdminPage';
-import HomePage from './components/Pages/HomePage';
-import StatsPage from './components/Pages/StatsPage';
-import RecordGame from './components/RecordGame';
-import AddPlayer from './components/AddPlayer';
-import PlayerList from './components/Pages/playerList';
-import RecentGames from './components/Pages/RecentGames';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import PlayerAdminPage from "./components/Pages/PlayerAdminPage";
+import HomePage from "./components/Pages/HomePage";
+import StatsPage from "./components/Pages/StatsPage";
+import RecordGame from "./components/RecordGame";
+import AddPlayer from "./components/AddPlayer";
+import PlayerList from "./components/Pages/playerList";
+import RecentGames from "./components/Pages/RecentGames";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage/>,
+    element: <HomePage />,
   },
   {
     path: "/Players",
@@ -23,23 +22,21 @@ const router = createBrowserRouter([
   },
   {
     path: "/Stats",
-    element: <StatsPage/>
+    element: <StatsPage />,
   },
-  {path: "/RecordGame",
-    element: <RecordGame/>
-  },
+  { path: "/RecordGame", element: <RecordGame /> },
   {
     path: "/add-player",
     element: <AddPlayer />,
   },
   {
-    path:"/playerList",
-    element: <PlayerList/>
+    path: "/playerList",
+    element: <PlayerList />,
   },
   {
-    path:"/games",
-    element: <RecentGames/>
-  }
+    path: "/games",
+    element: <RecentGames />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

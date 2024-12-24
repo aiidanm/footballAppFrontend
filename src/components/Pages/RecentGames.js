@@ -21,8 +21,10 @@ const RecentGames = () => {
         <div className="pageContainer">
             {games.map((game, index) => (
                 <div className='recentGameCard' key={index}>
-                    <p>Game Date: {new Intl.DateTimeFormat('en-GB').format(new Date(game.date))}</p>
-                    <p>Game ID: {game.id}</p>
+                    <p>Game Date: {new Intl.DateTimeFormat('en-GB').format(new Date(game.game_date))}</p>
+                    <p>Game ID: {game.game_id}</p>
+                    <p>Team 1 Score: {game.team1_score} </p>
+                    <p>Team 2 Score: {game.team2_score}</p>
                 </div>
             ))}
         </div>
