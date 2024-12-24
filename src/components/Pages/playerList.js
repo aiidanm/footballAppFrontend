@@ -12,6 +12,7 @@ const PlayerList = () => {
 
   useEffect(() => {
     getPlayers().then((data) => {
+      console.log(data)
       setPlayers(data);
     });
   }, []);
@@ -41,17 +42,15 @@ const PlayerList = () => {
        <Link to="/" className='HomeLink'>
     <h1 className='TitleHeader'>App</h1>
     </Link>
-    <h2>Recent Games</h2>
+    <h2>Players</h2>
     <div className="Players">
     {players.map((player, index) => (
-        <PlayerCard
-        key={player.id}
-        player={player}
-        index={index}
-        expandedPlayer={expandedPlayer}
-        handleEdit={handleEdit}
-        onClick={() => handleExpand(player.id)}
-        />
+      <div className="playerCard">
+       <p>{player.player_name}</p>
+       <p>Preferred Position: {player.preferred_position}</p>
+       <p>Total Goals: {player.total_goals_scored}</p>
+       <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
+       </div>
       ))}
       {editPlayer && (
         <EditPlayerForm    title="Edit Player"

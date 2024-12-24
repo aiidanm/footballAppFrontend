@@ -12,48 +12,80 @@ const RecordGame = () => {
     getPlayers().then((res) => setPlayers(res));
   }, []);
 
-  const handleChange = (index, field, value, player) => {
-    console.log(index, field, value, player.id);
-    const updatedPlayers = [...selectedPlayers];
-    updatedPlayers[index] = {
-      ...updatedPlayers[index],
-      [field]: value,
-      Player_id: player.id,
-    };
-    setSelectedPlayers(updatedPlayers);
+  const handleDivClick = (player) => {
+    setSelectedPlayers((prevSelected) => {
+      const prevTeam = prevSelected[player.player_id]?.team || "unselected";
+      const nextTeam = getNextTeam(prevTeam);
+
+      return {
+        ...prevSelected,
+        [player.player_id]: {
+          team: nextTeam,
+          name: player.player_name,
+          id: player.player_id
+        },
+      };
+    });
+  };
+
+  const getNextTeam = (currentTeam) => {
+    switch (currentTeam) {
+      case "unselected":
+        return "team1";
+      case "team1":
+        return "team2";
+      case "team2":
+        return "unselected";
+      default:
+        return "unselected";
+    }
+  };
+
+  const handleChange = (playerId, field, value) => {
+    setSelectedPlayers((prevSelected) => ({
+      ...prevSelected,
+      [playerId]: {
+        ...prevSelected[playerId],
+        [field]: value,
+        Player_id: playerId,
+      },
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ date: new Date(), players: selectedPlayers })
-    recordGame({ date: new Date(), players: selectedPlayers });
-    setSelectedPlayers([]);
+
+    const result = {
+      team1: [],
+      team2: [],
+      unselected: [],
+    };
+
+    Object.values(selectedPlayers).forEach((playerObj) => {
+      result[playerObj.team].push([playerObj.name, playerObj.id]);
+    });
+
+    console.log(result)
+    // recordGame({ date: new Date(), players: playersToSubmit });
+    // setSelectedPlayers({}); // Clear selections after submission
   };
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">App</h1>
-      </Link>
-      <h2>Record Game</h2>
-      <div className="pageContainer">
-        <div className="Players">
-          {players.map((player, index) => (
-            <PlayerCard
-              key={player.id}
-              player={player}
-              index={index}
-              selectedPlayers={selectedPlayers}
-              handleChange={handleChange}
-              page={"recordGame"}
-            
-            />
-          ))}
-          <button className="recordGameButton" onClick={handleSubmit}>
-            Record Game
-          </button>
-        </div>
+      <div className="Players">
+        {players.map((player) => (
+          <div
+            key={player.player_id}
+            className={`playerCard ${
+              selectedPlayers[player.player_id] || "unselected"
+            }`} // Add class based on selection
+            onClick={() => handleDivClick(player)}
+          >
+            <p>{player.player_name}</p>
+          </div>
+        ))}
       </div>
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };

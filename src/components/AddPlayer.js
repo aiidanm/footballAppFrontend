@@ -7,11 +7,6 @@ const NewPlayer = () => {
   const [newPlayer, setNewPlayer] = useState({
     name: "",
     preferred_position: "",
-    goals: 0,
-    assists: 0,
-    games_played: 0,
-    over_fence: 0,
-    wins: 0,
   });
 
   const handleSave = () => {
@@ -19,11 +14,6 @@ const NewPlayer = () => {
       setNewPlayer({
         name: "",
         preferred_position: "",
-        goals: 0,
-        assists: 0,
-        games_played: 0,
-        over_fence: 0,
-        wins: 0,
       });
       
     });

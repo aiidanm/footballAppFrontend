@@ -7,7 +7,6 @@ const RecentGames = () => {
     const [games, setGames] =useState([])
     useEffect(() => {
         getGames().then((dbgames) => {
-            console.log(dbgames)
             setGames(dbgames)
         })
     },[])
