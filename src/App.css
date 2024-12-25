@@ -91,7 +91,7 @@
   margin: 0 auto;
 }
 
-.playerCard {
+.playerCard-unselected {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -183,4 +183,36 @@
 .PlayerGameInput {
   display: flex;
   flex-direction: column;
+}
+
+.playerCard-team1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 2px solid red;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.playerCard-team2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 2px solid blue;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  max-width: 300px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
