@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -38,6 +39,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  width: 50%;
+}
+
+.MainContainer{
+
 }
 
 .pageContainer button, .icon-button {
@@ -215,4 +221,19 @@
   color: #333;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.recentGameCard{
+  border: 2px solid black;
+  margin: 2px;
+  border-radius: 2%;
+  width: 100%;
+}
+
+.Players {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  border: 2px solid black;
 }

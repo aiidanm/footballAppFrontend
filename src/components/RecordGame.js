@@ -5,6 +5,7 @@ const RecordGame = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [sendObject, setSendObject] = useState({});
+  const [dateSelected, setDateSelected] = useState();
 
   useEffect(() => {
     getPlayers().then((res) => setPlayers(res));
@@ -70,7 +71,6 @@ const RecordGame = () => {
       const currentPlayerData = prevSelected[player.player_id] || {};
       const currentValue = currentPlayerData.kicked_over_fence || 0;
 
-
       if (e.target.value === "+") {
         return {
           ...prevSelected,
@@ -93,7 +93,8 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    let date = new Date(e.target.parentElement.children[2].valueAsDate)
+   
     const result = {
       team1: [],
       team2: [],
@@ -103,21 +104,38 @@ const RecordGame = () => {
     Object.values(selectedPlayers).forEach((playerObj) => {
       result[playerObj.team].push({
         name: playerObj.name,
-        id: playerObj.id,
+        player_id: playerObj.id,
         goals_scored: playerObj.goals_scored || 0,
         kicked_over_fence: playerObj.kicked_over_fence || 0,
       });
     });
 
+    const team1Score = result.team1.reduce(
+      (acc, player) => acc + (player.goals_scored || 0),
+      0
+    );
+
+    const team2Score = result.team2.reduce(
+      (acc, player) => acc + (player.goals_scored || 0),
+      0
+    );
+
     setSendObject((prevSendObject) => {
       const newValue = {
         ...prevSendObject,
-        date: new Date(),
+        date: new Date(date),
         teams: result,
+        team1Score: team1Score,
+        team2Score: team2Score,
       };
       console.log("Updated sendObject:", newValue);
+      recordGame(newValue);
       return newValue;
     });
+  };
+
+  const handleDateChange = (e) => {
+    setDateSelected(new Date(e.target.value))
   };
 
   return (
@@ -136,7 +154,8 @@ const RecordGame = () => {
 
               <div className="counter-container">
                 <p>Goals Scored: {currentSelection.goals_scored || 0}</p>
-                <button value={"-"}
+                <button
+                  value={"-"}
                   onClick={(e) => {
                     e.stopPropagation();
                     goalsScored(e, player);
@@ -144,7 +163,8 @@ const RecordGame = () => {
                 >
                   -
                 </button>
-                <button value={"+"}
+                <button
+                  value={"+"}
                   onClick={(e) => {
                     e.stopPropagation();
                     goalsScored(e, player);
@@ -156,7 +176,8 @@ const RecordGame = () => {
 
               <div className="counter-container">
                 <p>Over the fence: {currentSelection.kicked_over_fence || 0}</p>
-                <button value={"-"}
+                <button
+                  value={"-"}
                   onClick={(e) => {
                     e.stopPropagation();
                     overTheFence(e, player);
@@ -164,7 +185,8 @@ const RecordGame = () => {
                 >
                   -
                 </button>
-                <button value={"+"}
+                <button
+                  value={"+"}
                   onClick={(e) => {
                     e.stopPropagation();
                     overTheFence(e, player);
@@ -177,6 +199,7 @@ const RecordGame = () => {
           );
         })}
       </div>
+      <input type="date" onChange={handleDateChange}></input>
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
