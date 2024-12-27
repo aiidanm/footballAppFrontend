@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getPlayers, updatePlayerById } from "../../ApiFuncs";
-import EditPlayerForm from "./editPlayerForm";
 import { Link } from 'react-router-dom';
-import PlayerCard from "../playerCards/playerCard";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
-  const [expandedPlayer, setExpandedPlayer] = useState(null);
   const [editPlayer, setEditPlayer] = useState(null);
 
   useEffect(() => {
@@ -17,23 +14,11 @@ const PlayerList = () => {
     });
   }, []);
 
-  const handleExpand = (playerId) => {
-    setExpandedPlayer(expandedPlayer === playerId ? null : playerId);
-  };
+ 
 
-  const handleEdit = (player) => {
-    setEditPlayer(player);
-  };
+ 
 
-  const handleSave = () => {
-    updatePlayerById(editPlayer.id, editPlayer).then(() => {
-      setEditPlayer(null);
-      setExpandedPlayer(null);
-      getPlayers().then((data) => {
-        setPlayers(data);
-      });
-    });
-  };
+ 
 
 
 
@@ -52,12 +37,6 @@ const PlayerList = () => {
        <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
        </div>
       ))}
-      {editPlayer && (
-        <EditPlayerForm    title="Edit Player"
-        player={editPlayer}
-        setPlayer={setEditPlayer}
-        handleSave={handleSave} />
-      )}
     </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
 import { addPlayer } from "../ApiFuncs";
-import EditPlayerForm from "../components/Pages/editPlayerForm";
 
 const NewPlayer = () => {
   const [newPlayer, setNewPlayer] = useState({
@@ -20,12 +19,9 @@ const NewPlayer = () => {
   };
 
   return (
-    <EditPlayerForm
-      title="Add New Player"
-      player={newPlayer}
-      setPlayer={setNewPlayer}
-      handleSave={handleSave}
-    />
+   <div className="new-player-form">
+    <p>add new player</p>
+   </div>
   );
 };
 
