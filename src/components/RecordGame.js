@@ -6,6 +6,7 @@ const RecordGame = () => {
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [sendObject, setSendObject] = useState({});
   const [dateSelected, setDateSelected] = useState();
+  const [waiting, setWaiting] = useState(false);
 
   useEffect(() => {
     getPlayers().then((res) => setPlayers(res));
@@ -93,8 +94,9 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let date = new Date(e.target.parentElement.children[2].valueAsDate)
-   
+    setWaiting(true);
+    let date = new Date(e.target.parentElement.children[2].valueAsDate);
+
     const result = {
       team1: [],
       team2: [],
@@ -129,78 +131,92 @@ const RecordGame = () => {
         team2Score: team2Score,
       };
       console.log("Updated sendObject:", newValue);
-      recordGame(newValue);
+      recordGame(newValue).then((res) => {
+        console.log(res);
+        setWaiting(false);
+      });
       return newValue;
     });
   };
 
   const handleDateChange = (e) => {
-    setDateSelected(new Date(e.target.value))
+    setDateSelected(new Date(e.target.value));
   };
 
   return (
     <div className="MainContainer">
       <h1>Record Game</h1>
-      <div className="Players">
-        {players.map((player) => {
-          const currentSelection = selectedPlayers[player.player_id] || {};
-          return (
-            <div
-              key={player.player_id}
-              className={`playerCard-${currentSelection.team || "unselected"}`}
-              onClick={() => handleDivClick(player)}
-            >
-              <p>{player.player_name}</p>
+      {waiting ? (
+        <h2>recording game, please wait</h2>
+      ) : (
+        <>
+          {" "}
+          <div className="Players">
+            {players.map((player) => {
+              const currentSelection = selectedPlayers[player.player_id] || {};
+              return (
+                <div
+                  key={player.player_id}
+                  className={`playerCard-${
+                    currentSelection.team || "unselected"
+                  }`}
+                  onClick={() => handleDivClick(player)}
+                >
+                  <p>{player.player_name}</p>
 
-              <div className="counter-container">
-                <p>Goals Scored: {currentSelection.goals_scored || 0}</p>
-                <button
-                  value={"-"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goalsScored(e, player);
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  value={"+"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goalsScored(e, player);
-                  }}
-                >
-                  +
-                </button>
-              </div>
+                  <div className="counter-container">
+                    <p>Goals Scored: {currentSelection.goals_scored || 0}</p>
+                    <button
+                      value={"-"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goalsScored(e, player);
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      value={"+"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goalsScored(e, player);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
 
-              <div className="counter-container">
-                <p>Over the fence: {currentSelection.kicked_over_fence || 0}</p>
-                <button
-                  value={"-"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    overTheFence(e, player);
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  value={"+"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    overTheFence(e, player);
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <input type="date" onChange={handleDateChange}></input>
-      <button onClick={handleSubmit}>Submit</button>
+                  <div className="counter-container">
+                    <p>
+                      Over the fence: {currentSelection.kicked_over_fence || 0}
+                    </p>
+                    <button
+                      value={"-"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        overTheFence(e, player);
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      value={"+"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        overTheFence(e, player);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <input type="date" onChange={handleDateChange}></input>
+          <button onClick={handleSubmit}>Submit</button>
+        </>
+      )}
     </div>
   );
 };
