@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { getPlayers, recordGame } from "../ApiFuncs";
+import  RecordGameList  from './RecordGameComponent.jsx';
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [sendObject, setSendObject] = useState({});
   const [dateSelected, setDateSelected] = useState();
+  const [waiting, setWaiting] = useState({status: false, message: ""})
 
   useEffect(() => {
-    getPlayers().then((res) => setPlayers(res));
+    setWaiting({status: true, message: "Waiting for server to load players"})
+    getPlayers().then((res) => {
+    setWaiting({status: false, message: ""})
+    setPlayers(res)});
   }, []);
 
   const handleDivClick = (player) => {
@@ -93,7 +98,8 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let date = new Date(e.target.parentElement.children[2].valueAsDate)
+    setWaiting({status: true, message: "submitting to database, please wait for confirmation"})
+    let date = new Date(dateSelected)
    
     const result = {
       team1: [],
@@ -128,8 +134,13 @@ const RecordGame = () => {
         team1Score: team1Score,
         team2Score: team2Score,
       };
-      console.log("Updated sendObject:", newValue);
-      recordGame(newValue);
+      recordGame(newValue).then((res) => {
+        setSelectedPlayers({})
+        setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
+        setTimeout(() => { 
+          setWaiting({status: false, message: ""}) 
+        }, 5000);
+      });
       return newValue;
     });
   };
@@ -138,71 +149,23 @@ const RecordGame = () => {
     setDateSelected(new Date(e.target.value))
   };
 
+
   return (
-    <div className="MainContainer">
+    <div>
       <h1>Record Game</h1>
-      <div className="Players">
-        {players.map((player) => {
-          const currentSelection = selectedPlayers[player.player_id] || {};
-          return (
-            <div
-              key={player.player_id}
-              className={`playerCard-${currentSelection.team || "unselected"}`}
-              onClick={() => handleDivClick(player)}
-            >
-              <p>{player.player_name}</p>
-
-              <div className="counter-container">
-                <p>Goals Scored: {currentSelection.goals_scored || 0}</p>
-                <button
-                  value={"-"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goalsScored(e, player);
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  value={"+"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goalsScored(e, player);
-                  }}
-                >
-                  +
-                </button>
-              </div>
-
-              <div className="counter-container">
-                <p>Over the fence: {currentSelection.kicked_over_fence || 0}</p>
-                <button
-                  value={"-"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    overTheFence(e, player);
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  value={"+"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    overTheFence(e, player);
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {waiting.status ? <h2>{waiting.message}</h2> : <div className="RecordContainer">
+      <RecordGameList players={players} selectedPlayers={selectedPlayers} handleDivClick={handleDivClick} goalsScored={goalsScored} overTheFence={overTheFence} />
       <input type="date" onChange={handleDateChange}></input>
-      <button onClick={handleSubmit}>Submit</button>
+       <button onClick={handleSubmit}>Submit</button>
+
+      </div> }
+      
+      
     </div>
-  );
+    
+  )
+
+ 
 };
 
 export default RecordGame;
