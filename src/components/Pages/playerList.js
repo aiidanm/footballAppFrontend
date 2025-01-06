@@ -18,7 +18,15 @@ const PlayerList = () => {
 
  
 
- 
+ const sortPlayers = (field, order) => {
+    if (field === "Goals Scored") {
+  } else if (field === "Assists") {
+  } else if (field === "Clean Sheets") {
+  } else if (field === "Yellow Cards") {
+  } else if (field === "Red Cards") {
+  } else {
+  }
+ }
 
 
 
@@ -29,6 +37,15 @@ const PlayerList = () => {
     </Link>
     <h2>Players</h2>
     <div className="Players">
+      <select>
+        <option value="Goals Scored">Goals Scored</option>
+        <option value="Games Played">Games Played</option>
+        <option value="Over the fence">Over the fence</option>
+        <option value="Wins">Wins</option>
+        <option value="Win rate">Win rate</option>
+        <option value="Goals per game">Goals per game</option>
+        <option value="Over the fence per game">over the fence per game</option>
+      </select>
     {players.map((player, index) => (
       <div className="playerCard">
        <p>{player.player_name}</p>
