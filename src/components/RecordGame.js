@@ -7,11 +7,7 @@ const RecordGame = () => {
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [sendObject, setSendObject] = useState({});
   const [dateSelected, setDateSelected] = useState();
-<<<<<<< HEAD
   const [waiting, setWaiting] = useState({status: false, message: ""})
-=======
-  const [waiting, setWaiting] = useState(false);
->>>>>>> 9b3f90d243e0df80eab5665900097d6d546b4cce
 
   useEffect(() => {
     setWaiting({status: true, message: "Waiting for server to load players"})
@@ -102,15 +98,9 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     setWaiting({status: true, message: "submitting to database, please wait for confirmation"})
     let date = new Date(dateSelected)
    
-=======
-    setWaiting(true);
-    let date = new Date(e.target.parentElement.children[2].valueAsDate);
-
->>>>>>> 9b3f90d243e0df80eab5665900097d6d546b4cce
     const result = {
       team1: [],
       team2: [],
