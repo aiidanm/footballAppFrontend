@@ -130,7 +130,6 @@ const RecordGame = () => {
         team1Score: team1Score,
         team2Score: team2Score,
       };
-      console.log("Updated sendObject:", newValue);
       recordGame(newValue).then((res) => {
         console.log(res);
         setWaiting(false);
