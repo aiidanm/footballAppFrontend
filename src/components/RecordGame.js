@@ -7,7 +7,9 @@ const RecordGame = () => {
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [sendObject, setSendObject] = useState({});
   const [dateSelected, setDateSelected] = useState();
+
   const [waiting, setWaiting] = useState({status: false, message: ""})
+
 
   useEffect(() => {
     setWaiting({status: true, message: "Waiting for server to load players"})
@@ -98,6 +100,7 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setWaiting({status: true, message: "submitting to database, please wait for confirmation"})
     let date = new Date(dateSelected)
    
