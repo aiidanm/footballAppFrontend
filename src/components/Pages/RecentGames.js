@@ -5,14 +5,20 @@ import { Link } from "react-router-dom";
 
 const RecentGames = () => {
   const [games, setGames] = useState([]);
+  const [waiting, setWaiting] = useState({status: false, message: ""})
+
   useEffect(() => {
+    setWaiting({status: true, message: "Loading games, please wait."})
     getGames().then((dbgames) => {
+      setWaiting({status: false, message: ""})
       setGames(dbgames);
     });
   }, []);
 
   const handleUpdate = () => {
+    setWaiting({status: true, message: "refreshing games, please wait."})
     getGames().then((dbgames) => {
+      setWaiting({status: false, message: ""})
       setGames(dbgames);
     });
   };
