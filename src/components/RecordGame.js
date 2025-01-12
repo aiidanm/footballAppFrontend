@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPlayers, recordGame } from "../ApiFuncs";
 import  RecordGameList  from './RecordGameComponent.jsx';
+import { Link } from "react-router-dom";
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -155,7 +156,10 @@ const RecordGame = () => {
 
   return (
     <div>
-      <h1>Record Game</h1>
+       <Link to="/" className="HomeLink">
+       <h1>Record Game</h1>
+      </Link>
+      
       {waiting.status ? <h2>{waiting.message}</h2> : <div className="RecordContainer">
       <RecordGameList players={players} selectedPlayers={selectedPlayers} handleDivClick={handleDivClick} goalsScored={goalsScored} overTheFence={overTheFence} />
       <input type="date" onChange={handleDateChange}></input>

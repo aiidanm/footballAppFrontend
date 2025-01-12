@@ -13,13 +13,9 @@ const HomePage = () => {
     </Link>
     <h2>Home</h2>
     <div className='pageContainer'>
-      <Link to="/Stats" className="icon-button">
-        <FontAwesomeIcon icon={faChartLine} className="icon" />
-        <span className="text">Stats page</span>
-      </Link>
       <Link to='/Players' className="icon-button">
         <FontAwesomeIcon icon={faUserEdit} className="icon" />
-        <span className="text">Player Admin</span>
+        <span className="text">Player page</span>
       </Link>
       <Link to="/RecordGame" className="icon-button">
         <FontAwesomeIcon icon={faClipboardList} className="icon" />
@@ -27,7 +23,7 @@ const HomePage = () => {
       </Link>
       <Link to="/Games" className="icon-button">
         <FontAwesomeIcon icon={faGamepad} className="icon" />
-        <span className="text">Games</span>
+        <span className="text"> Recent Games</span>
       </Link>
     </div>
   </div>
