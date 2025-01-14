@@ -45,8 +45,8 @@ const RecentGames = () => {
                 )}
               </p>
               <p>Game ID: {game.game_id}</p>
-              <p>Team 1 Score: {game.team1_score} </p>
-              <p>Team 2 Score: {game.team2_score}</p>
+              <p>Red team score: {game.team1_score} </p>
+              <p>Blue team score: {game.team2_score}</p>
             </div>
           ))}
         </div>
