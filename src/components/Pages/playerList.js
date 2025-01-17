@@ -16,7 +16,7 @@ const PlayerList = () => {
   }, []);
 
   const sortPlayers = (playerData, field, order) => {
-    const sortedPlayers = [...playerData]; // Create a copy to avoid mutating the original state directly
+    const sortedPlayers = [...playerData];
     
     sortedPlayers.sort((a, b) => {
       let aValue;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getGames } from "../../ApiFuncs";
+import GameInfo from "./gameCard";
 import { Link } from "react-router-dom";
 
 const RecentGames = () => {
@@ -35,21 +36,7 @@ const RecentGames = () => {
       {waiting.status ? ( 
         <h1>{waiting.message}</h1> 
       ) : (
-        <div className="pageContainer">
-          {games.map((game, index) => (
-            <div className="recentGameCard" key={index}>
-              <p>
-                Game Date:{" "}
-                {new Intl.DateTimeFormat("en-GB").format(
-                  new Date(game.game_date)
-                )}
-              </p>
-              <p>Game ID: {game.game_id}</p>
-              <p>Red team score: {game.team1_score} </p>
-              <p>Blue team score: {game.team2_score}</p>
-            </div>
-          ))}
-        </div>
+        <GameInfo games={games} setGames={setGames}/>
       )}
     </div>
   );

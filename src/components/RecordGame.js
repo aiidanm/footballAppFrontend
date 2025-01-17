@@ -138,13 +138,14 @@ const RecordGame = () => {
         team1Score: team1Score,
         team2Score: team2Score,
       };
-      recordGame(newValue).then((res) => {
-        setSelectedPlayers({})
-        setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
-        setTimeout(() => { 
-          setWaiting({status: false, message: ""}) 
-        }, 5000);
-      });
+      console.log(newValue)
+      // recordGame(newValue).then((res) => {
+      //   setSelectedPlayers({})
+      //   setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
+      //   setTimeout(() => { 
+      //     setWaiting({status: false, message: ""}) 
+      //   }, 5000);
+      // });
       return newValue;
     });
   };
