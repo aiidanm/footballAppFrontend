@@ -88,6 +88,11 @@
   text-align: left;
 }
 
+.sortContainer{
+  display: flex;
+  flex-direction: column;
+}
+
 .recordGameCardContainer {
   display: flex;
   flex-wrap: wrap;

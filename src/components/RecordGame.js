@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPlayers, recordGame } from "../ApiFuncs";
 import  RecordGameList  from './RecordGameComponent.jsx';
+import { Link } from "react-router-dom";
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -137,13 +138,14 @@ const RecordGame = () => {
         team1Score: team1Score,
         team2Score: team2Score,
       };
-      recordGame(newValue).then((res) => {
-        setSelectedPlayers({})
-        setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
-        setTimeout(() => { 
-          setWaiting({status: false, message: ""}) 
-        }, 5000);
-      });
+      console.log(newValue)
+      // recordGame(newValue).then((res) => {
+      //   setSelectedPlayers({})
+      //   setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
+      //   setTimeout(() => { 
+      //     setWaiting({status: false, message: ""}) 
+      //   }, 5000);
+      // });
       return newValue;
     });
   };
@@ -155,7 +157,10 @@ const RecordGame = () => {
 
   return (
     <div>
-      <h1>Record Game</h1>
+       <Link to="/" className="HomeLink">
+       <h1>Record Game</h1>
+      </Link>
+      
       {waiting.status ? <h2>{waiting.message}</h2> : <div className="RecordContainer">
       <RecordGameList players={players} selectedPlayers={selectedPlayers} handleDivClick={handleDivClick} goalsScored={goalsScored} overTheFence={overTheFence} />
       <input type="date" onChange={handleDateChange}></input>
