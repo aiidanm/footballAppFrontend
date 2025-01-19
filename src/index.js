@@ -10,6 +10,7 @@ import RecordGame from "./components/RecordGame";
 import AddPlayer from "./components/AddPlayer";
 import PlayerList from "./components/Pages/playerList";
 import RecentGames from "./components/Pages/RecentGames";
+import GameStats from "./components/Pages/gameStats";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     path: "/games",
     element: <RecentGames />,
   },
+  {
+    path: "/games/:gameid",
+    element: <GameStats />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
