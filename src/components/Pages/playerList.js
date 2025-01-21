@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getPlayers, updatePlayerById } from "../../ApiFuncs";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
@@ -10,14 +10,14 @@ const PlayerList = () => {
 
   useEffect(() => {
     getPlayers().then((data) => {
-      console.log(data)
+      console.log(data);
       setPlayers(data);
     });
   }, []);
 
   const sortPlayers = (playerData, field, order) => {
     const sortedPlayers = [...playerData];
-    
+
     sortedPlayers.sort((a, b) => {
       let aValue;
       let bValue;
@@ -25,7 +25,7 @@ const PlayerList = () => {
       if (field === "total_goals_scored") {
         aValue = a.total_goals_scored;
         bValue = b.total_goals_scored;
-       } else if (field === "total_kicked_over_fence") {
+      } else if (field === "total_kicked_over_fence") {
         aValue = a.over_fence_per_game;
         bValue = b.over_fence_per_game;
       }
@@ -42,18 +42,20 @@ const PlayerList = () => {
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
-    setPlayers(sortPlayers(players, event.target.value, sortOrder))
+    setPlayers(sortPlayers(players, event.target.value, sortOrder));
   };
 
   const handleOrderChange = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    setPlayers(sortPlayers(players, sortBy, sortOrder === "asc" ? "desc" : "asc"))
+    setPlayers(
+      sortPlayers(players, sortBy, sortOrder === "asc" ? "desc" : "asc")
+    );
   };
 
   return (
     <div className="MainContainer">
-      <Link to="/" className='HomeLink'>
-        <h1 className='TitleHeader'>App</h1>
+      <Link to="/" className="HomeLink">
+        <h1 className="TitleHeader">App</h1>
       </Link>
       <h2>Players</h2>
       <div className="sortContainer">
@@ -64,15 +66,15 @@ const PlayerList = () => {
         <button onClick={handleOrderChange}>
           Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
         </button>
-        </div>
+      </div>
       <div className="Players">
-        
         {players.map((player) => (
           <div className="playerCard-unselected" key={player.player_id}>
             <p>{player.player_name}</p>
-            <p>Preferred Position: {player.preferred_position}</p>
             <p>Total Goals: {player.total_goals_scored}</p>
             <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
+            <p>Games Played: {player.games_played}</p>
+            <p>Wins: {player.total_wins}</p>
           </div>
         ))}
       </div>
