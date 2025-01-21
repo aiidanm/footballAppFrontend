@@ -9,7 +9,7 @@ const PlayerAdminPage = () => {
         return (
             <div className='MainContainer'>
                 <Link to="/" className='HomeLink'>
-    <h1 className='TitleHeader'>App</h1>
+    <h1 className='TitleHeader'>MNF</h1>
     </Link>
                 <h2>Player admin</h2>
                 <div className='pageContainer'>
