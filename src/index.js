@@ -11,6 +11,8 @@ import AddPlayer from "./components/AddPlayer";
 import PlayerList from "./components/Pages/playerList";
 import RecentGames from "./components/Pages/RecentGames";
 import GameStats from "./components/Pages/gameStats";
+import Signup from "./components/Pages/Signup";
+import Login from "./components/Pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
   {
     path: "/games/:gameid",
     element: <GameStats />
+  },
+  {
+    path: "/signup",
+    element: <Signup />
+  },
+  {
+    path: "/login",
+    element: <Login />
   }
 ]);
 
