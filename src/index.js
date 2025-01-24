@@ -12,6 +12,7 @@ import PlayerList from "./components/Pages/playerList";
 import RecentGames from "./components/Pages/RecentGames";
 import GameStats from "./components/Pages/gameStats";
 import Login from "./components/Pages/Login";
+import PlayerStats from "./components/Pages/PlayerInfo";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/games/:gameid",
     element: <GameStats />
+  },
+  {
+    path: "/players/:playerid",
+    element: <PlayerStats />
   },
   {
     path: "/login",

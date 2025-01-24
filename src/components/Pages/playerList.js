@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getPlayers, updatePlayerById } from "../../ApiFuncs";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Firebase";
 
@@ -9,7 +9,7 @@ const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [sortBy, setSortBy] = useState("total_goals_scored"); // Initial sort field
   const [sortOrder, setSortOrder] = useState("desc"); // Initial sort order (descending)
- const navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     getPlayers().then((data) => {
       console.log(data);
@@ -17,14 +17,13 @@ const PlayerList = () => {
     });
 
     onAuthStateChanged(auth, (user) => {
-            if (user) {
-              const uid = user.uid;
-              console.log("uid", uid)
-            } else {
-              navigate('/login')
-            }
-          });
-
+      if (user) {
+        const uid = user.uid;
+        console.log("uid", uid);
+      } else {
+        navigate("/login");
+      }
+    });
   }, []);
 
   const sortPlayers = (playerData, field, order) => {
@@ -66,8 +65,8 @@ const PlayerList = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className='HomeLink'>
-        <h1 className='TitleHeader'>MNF</h1>
+      <Link to="/" className="HomeLink">
+        <h1 className="TitleHeader">MNF</h1>
       </Link>
       <h2>Players</h2>
       <div className="sortContainer">
@@ -81,13 +80,15 @@ const PlayerList = () => {
       </div>
       <div className="Players">
         {players.map((player) => (
-          <div className="playerCard-unselected" key={player.player_id}>
-            <p>{player.player_name}</p>
-            <p>Total Goals: {player.total_goals_scored}</p>
-            <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
-            <p>Games Played: {player.games_played}</p>
-            <p>Wins: {player.total_wins}</p>
-          </div>
+          // <div className="playerCard-unselected" key={player.player_id}>
+            <Link to={`/players/${player.player_id}`} className="playerCard-unselected">
+              <p>{player.player_name}</p>
+              <p>Total Goals: {player.total_goals_scored}</p>
+              <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
+              <p>Games Played: {player.games_played}</p>
+              <p>Wins: {player.total_wins}</p>
+            </Link>
+          // </div>
         ))}
       </div>
     </div>
