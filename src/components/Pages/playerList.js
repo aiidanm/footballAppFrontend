@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getPlayers, updatePlayerById } from "../../ApiFuncs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Firebase";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [sortBy, setSortBy] = useState("total_goals_scored"); // Initial sort field
   const [sortOrder, setSortOrder] = useState("desc"); // Initial sort order (descending)
-
+ const navigate = useNavigate();
   useEffect(() => {
     getPlayers().then((data) => {
       console.log(data);
       setPlayers(data);
     });
+
+    onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              console.log("uid", uid)
+            } else {
+              navigate('/login')
+            }
+          });
+
   }, []);
 
   const sortPlayers = (playerData, field, order) => {

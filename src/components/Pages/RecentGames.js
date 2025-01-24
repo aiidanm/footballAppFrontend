@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getGames } from "../../ApiFuncs";
 import GameInfo from "./GameInfo";
-import { Link } from "react-router-dom";
+import { auth } from "../Firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
 const RecentGames = () => {
   const [games, setGames] = useState([]);
@@ -10,8 +12,17 @@ const RecentGames = () => {
     status: true,
     message: "Loading games, please wait.",
   });
-
+const navigate = useNavigate()
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              console.log("uid", uid)
+            } else {
+              navigate('/login')
+            }
+          });
+
     const fetchData = async () => {
       setWaiting({ status: true, message: "Loading games, please wait." });
       const dbgames = await getGames();
@@ -20,6 +31,9 @@ const RecentGames = () => {
     };
 
     fetchData();
+
+
+
   }, []);
 
   const handleUpdate = async () => {

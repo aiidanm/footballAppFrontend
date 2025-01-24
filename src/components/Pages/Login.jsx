@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import {  signInWithEmailAndPassword, createUserWithEmailAndPassword   } from 'firebase/auth';
 import { auth } from '../Firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -14,26 +14,42 @@ const Login = () => {
         .then((userCredential) => {
             const user = userCredential.user;
             navigate("/")
-            console.log(user);
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
         });
 
     }
 
-    return(
-        <>
-            <main >        
-                <section>
-                    <div>                                            
-                        <p> FocusApp </p>                       
+     const onSignUp = async (e) => {
+      e.preventDefault()
 
-                        <form>                                              
-                            <div>
-                                <label htmlFor="email-address">
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            navigate("/")
+            
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+            
+        });
+
+
+    }
+
+    return(
+        <div className='MainContainer'>
+            <h1 className='TitleHeader'>MNF</h1>
+            <div className='pageContainer'>
+                <div className='login_container'>
+                        <form className='login_form'>                                              
+                            <div className='login-pair'>
+                                <label htmlFor="email-address"
+                                className='login_label'>
                                     Email address
                                 </label>
                                 <input
@@ -46,8 +62,9 @@ const Login = () => {
                                 />
                             </div>
 
-                            <div>
-                                <label htmlFor="password">
+                            <div className='login-pair'>
+                                <label htmlFor="password"
+                                className='login_label'>
                                     Password
                                 </label>
                                 <input
@@ -60,26 +77,22 @@ const Login = () => {
                                 />
                             </div>
 
-                            <div>
-                                <button                                    
+                                <button className='login-button login'                                    
                                     onClick={onLogin}                                        
                                 >      
                                     Login                                                                  
                                 </button>
-                            </div>                               
+                                <button className='login-button signup'                                   
+                                    onClick={onSignUp}                                        
+                                >      
+                                    Signup                                                                  
+                                </button>
                         </form>
+                        </div>
+            </div>
+        </div>
+        
 
-                        <p className="text-sm text-white text-center">
-                            No account yet? {' '}
-                            <NavLink to="/signup">
-                                Sign up
-                            </NavLink>
-                        </p>
-
-                    </div>
-                </section>
-            </main>
-        </>
     )
 }
 

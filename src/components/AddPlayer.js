@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import "../App.css";
 import { addPlayer } from "../ApiFuncs";
-import { Link } from "react-router-dom";
+import { auth } from "./Firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
 const NewPlayer = () => {
   const [newPlayer, setNewPlayer] = useState({
@@ -9,6 +11,19 @@ const NewPlayer = () => {
     preferred_position: "",
   });
   const [waiting, setWaiting] = useState(false);
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              console.log("uid", uid)
+            } else {
+              navigate('/login')
+            }
+          });
+
+    }, [])
 
   const handleSave = () => {
     setWaiting(true);

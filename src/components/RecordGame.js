@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getPlayers, recordGame } from "../ApiFuncs";
 import  RecordGameList  from './RecordGameComponent.jsx';
-import { Link } from "react-router-dom";
+import { auth } from "./Firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -10,9 +12,17 @@ const RecordGame = () => {
   const [dateSelected, setDateSelected] = useState();
 
   const [waiting, setWaiting] = useState({status: false, message: ""})
-
+  const navigate = useNavigate()
 
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+            if (user) {
+              const uid = user.uid;
+              console.log("uid", uid)
+            } else {
+              navigate('/login')
+            }
+          });
     setWaiting({status: true, message: "Waiting for server to load players"})
     getPlayers().then((res) => {
     setWaiting({status: false, message: ""})
@@ -138,14 +148,13 @@ const RecordGame = () => {
         team1Score: team1Score,
         team2Score: team2Score,
       };
-      console.log(newValue)
-      // recordGame(newValue).then((res) => {
-      //   setSelectedPlayers({})
-      //   setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
-      //   setTimeout(() => { 
-      //     setWaiting({status: false, message: ""}) 
-      //   }, 5000);
-      // });
+      recordGame(newValue).then((res) => {
+        setSelectedPlayers({})
+        setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
+        setTimeout(() => { 
+          setWaiting({status: false, message: ""}) 
+        }, 5000);
+      });
       return newValue;
     });
   };
