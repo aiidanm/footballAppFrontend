@@ -14,9 +14,10 @@ const PlayerStats = () => {
 
   useEffect(() => {
     getPlayerById(playerid).then((data) => {
-        setWaiting({status: false, message: ""})
-        setPlayer(data)
-    })
+      console.log(data);
+      setWaiting({ status: false, message: "" });
+      setPlayer(data);
+    });
   }, []);
 
   return (
@@ -24,14 +25,32 @@ const PlayerStats = () => {
       <Link to="/" className="HomeLink">
         <h1 className="TitleHeader">MNF</h1>
       </Link>
-      <div className="Player_Stats_Page">
+      <div className="pageContainer">
         {waiting.status ? (
           <h1>{waiting.message}</h1>
         ) : (
-            <div className="player_stats_container">
-                <p>{player.player_name}</p>
-
+          <div className="player_stats_container">
+            <h2>{player.player_name} Stats</h2>
+            <p>Total goals scored:</p>
+            <p>Total times kicked over the fence:</p>
+            <p>Games played:</p>
+            <div className="players-recent-games">
+              <h3>Recent games</h3>
+              {player.stats.map((game) => {
+                return (
+                  <Link
+                    to={`/games/${game.game_id}`}
+                    className="players-recent-game-card"
+                  >
+                    <h3>{game.game_id}</h3>
+                    <h3>Result: </h3>
+                    <p>Goals Scored: {game.goals_scored}</p>
+                    <p>over the fence: {game.kicked_over_fence}</p>
+                  </Link>
+                );
+              })}
             </div>
+          </div>
         )}
       </div>
     </div>
@@ -39,4 +58,3 @@ const PlayerStats = () => {
 };
 
 export default PlayerStats;
- 

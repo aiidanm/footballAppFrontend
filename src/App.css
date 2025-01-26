@@ -239,6 +239,24 @@
   width: 100%;
 }
 
+.players-recent-game-card {
+  display:block;
+  border: 2px solid #3b3f57;
+  margin-top: 2%;
+  border-radius: 2%;
+  width: 100%;
+}
+
+.players-recent-games {
+  
+  width: 100%;
+}
+
+.player_stats_container{
+ 
+  width: 100%;
+}
+
 .Players {
   display: flex;
   flex-wrap: wrap;
