@@ -16,9 +16,24 @@ const PlayerStats = () => {
     getPlayerById(playerid).then((data) => {
       console.log(data);
       setWaiting({ status: false, message: "" });
-      setPlayer(data);
+      calcTotals(data);
     });
   }, []);
+
+  const calcTotals = (p) => {
+    let newP = p;
+    newP.total_goals_scored = 0;
+    newP.total_games_played = 0;
+    newP.total_over_fence = 0;
+
+    for (let i = 0; i < p.stats.length; i++) {
+      const element = p.stats[i];
+      newP.total_games_played++;
+      newP.total_goals_scored += element.goals_scored;
+      newP.total_over_fence = +element.kicked_over_fence;
+    }
+    setPlayer(newP);
+  };
 
   return (
     <div className="MainContainer">
@@ -31,9 +46,9 @@ const PlayerStats = () => {
         ) : (
           <div className="player_stats_container">
             <h2>{player.player_name} Stats</h2>
-            <p>Total goals scored:</p>
-            <p>Total times kicked over the fence:</p>
-            <p>Games played:</p>
+            <p>Total goals scored: {player.total_goals_scored}</p>
+            <p>Total times kicked over the fence: {player.total_over_fence}</p>
+            <p>Games played: {player.total_games_played}</p>
             <div className="players-recent-games">
               <h3>Recent games</h3>
               {player.stats.map((game) => {
@@ -42,8 +57,15 @@ const PlayerStats = () => {
                     to={`/games/${game.game_id}`}
                     className="players-recent-game-card"
                   >
-                    <h3>{game.game_id}</h3>
-                    <h3>Result: </h3>
+                    <h3>
+                      {new Intl.DateTimeFormat("en-GB").format(
+                        new Date(game.game_date)
+                      )}
+                    </h3>
+                    <h3>
+                      Result:{" "}
+                      {game.is_winning_team === 1 ? <p>Win</p> : <p>Loss</p>}{" "}
+                    </h3>
                     <p>Goals Scored: {game.goals_scored}</p>
                     <p>over the fence: {game.kicked_over_fence}</p>
                   </Link>
