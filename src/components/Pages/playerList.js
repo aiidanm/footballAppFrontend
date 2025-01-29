@@ -70,18 +70,21 @@ const PlayerList = () => {
       </Link>
       <h2>Players</h2>
       <div className="sortContainer">
-        <select value={sortBy} onChange={handleSortChange}>
+        <label htmlFor="playerSortSelect" className="sortByLabel">Sort by:</label>
+        <div class="playerSortSelect-wrapper">
+        <select value={sortBy} onChange={handleSortChange} className="playerSortSelect">
           <option value="total_goals_scored">Goals Scored</option>
           <option value="total_kicked_over_fence">Over the fence</option>
         </select>
-        <button onClick={handleOrderChange}>
+        </div>
+        <button onClick={handleOrderChange} className="sortButton">
           Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
         </button>
       </div>
       <div className="Players">
         {players.map((player) => (
           // <div className="playerCard-unselected" key={player.player_id}>
-            <Link to={`/players/${player.player_id}`} className="playerCard-unselected">
+            <Link to={`/players/${player.player_id}`} className="playerCard-list">
               <p>{player.player_name}</p>
               <p>Total Goals: {player.total_goals_scored}</p>
               <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
