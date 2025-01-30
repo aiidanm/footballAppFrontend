@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import '../../App.css'
 import { auth } from '../Firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 
@@ -19,7 +19,7 @@ const PlayerAdminPage = () => {
             }
           });
 
-    }, [])
+    })
     
         return (
             <div className='MainContainer'>

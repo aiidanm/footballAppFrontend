@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import { useSearchParams, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import { getPlayerById } from "../../ApiFuncs";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const PlayerStats = () => {
       setWaiting({ status: false, message: "" });
       calcTotals(data);
     });
-  }, []);
+  });
 
   const calcTotals = (p) => {
     let newP = p;

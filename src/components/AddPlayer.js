@@ -23,7 +23,7 @@ const NewPlayer = () => {
             }
           });
 
-    }, [])
+    })
 
   const handleSave = () => {
     setWaiting(true);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import { useSearchParams, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import { getGameById } from "../../ApiFuncs";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const GameStats = () => {
       setGame(data);
       setWaiting({ status: false, message: "" });
     });
-  }, []);
+  });
 
   return (
     <div className="MainContainer">

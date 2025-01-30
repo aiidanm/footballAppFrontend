@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState({});
-  const [sendObject, setSendObject] = useState({});
   const [dateSelected, setDateSelected] = useState();
 
   const [waiting, setWaiting] = useState({status: false, message: ""})
@@ -27,7 +26,7 @@ const RecordGame = () => {
     getPlayers().then((res) => {
     setWaiting({status: false, message: ""})
     setPlayers(res)});
-  }, []);
+  },[]);
 
   const handleDivClick = (player) => {
     setSelectedPlayers((prevSelected) => {
@@ -140,13 +139,12 @@ const RecordGame = () => {
       0
     );
 
-    setSendObject((prevSendObject) => {
+   
       const newValue = {
-        ...prevSendObject,
         date: new Date(date),
         teams: result,
-        team1Score: team1Score,
-        team2Score: team2Score,
+        team1Score,
+        team2Score,
       };
       recordGame(newValue).then((res) => {
         setSelectedPlayers({})
@@ -156,7 +154,7 @@ const RecordGame = () => {
         }, 5000);
       });
       return newValue;
-    });
+    
   };
 
   const handleDateChange = (e) => {

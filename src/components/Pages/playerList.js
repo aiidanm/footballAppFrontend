@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import { getPlayers, updatePlayerById } from "../../ApiFuncs";
+import { getPlayers } from "../../ApiFuncs";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Firebase";
@@ -24,7 +24,7 @@ const PlayerList = () => {
         navigate("/login");
       }
     });
-  }, []);
+  });
 
   const sortPlayers = (playerData, field, order) => {
     const sortedPlayers = [...playerData];
@@ -83,15 +83,24 @@ const PlayerList = () => {
       </div>
       <div className="Players">
         {players.map((player) => (
-          // <div className="playerCard-unselected" key={player.player_id}>
             <Link to={`/players/${player.player_id}`} className="playerCard-list">
-              <p>{player.player_name}</p>
+              <h2 className="playerName">{player.player_name}</h2>
+              <div className="playerCard-Section2">
+              <div className="playerCard-left">
+                <h3>Stats</h3>
               <p>Total Goals: {player.total_goals_scored}</p>
               <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
               <p>Games Played: {player.games_played}</p>
               <p>Wins: {player.total_wins}</p>
+              </div>
+              <div className="playerCard-right">
+                <h3>Form</h3>
+              </div>
+              </div>
+              
+              
+              
             </Link>
-          // </div>
         ))}
       </div>
     </div>

@@ -1,10 +1,9 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../Firebase";
 import {
-  faChartLine,
   faUserEdit,
   faClipboardList,
   faGamepad,
@@ -32,7 +31,7 @@ const HomePage = () => {
         navigate("/login");
       }
     });
-  }, []);
+  });
 
   return (
     <div className="MainContainer">

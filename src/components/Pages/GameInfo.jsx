@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
 const GameInfo = ({ games, setGames }) => {
-  // const handleDivClick = (gameId) => {
-  //   setGames((prevGames) =>
-  //     prevGames.map((game) =>
-  //       game.game_id === gameId
-  //         ? { ...game, expanded: !game.expanded }
-  //         : game
-  //     )
-  //   );
-  // };
+ 
 
   return (
     <div className="pageContainer">
