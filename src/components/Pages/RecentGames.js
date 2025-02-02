@@ -34,7 +34,7 @@ const navigate = useNavigate()
 
 
 
-  });
+  },[navigate]);
 
   const handleUpdate = async () => {
     setWaiting({ status: true, message: "Refreshing games, please wait." });

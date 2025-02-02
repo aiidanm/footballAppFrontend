@@ -9,10 +9,15 @@ const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [sortBy, setSortBy] = useState("total_goals_scored"); // Initial sort field
   const [sortOrder, setSortOrder] = useState("desc"); // Initial sort order (descending)
+  const [waiting, setWaiting] = useState({
+    status: false,
+    message: "loading players please wait",
+  });
   const navigate = useNavigate();
   useEffect(() => {
+    setWaiting({ status: true, message: "loading players please wait" });
     getPlayers().then((data) => {
-      console.log(data);
+      setWaiting({ status: false, message: "loading players please wait" });
       setPlayers(data);
     });
 
@@ -24,7 +29,7 @@ const PlayerList = () => {
         navigate("/login");
       }
     });
-  });
+  },[navigate]);
 
   const sortPlayers = (playerData, field, order) => {
     const sortedPlayers = [...playerData];
@@ -69,40 +74,70 @@ const PlayerList = () => {
         <h1 className="TitleHeader">MNF</h1>
       </Link>
       <h2>Players</h2>
-      <div className="sortContainer">
-        <label htmlFor="playerSortSelect" className="sortByLabel">Sort by:</label>
-        <div class="playerSortSelect-wrapper">
-        <select value={sortBy} onChange={handleSortChange} className="playerSortSelect">
-          <option value="total_goals_scored">Goals Scored</option>
-          <option value="total_kicked_over_fence">Over the fence</option>
-        </select>
-        </div>
-        <button onClick={handleOrderChange} className="sortButton">
-          Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
-        </button>
-      </div>
-      <div className="Players">
-        {players.map((player) => (
-            <Link to={`/players/${player.player_id}`} className="playerCard-list">
-              <h2 className="playerName">{player.player_name}</h2>
-              <div className="playerCard-Section2">
-              <div className="playerCard-left">
-                <h3>Stats</h3>
-              <p>Total Goals: {player.total_goals_scored}</p>
-              <p>Times kicked over Fence: {player.total_kicked_over_fence}</p>
-              <p>Games Played: {player.games_played}</p>
-              <p>Wins: {player.total_wins}</p>
-              </div>
-              <div className="playerCard-right">
-                <h3>Form</h3>
-              </div>
-              </div>
-              
-              
-              
-            </Link>
-        ))}
-      </div>
+      {waiting.status ? (
+        <h2>{waiting.message}</h2>
+      ) : (
+        <>
+          <div className="sortContainer">
+            <label htmlFor="playerSortSelect" className="sortByLabel">
+              Sort by:
+            </label>
+            <div class="playerSortSelect-wrapper">
+              <select
+                value={sortBy}
+                onChange={handleSortChange}
+                className="playerSortSelect"
+              >
+                <option value="total_goals_scored">Goals Scored</option>
+                <option value="total_kicked_over_fence">Over the fence</option>
+              </select>
+            </div>
+            <button onClick={handleOrderChange} className="sortButton">
+              Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
+            </button>
+          </div>
+          <div className="Players">
+            {players.map((player) => (
+              <Link
+                to={`/players/${player.player_id}`}
+                className="playerCard-list"
+              >
+                <h2 className="playerName">{player.player_name}</h2>
+                <div className="playerCard-Section2">
+                  <div className="playerCard-left">
+                    <h3>Stats</h3>
+                    <p>Total Goals: {player.total_goals_scored}</p>
+                    <p>
+                      Times kicked over Fence: {player.total_kicked_over_fence}
+                    </p>
+                    <p>Games Played: {player.games_played}</p>
+                    <p>Wins: {player.total_wins}</p>
+                  </div>
+                  <div className="playerCard-right">
+                    <h3>Per Game Stats</h3>
+                    <p>
+                      GPG:{" "}
+                      {(
+                        player.total_goals_scored / player.games_played
+                      ).toFixed(2)}
+                    </p>
+                    <p>
+                      FPG:{" "}
+                      {(
+                        player.total_kicked_over_fence / player.games_played
+                      ).toFixed(2)}
+                    </p>
+                    <p>
+                      Win ratio:{" "}
+                      {(player.total_wins / player.games_played).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

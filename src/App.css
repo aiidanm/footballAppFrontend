@@ -124,40 +124,63 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .playerCard-list {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 10px;
-  width: 100%;
+  width: 70%;
   font-family: Arial, sans-serif;
   color: #333;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid #3b3f57;
+  border: 2px solid #3b3f57; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  background: #f9f9f9; /* Light background for contrast */
+  border: 2px solid #e2e2e2; /* Subtle border */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 16px; /* Compact padding */
+  margin: 8px auto; /* Spacing between cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  text-decoration: none;
+  color: #333; /* Neutral text color */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.playerCard-Section2{
+.playerName {
+  font-size: 3rem; /* Larger font size for the player's name */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px; /* Space below the name */
+  color: #2c3e50; /* Darker shade for emphasis */
+}
+
+.playerCard-list:hover {
+  transform: translateY(-4px); /* Lift the card slightly */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+}
+
+.playerCard-Section2 {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
 }
 
-.playerCard-left{
+.playerCard-left {
   align-items: left;
   width: 50%;
   text-align: left;
-  
 }
-.playerCard-right{
+.playerCard-right {
   align-items: center;
   width: 50%;
-  
 }
 
 .playerCard-unselected {
@@ -258,9 +281,7 @@
   margin: 0 auto;
 }
 
-
-
-.sortByLabel{
+.sortByLabel {
   white-space: nowrap;
 }
 
@@ -359,7 +380,7 @@
 }
 
 .players-recent-game-card {
-  display:block;
+  display: block;
   border: 2px solid #3b3f57;
   margin-top: 2%;
   border-radius: 2%;
@@ -367,16 +388,14 @@
 }
 
 .players-recent-games {
-  
   width: 100%;
 }
 
-.player_stats_container{
- 
+.player_stats_container {
   width: 100%;
 }
 
-.playerName{
+.playerName {
   text-align: center;
 }
 

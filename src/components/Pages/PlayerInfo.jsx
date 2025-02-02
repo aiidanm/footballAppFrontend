@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import {useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPlayerById } from "../../ApiFuncs";
 import { Link } from "react-router-dom";
 
@@ -45,7 +45,7 @@ const PlayerStats = () => {
           <h1>{waiting.message}</h1>
         ) : (
           <div className="player_stats_container">
-            <h2>{player.player_name} Stats</h2>
+            <h2 className="playerName">{player.player_name} Stats</h2>
             <p>Total goals scored: {player.total_goals_scored}</p>
             <p>Total times kicked over the fence: {player.total_over_fence}</p>
             <p>Games played: {player.total_games_played}</p>
