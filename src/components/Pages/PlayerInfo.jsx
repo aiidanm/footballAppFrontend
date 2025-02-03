@@ -14,11 +14,10 @@ const PlayerStats = () => {
 
   useEffect(() => {
     getPlayerById(playerid).then((data) => {
-      console.log(data);
       setWaiting({ status: false, message: "" });
       calcTotals(data);
     });
-  });
+  },[]);
 
   const calcTotals = (p) => {
     let newP = p;

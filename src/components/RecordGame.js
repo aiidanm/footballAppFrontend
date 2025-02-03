@@ -163,22 +163,28 @@ const RecordGame = () => {
 
 
   return (
-    <div>
-       <Link to="/" className="HomeLink">
-       <h1>Record Game</h1>
+    <div className="MainContainer">
+      <Link to="/" className="HomeLink">
+        <h1 className="TitleHeader">MNF</h1>
       </Link>
-      
-      {waiting.status ? <h2>{waiting.message}</h2> : <div className="RecordContainer">
-      <RecordGameList players={players} selectedPlayers={selectedPlayers} handleDivClick={handleDivClick} goalsScored={goalsScored} overTheFence={overTheFence} />
-      <input type="date" onChange={handleDateChange}></input>
-       <button onClick={handleSubmit}>Submit</button>
-
-      </div> }
-      
-      
+      <h2>Record Game Page:</h2>
+        {waiting.status ? (
+          <h2>{waiting.message}</h2>
+        ) : (
+          <div className="RecordContainer">
+            <RecordGameList
+              players={players}
+              selectedPlayers={selectedPlayers}
+              handleDivClick={handleDivClick}
+              goalsScored={goalsScored}
+              overTheFence={overTheFence}
+            />
+            <input type="date" onChange={handleDateChange}></input>
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+        )}
     </div>
-    
-  )
+  );
 
  
 };

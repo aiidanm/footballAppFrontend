@@ -37,12 +37,13 @@
 /* Shared container styles */
 .pageContainer,
 .MainContainer {
+  align-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 50%;
+  width: 100%;
 }
 
 /* Button styles */
@@ -110,38 +111,29 @@
 .playerCard-unselected,
 .playerCard-team1,
 .playerCard-team2 {
-  display: flex;
+   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  max-width: 300px;
-  font-family: Arial, sans-serif;
-  color: #333;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  background: #f9f9f9; /* Light background for contrast */
+  border: 2px solid #e2e2e2; /* Subtle border */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 16px; /* Compact padding */
+  margin: 8px auto; /* Spacing between cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  text-decoration: none;
+  color: #333; /* Neutral text color */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .playerCard-list {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  width: 70%;
-  font-family: Arial, sans-serif;
-  color: #333;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid #3b3f57; */
+  
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 100%;
+  max-width: 400px;
   background: #f9f9f9; /* Light background for contrast */
   border: 2px solid #e2e2e2; /* Subtle border */
   border-radius: 8px; /* Rounded corners for a modern look */
@@ -184,15 +176,15 @@
 }
 
 .playerCard-unselected {
-  border: 2px solid #3b3f57; /* Soft blue-grey */
+  border: 5px solid #3b3f57; /* Soft blue-grey */
 }
 
 .playerCard-team1 {
-  border: 2px solid #d85a5a; /* Soft red */
+  border: 5px solid #d85a5a; /* Soft red */
 }
 
 .playerCard-team2 {
-  border: 2px solid #5a8ad8; /* Soft blue */
+  border: 5px solid #5a8ad8; /* Soft blue */
 }
 
 .player-card:hover {
@@ -279,6 +271,13 @@
   gap: 20px;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.RecordContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .sortByLabel {
@@ -373,22 +372,50 @@
 }
 
 .recentGameCard {
-  border: 2px solid #3b3f57; /* Soft blue-grey */
-  margin: 2px;
-  border-radius: 2%;
+ display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  max-width: 400px;
+  background: #f9f9f9; /* Light background for contrast */
+  border: 2px solid #e2e2e2; /* Subtle border */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 16px; /* Compact padding */
+  margin: 8px auto; /* Spacing between cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  text-decoration: none;
+  color: #333; /* Neutral text color */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .players-recent-game-card {
-  display: block;
+  /* display: flex;
+  flex-direction: column;
   border: 2px solid #3b3f57;
   margin-top: 2%;
   border-radius: 2%;
+  width: 90%; */
+display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  max-width: 400px;
+  background: #f9f9f9; /* Light background for contrast */
+  border: 2px solid #e2e2e2; /* Subtle border */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 16px; /* Compact padding */
+  margin: 8px auto; /* Spacing between cards */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  text-decoration: none;
+  color: #333; /* Neutral text color */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .players-recent-games {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .player_stats_container {
@@ -402,7 +429,7 @@
 .Players {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   align-items: center;
 }
 
