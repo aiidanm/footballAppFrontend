@@ -3,6 +3,7 @@ import "../App.css";
 
 
 const RecordGameList = ({players, selectedPlayers, handleDivClick, goalsScored, overTheFence}) => {
+  
     return (
         <div className="Players">
             {players.map((player) => {

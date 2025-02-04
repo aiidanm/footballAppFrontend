@@ -25,8 +25,10 @@ const RecordGame = () => {
     setWaiting({status: true, message: "Waiting for server to load players"})
     getPlayers().then((res) => {
     setWaiting({status: false, message: ""})
-    setPlayers(res)});
-  },[]);
+    setPlayers(
+      res.sort((a, b) => a.player_name.localeCompare(b.player_name))
+    );});
+  },[navigate]);
 
   const handleDivClick = (player) => {
     setSelectedPlayers((prevSelected) => {

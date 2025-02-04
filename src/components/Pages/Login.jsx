@@ -9,32 +9,25 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [waiting, setWaiting] = useState({status: false, message: ""})
 
   const onLogin = (e) => {
     e.preventDefault();
+    setWaiting({status: true, message: "Logging in, please wait"})
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        setWaiting({ status: false, message: "" });
         navigate("/");
       })
       .catch((error) => {
+        setWaiting({ status: "error", message: "incorrect password, try again" });
+        setTimeout(() => {
+          setWaiting({ status: false, message: "" });
+        }, 3000);
         console.log(error)
       });
   };
 
-  // const onSignUp = async (e) => {
-  //   e.preventDefault();
-
-  //   await createUserWithEmailAndPassword(auth, email, password)
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //       navigate("/");
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode, errorMessage);
-  //     });
-  // };
 
   return (
     <div className="MainContainer">
@@ -69,15 +62,13 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-
+            {waiting.status === "error" ?(<div className="passwordErrorMessageDiv">
+              <h4 className="passwordErrorMessage">Incorrect password please try again</h4>
+            </div>): null }
+            
             <button className="login-button login" onClick={onLogin}>
               Login
             </button>
-            {/* <button className='login-button signup'                                   
-                                    onClick={onSignUp}                                        
-                                >      
-                                    Signup                                                                  
-                                </button> */}
           </form>
         </div>
       </div>

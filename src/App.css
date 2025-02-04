@@ -512,3 +512,12 @@ display: flex;
   background-color: #5a8ad8;
   color: #ffffff;
 }
+
+.passwordErrorMessage{
+  color: #d85a5a;
+}
+
+.passwordErrorMessageDiv{
+  border: 2px solid #d85a5a;
+  border-radius: 10px;
+}
