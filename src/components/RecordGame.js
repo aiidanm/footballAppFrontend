@@ -181,8 +181,8 @@ const RecordGame = () => {
               goalsScored={goalsScored}
               overTheFence={overTheFence}
             />
-            <input type="date" onChange={handleDateChange}></input>
-            <button onClick={handleSubmit}>Submit</button>
+            <input type="date" onChange={handleDateChange} className="date-selector"></input>
+            <button onClick={handleSubmit} className="submit-game-button">Submit</button>
           </div>
         )}
     </div>
