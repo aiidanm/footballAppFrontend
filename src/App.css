@@ -1,4 +1,4 @@
-/* General App styles */
+
 .App {
   text-align: center;
   align-items: center;
@@ -478,7 +478,7 @@
 }
 
 .login_form input:focus {
-  border-color: #5a8ad8; /* Soft blue */
+  border-color: #5a8ad8; 
 }
 
 .login-pair {
