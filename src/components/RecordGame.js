@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPlayers, recordGame } from "../ApiFuncs";
-import  RecordGameList  from './RecordGameComponent.jsx';
+import RecordGameList from "./RecordGameComponent.jsx";
+import SubmitPreview from "./submitPreview.jsx";
 import { auth } from "./Firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,26 +10,27 @@ const RecordGame = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [dateSelected, setDateSelected] = useState();
-
-  const [waiting, setWaiting] = useState({status: false, message: ""})
-  const navigate = useNavigate()
+  const [submitPage, setSubmitPage] = useState(false);
+  const [waiting, setWaiting] = useState({ status: false, message: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-            if (user) {
-              const uid = user.uid;
-              console.log("uid", uid)
-            } else {
-              navigate('/login')
-            }
-          });
-    setWaiting({status: true, message: "Waiting for server to load players"})
+      if (user) {
+        const uid = user.uid;
+        console.log("uid", uid);
+      } else {
+        navigate("/login");
+      }
+    });
+    setWaiting({ status: true, message: "Waiting for server to load players" });
     getPlayers().then((res) => {
-    setWaiting({status: false, message: ""})
-    setPlayers(
-      res.sort((a, b) => a.player_name.localeCompare(b.player_name))
-    );});
-  },[navigate]);
+      setWaiting({ status: false, message: "" });
+      setPlayers(
+        res.sort((a, b) => a.player_name.localeCompare(b.player_name))
+      );
+    });
+  }, [navigate]);
 
   const handleDivClick = (player) => {
     setSelectedPlayers((prevSelected) => {
@@ -112,23 +114,30 @@ const RecordGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!submitPage) {
+      setSubmitPage(true);
+      return;
+    }
+    setWaiting({
+      status: true,
+      message: "Submitting to database, please wait...",
+    });
 
-    setWaiting({status: true, message: "submitting to database, please wait for confirmation"})
-    let date = new Date(dateSelected)
-   
+    let date = new Date(dateSelected);
     const result = {
       team1: [],
       team2: [],
-      unselected: [],
     };
 
     Object.values(selectedPlayers).forEach((playerObj) => {
-      result[playerObj.team].push({
-        name: playerObj.name,
-        player_id: playerObj.id,
-        goals_scored: playerObj.goals_scored || 0,
-        kicked_over_fence: playerObj.kicked_over_fence || 0,
-      });
+      if (playerObj.team !== "unselected") {
+        result[playerObj.team].push({
+          name: playerObj.name,
+          player_id: playerObj.id,
+          goals_scored: playerObj.goals_scored || 0,
+          kicked_over_fence: playerObj.kicked_over_fence || 0,
+        });
+      }
     });
 
     const team1Score = result.team1.reduce(
@@ -141,28 +150,30 @@ const RecordGame = () => {
       0
     );
 
-   
-      const newValue = {
-        date: new Date(date),
-        teams: result,
-        team1Score,
-        team2Score,
-      };
-      recordGame(newValue).then((res) => {
-        setSelectedPlayers({})
-        setWaiting({status: true, message: "Game submitted, you will be auto redirected to the home page shortly."})
-        setTimeout(() => { 
-          setWaiting({status: false, message: ""}) 
-        }, 5000);
-      });
-      return newValue;
-    
+    const newValue = {
+      date,
+      teams: result,
+      team1Score,
+      team2Score,
+    };
+
+    await recordGame(newValue);
+
+    setSelectedPlayers({});
+    setSubmitPage(false);
+    setWaiting({
+      status: true,
+      message: "Game submitted successfully! Redirecting...",
+    });
+
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
   };
 
   const handleDateChange = (e) => {
     setDateSelected(new Date(e.target.value));
   };
-
 
   return (
     <div className="MainContainer">
@@ -170,25 +181,39 @@ const RecordGame = () => {
         <h1 className="TitleHeader">MNF</h1>
       </Link>
       <h2>Record Game Page:</h2>
-        {waiting.status ? (
-          <h2>{waiting.message}</h2>
-        ) : (
-          <div className="RecordContainer">
-            <RecordGameList
-              players={players}
-              selectedPlayers={selectedPlayers}
-              handleDivClick={handleDivClick}
-              goalsScored={goalsScored}
-              overTheFence={overTheFence}
-            />
-            <input type="date" onChange={handleDateChange} className="date-selector"></input>
-            <button onClick={handleSubmit} className="submit-game-button">Submit</button>
-          </div>
-        )}
+
+      {waiting.status ? (
+        <h2>{waiting.message}</h2>
+      ) : submitPage ? (
+        <SubmitPreview
+          players={players}
+          selectedPlayers={selectedPlayers}
+          handleDivClick={handleDivClick}
+          goalsScored={goalsScored}
+          overTheFence={overTheFence}
+        />
+      ) : (
+        <div className="RecordContainer">
+          <RecordGameList
+            players={players}
+            selectedPlayers={selectedPlayers}
+            handleDivClick={handleDivClick}
+            goalsScored={goalsScored}
+            overTheFence={overTheFence}
+            handleSubmit={handleSubmit}
+          />
+          <input
+            type="date"
+            onChange={handleDateChange}
+            className="date-selector"
+          ></input>
+          <button onClick={handleSubmit} className="submit-game-button">
+            Submit
+          </button>
+        </div>
+      )}
     </div>
   );
-
- 
 };
 
 export default RecordGame;
