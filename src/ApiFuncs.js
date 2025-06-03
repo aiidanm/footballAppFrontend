@@ -80,6 +80,16 @@ export const getGameById = (id) => {
     });
 };
 
+export const submitAiReq = (prompt, token) => {
+  return axios
+    .get(`${BASE_URL}/ai/`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching game by ID:", error);
+      throw error;
+    });
+};
+
 // get a list of games
 // export const getGames = (limit = 10) => {
 //   return axios.get(`${BASE_URL}/games`, { params: { limit } })

@@ -13,6 +13,7 @@ import RecentGames from "./components/Pages/RecentGames";
 import GameStats from "./components/Pages/gameStats";
 import Login from "./components/Pages/Login";
 import PlayerStats from "./components/Pages/PlayerInfo";
+import AiReq from "./components/Pages/aiReq";
 
 const router = createBrowserRouter([
   {
@@ -38,20 +39,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/games/:gameid",
-    element: <GameStats />
+    element: <GameStats />,
   },
   {
     path: "/players/:playerid",
-    element: <PlayerStats />
+    element: <PlayerStats />,
   },
   {
     path: "/login",
-    element: <Login />
-  }
+    element: <Login />,
+  },
+  {
+    path: "/aiReq",
+    element: <AiReq />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <RouterProvider router={router} />
+  <RouterProvider router={router} />
 );
 
 // If you want to start measuring performance in your app, pass a function
