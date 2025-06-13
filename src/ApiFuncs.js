@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAuth } from "firebase/auth";
 
 const BASE_URL = "https://footballbackend-d13q.onrender.com";
 
@@ -81,11 +82,30 @@ export const getGameById = (id) => {
 };
 
 export const submitAiReq = (prompt, token) => {
+  const data = {
+    prompt: prompt,
+  };
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  console.log(data, prompt);
+
   return axios
-    .get(`${BASE_URL}/ai/`)
+    .post(`https://footballtestbackend.onrender.com/ai/`, data, config)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching game by ID:", error);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        console.error("Error response status:", error.response.status);
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
       throw error;
     });
 };
