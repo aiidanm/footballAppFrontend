@@ -44,8 +44,19 @@ const PlayerList = () => {
       } else if (field === "total_kicked_over_fence") {
         aValue = a.over_fence_per_game;
         bValue = b.over_fence_per_game;
+      } else if (field === "Games_Played") {
+        aValue = a.games_played;    
+        bValue = b.games_played;
+      } else if (field === "Wins"){
+        aValue = a.total_wins;
+        bValue = b.total_wins;  
+      } else if (field === "GPG") {
+        aValue = a.total_goals_scored / a.games_played; 
+        bValue = b.total_goals_scored / b.games_played;
+      } else if (field === "Win_Ratio") {
+        aValue = (a.total_wins / a.games_played).toFixed(2)
+        bValue = (b.total_wins / b.games_played).toFixed(2)
       }
-
       if (order === "asc") {
         return aValue - bValue;
       } else {
@@ -90,6 +101,10 @@ const PlayerList = () => {
               >
                 <option value="total_goals_scored">Goals Scored</option>
                 <option value="total_kicked_over_fence">Over the fence</option>
+                <option value="GPG">Goals per game</option>
+                <option value="Wins">Wins</option>
+                <option value="Win_Ratio">Win ratio</option>
+                <option value="Games_Played">Games played</option>
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
