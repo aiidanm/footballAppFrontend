@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
 const GameInfo = ({ games, setGames }) => {
  
+const sortGames = (games, field, order) => {
+  const sortedGames = [...games];
 
+  sortedGames.sort((a, b) => {
+
+      const dateA = new Date(a.game_date);
+      const dateB = new Date(b.game_date);
+
+    
+
+      return dateA - dateB;
+  });
+
+  setGames(sortedGames);
+  
+}
+
+useEffect(() => {
+  sortGames(games, "game_date", "desc");
+}, [games]);
   return (
     <div className="pageContainer">
       {games.map((game) => (

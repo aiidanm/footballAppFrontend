@@ -57,6 +57,10 @@ const HomePage = () => {
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>
         </Link>
+        <Link to="/bulkEntry" className="icon-button">
+          <FontAwesomeIcon icon={faClipboardList} className="icon" />
+          <span className="text">Bulk data entry</span>
+        </Link>
       </div>
     </div>
   );

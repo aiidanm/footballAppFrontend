@@ -14,6 +14,7 @@ import GameStats from "./components/Pages/gameStats";
 import Login from "./components/Pages/Login";
 import PlayerStats from "./components/Pages/PlayerInfo";
 import AiReq from "./components/Pages/aiReq";
+import BulkEntry from "./components/Pages/bulkEntry";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/aiReq",
     element: <AiReq />,
+  },
+  {
+    path: "/bulkEntry",
+    element: <BulkEntry />,
   },
 ]);
 
