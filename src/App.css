@@ -114,7 +114,7 @@
    display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 47.5%;
   max-width: 400px;
   background: #f9f9f9; /* Light background for contrast */
   border: 2px solid #e2e2e2; /* Subtle border */
@@ -430,7 +430,9 @@
 
 .Players {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
   align-items: center;
 }

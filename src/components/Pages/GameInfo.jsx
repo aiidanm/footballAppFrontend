@@ -22,7 +22,7 @@ const sortGames = (games, field, order) => {
 
 useEffect(() => {
   sortGames(games, "game_date", "desc");
-}, [games]);
+}, []);
   return (
     <div className="pageContainer">
       {games.map((game) => (
