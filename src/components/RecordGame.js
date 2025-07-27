@@ -191,6 +191,7 @@ const RecordGame = () => {
           handleDivClick={handleDivClick}
           goalsScored={goalsScored}
           overTheFence={overTheFence}
+          handleSubmit={handleSubmit}
         />
       ) : (
         <div className="RecordContainer">
