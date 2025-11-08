@@ -7,6 +7,7 @@ const SubmitPreview = ({
   goalsScored,
   overTheFence,
   handleSubmit,
+  setSubmitPage
 }) => {
   useEffect(() => {
     console.log(selectedPlayers);
@@ -25,6 +26,7 @@ const SubmitPreview = ({
       <h2>Confirm Selection</h2>
       <div className="red_team_container">
         <h3>red Team</h3>
+          <h4>{redTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
             <table>
               <tr>
                 <th>Name</th>
@@ -46,6 +48,7 @@ const SubmitPreview = ({
       </div>
       <div className="blue_team_container">
         <h3>blue Team</h3>
+        <h4>{blueTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
             <table>
               <tr>
                 <th>Name</th>
@@ -65,7 +68,7 @@ const SubmitPreview = ({
             </table>
         
       </div>
-
+      <button onClick={() => {setSubmitPage(false)}}>Go Back</button>
       <button onClick={handleSubmit}>Confirm & Submit</button>
     </div>
   );

@@ -26,7 +26,6 @@ const HomePage = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        console.log("uid", uid);
       } else {
         navigate("/login");
       }
@@ -57,9 +56,9 @@ const HomePage = () => {
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>
         </Link>
-        <Link to="/bulkEntry" className="icon-button">
+        <Link to="/stats" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
-          <span className="text">Bulk data entry</span>
+          <span className="text">Stats</span>
         </Link>
       </div>
     </div>

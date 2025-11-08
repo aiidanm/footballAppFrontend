@@ -58,6 +58,10 @@ const router = createBrowserRouter([
     path: "/bulkEntry",
     element: <BulkEntry />,
   },
+  {
+    path: "/stats",
+    element: <StatsPage />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

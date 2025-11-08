@@ -192,6 +192,7 @@ const RecordGame = () => {
           goalsScored={goalsScored}
           overTheFence={overTheFence}
           handleSubmit={handleSubmit}
+          setSubmitPage={setSubmitPage}
         />
       ) : (
         <div className="RecordContainer">

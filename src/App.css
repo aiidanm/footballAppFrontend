@@ -1,11 +1,33 @@
 
+/* Modern Sports Theme */
+:root {
+  --primary: #1e88e5;       /* Vibrant blue */
+  --secondary: #ff4081;     /* Energetic pink */
+  --accent: #00c853;       /* Success green */
+  --warning: #ffd600;      /* Warning yellow */
+  --error: #ff1744;        /* Error red */
+  --background: #f5f5f5;   /* Light gray background */
+  --surface: #ffffff;      /* White surface */
+  --text-primary: #212121; /* Dark text */
+  --text-secondary: #757575; /* Secondary text */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 .App {
   text-align: center;
   align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .App-header {
-  background-color: #3b3f57; /* Soft blue-grey background */
+  background: linear-gradient(135deg, var(--primary) 0%, #1565c0 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,10 +35,17 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .App-link {
-  color: #d85a5a; /* Soft red for links */
+  color: var(--secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.App-link:hover {
+  color: #f50057;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -48,43 +77,62 @@
 
 /* Button styles */
 .icon-button {
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding: 10px 20px;
+  margin: 0.8rem 0;
+  border-radius: 8px;
+  padding: 14px 24px;
   width: 100%;
   max-width: 300px;
   cursor: pointer;
   font-size: 1rem;
-  border: 2px solid #3b3f57; /* Outline for contrast */
-  background-color: #ffffff;
-  color: #333;
-}
-
-.icon-button:hover {
-  background-color: #f0f0f0; /* Slight hover effect */
-}
-
-.icon-button {
+  font-weight: 500;
+  border: none;
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, #1565c0 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.icon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.icon-button:hover::before {
+  opacity: 0.1;
 }
 
 .icon-button.login {
-  background-color: #d85a5a; /* Soft red */
-  border: 2px solid #d85a5a;
+  background: linear-gradient(135deg, var(--primary) 0%, #1565c0 100%);
+  color: white;
 }
 
 .icon-button.signup {
-  background-color: #5a8ad8; /* Soft blue */
-  border: 2px solid #5a8ad8;
+  background: linear-gradient(135deg, var(--secondary) 0%, #c51162 100%);
+  color: white;
 }
 
 .icon-button.login:hover,
 .icon-button.signup:hover {
-  background-color: #ffffff;
-  color: #333;
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 /* Icon inside buttons */
@@ -102,60 +150,168 @@
 
 /* Header styles */
 .TitleHeader {
-  margin-bottom: 20px;
-  font-size: 2rem;
-  color: #333;
+  margin: 1.5rem 0;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  text-align: center;
+}
+
+.TitleHeader::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
 }
 
 /* Player card styles */
 .playerCard-unselected,
 .playerCard-team1,
 .playerCard-team2 {
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  width: 47.5%;
-  max-width: 400px;
-  background: #f9f9f9; /* Light background for contrast */
-  border: 2px solid #e2e2e2; /* Subtle border */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 16px; /* Compact padding */
-  margin: 8px auto; /* Spacing between cards */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: calc(50% - 16px);
+  max-width: 300px;
+  background: var(--surface);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   text-decoration: none;
-  color: #333; /* Neutral text color */
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for player cards */
+@media screen and (max-width: 768px) {
+  .playerCard-unselected,
+  .playerCard-team1,
+  .playerCard-team2 {
+    width: calc(50% - 8px);
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .playerCard-unselected,
+  .playerCard-team1,
+  .playerCard-team2 {
+    width: calc(50% - 6px);
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .playerCard-unselected p,
+  .playerCard-team1 p,
+  .playerCard-team2 p {
+    font-size: 0.85rem;
+    margin: 4px 0;
+  }
+}
+
+/* Team-specific styling */
+.playerCard-team1 {
+  background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68, 0.2) 100%);
+  box-shadow: 0 4px 12px rgba(255, 23, 68, 0.2);
+  border-left: 4px solid var(--error);
+}
+
+.playerCard-team2 {
+  background: linear-gradient(135deg, rgba(30, 136, 229, 0.1) 0%, rgba(30, 136, 229, 0.2) 100%);
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
+  border-left: 4px solid var(--primary);
+}
+
+/* Hover effects for team cards */
+.playerCard-team1:hover {
+  background: linear-gradient(135deg, rgba(255, 23, 68, 0.15) 0%, rgba(255, 23, 68, 0.25) 100%);
+  transform: translateY(-2px);
+}
+
+.playerCard-team2:hover {
+  background: linear-gradient(135deg, rgba(30, 136, 229, 0.15) 0%, rgba(30, 136, 229, 0.25) 100%);
+  transform: translateY(-2px);
 }
 
 .playerCard-list {
-  
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 400px;
-  background: #f9f9f9; /* Light background for contrast */
-  border: 2px solid #e2e2e2; /* Subtle border */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 16px; /* Compact padding */
-  margin: 8px auto; /* Spacing between cards */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background: var(--surface);
+  border: none;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 16px auto;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: #333; /* Neutral text color */
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.playerCard-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .playerName {
-  font-size: 3rem; /* Larger font size for the player's name */
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 12px; /* Space below the name */
-  color: #2c3e50; /* Darker shade for emphasis */
+  margin: 0.5rem 0 1rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+}
+
+.playerName::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .playerCard-list:hover {
-  transform: translateY(-4px); /* Lift the card slightly */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow */
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.playerCard-list:hover .playerName::after {
+  transform: scaleX(1);
 }
 
 .playerCard-Section2 {
@@ -434,7 +590,114 @@
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Responsive layout adjustments */
+@media screen and (max-width: 768px) {
+  .Players {
+    padding: 8px;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Players {
+    padding: 6px;
+    gap: 6px;
+  }
+}
+
+/* Counter container styles for record game screen */
+.counter-container {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.counter-container p {
+  margin: 0;
+  font-size: 0.9rem;
+  min-width: 120px;
+  text-align: left;
+}
+
+/* Responsive adjustments for counter containers */
+@media screen and (max-width: 768px) {
+  .counter-container {
+    gap: 6px;
+    padding: 5px;
+  }
+
+  .counter-container p {
+    min-width: 90px;
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .counter-container {
+    gap: 4px;
+    padding: 4px;
+    flex-wrap: wrap;
+  }
+
+  .counter-container p {
+    min-width: 80px;
+    font-size: 0.8rem;
+  }
+
+  .counter-container button {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+  }
+}
+
+.counter-container button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  background: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.counter-container button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.counter-container button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Team-specific counter styles */
+.playerCard-team1 .counter-container {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.playerCard-team2 .counter-container {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .teams_container {
@@ -444,19 +707,65 @@
 }
 
 .team_container-red {
-  border: 2px solid #d85a5a; /* Soft red */
-  border-radius: 3%;
+  background: linear-gradient(135deg, rgba(255, 23, 68, 0.05) 0%, rgba(255, 23, 68, 0.1) 100%);
+  border: none;
+  border-radius: 16px;
   margin: 2%;
+  padding: 24px;
+  box-shadow: 0 8px 16px rgba(255, 23, 68, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.team_container-red::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--error), #ff4081);
 }
 
 .team_container-blue {
-  border: 2px solid #5a8ad8; /* Soft blue */
-  border-radius: 3%;
+  background: linear-gradient(135deg, rgba(30, 136, 229, 0.05) 0%, rgba(30, 136, 229, 0.1) 100%);
+  border: none;
+  border-radius: 16px;
   margin: 2%;
+  padding: 24px;
+  box-shadow: 0 8px 16px rgba(30, 136, 229, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.team_container-blue::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), #42a5f5);
 }
 
 .login_container {
   width: 350px;
+  background: var(--surface);
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login_form {
@@ -472,39 +781,65 @@
 }
 
 .login_form input {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   font-size: 1rem;
   outline: none;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .login_form input:focus {
-  border-color: #5a8ad8; 
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+  transform: translateY(-1px);
 }
 
 .login-pair {
   display: flex;
   flex-direction: column;
-  align-content: left;
-  align-items: left;
-  justify-content: left;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .login-button {
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding: 10px 20px;
+  margin: 1rem 0;
+  border-radius: 12px;
+  padding: 14px 28px;
   width: 100%;
   cursor: pointer;
   font-size: 1rem;
-  border: 2px solid #3b3f57; /* Outline for contrast */
-  background-color: #ffffff;
-  color: #333;
+  font-weight: 600;
+  border: none;
+  background: linear-gradient(135deg, var(--primary) 0%, #1565c0 100%);
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-button:hover::before {
+  left: 100%;
 }
 
 .login-button.login:hover {
