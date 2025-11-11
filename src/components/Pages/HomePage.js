@@ -37,7 +37,7 @@ const HomePage = () => {
       <Link to="/" className="HomeLink">
         <h1 className="TitleHeader">MNF</h1>
       </Link>
-      <button onClick={handleLogout}>Logout</button>
+      <button className="logoutButton" onClick={handleLogout}>Logout</button>
       <h2>Home</h2>
       <div className="pageContainer">
         <Link to="/Players" className="icon-button">

@@ -53,29 +53,37 @@ const NewPlayer = () => {
       {waiting ? (
         <h1>Submitting to server..</h1>
       ) : (
-        <div className="new-player-form">
-          <label htmlFor="NameEntry">Name:</label>
-          <input
-            id="NameEntry"
-            name="name"
-            value={newPlayer.name}
-            onChange={handleUpdate}
-          />
-          <label htmlFor="PositionEntry">Preferred Position</label>
-          <select
-            name="preferred_position"
-            value={newPlayer.preferred_position}
-            onChange={handleUpdate}
-          >
-            <option value="">Select Position</option>{" "}
-            {/* Added a default option */}
-            <option value="MF">Midfielder</option>
-            <option value="DF">Defender</option>
-            <option value="GK">Goalkeeper</option>
-            <option value="FW">Forward</option>
-          </select>
-          <button onClick={handleSave}>Add Player</button>{" "}
-          {/* Added a button to save */}
+        <div className="edit-form">
+          <form className="login_form" onSubmit={e => { e.preventDefault(); handleSave(); }}>
+            <div className="login-pair">
+              <label htmlFor="NameEntry" className="login_label">Name:</label>
+              <input
+                id="NameEntry"
+                name="name"
+                value={newPlayer.name}
+                onChange={handleUpdate}
+                required
+              />
+            </div>
+            <div className="login-pair">
+              <label htmlFor="PositionEntry" className="login_label">Preferred Position</label>
+              <select
+                id="PositionEntry"
+                name="preferred_position"
+                value={newPlayer.preferred_position}
+                onChange={handleUpdate}
+                className="playerSortSelect"
+                required
+              >
+                <option value="">Select Position</option>
+                <option value="MF">Midfielder</option>
+                <option value="DF">Defender</option>
+                <option value="GK">Goalkeeper</option>
+                <option value="FW">Forward</option>
+              </select>
+            </div>
+            <button type="submit">Add Player</button>
+          </form>
         </div>
       )}
     </div>
