@@ -123,7 +123,7 @@ const PlayerList = () => {
                     <h3>Stats</h3>
                     <p>Total Goals: {player.total_goals_scored}</p>
                     <p>
-                      Times kicked over Fence: {player.total_kicked_over_fence}
+                      Form. (oldest to newest) {player.form}
                     </p>
                     <p>Games Played: {player.games_played}</p>
                     <p>Wins: {player.total_wins}</p>
@@ -136,12 +136,7 @@ const PlayerList = () => {
                         player.total_goals_scored / player.games_played
                       ).toFixed(2)}
                     </p>
-                    <p>
-                      FPG:{" "}
-                      {(
-                        player.total_kicked_over_fence / player.games_played
-                      ).toFixed(2)}
-                    </p>
+                  
                     <p>
                       Win ratio:{" "}
                       {(player.total_wins / player.games_played).toFixed(2)}

@@ -258,13 +258,15 @@ button {
 .playerCard-team1 {
   background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68, 0.2) 100%);
   box-shadow: 0 4px 12px rgba(255, 23, 68, 0.2);
-  border-left: 4px solid var(--error);
+  border: none;
+  border-left: 5px solid var(--error);
 }
 
 .playerCard-team2 {
   background: linear-gradient(135deg, rgba(30, 136, 229, 0.1) 0%, rgba(30, 136, 229, 0.2) 100%);
   box-shadow: 0 4px 12px rgba(30, 136, 229, 0.2);
-  border-left: 4px solid var(--primary);
+  border: none;
+  border-left: 5px solid var(--primary);
 }
 
 /* Hover effects for team cards */
@@ -563,37 +565,111 @@ button {
 }
 
 .recentGameCard {
- display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 400px;
-  background: #f9f9f9; /* Light background for contrast */
-  border: 2px solid #e2e2e2; /* Subtle border */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 16px; /* Compact padding */
-  margin: 8px auto; /* Spacing between cards */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background: var(--surface);
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 12px auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   text-decoration: none;
-  color: #333; /* Neutral text color */
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.recentGameCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .players-recent-game-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 400px;
-  background: #f9f9f9; /* Light background for contrast */
-  border: 2px solid #e2e2e2; /* Subtle border */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 16px; /* Compact padding */
-  margin: 8px auto; /* Spacing between cards */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: calc(50% - 16px);
+  max-width: 300px;
+  background: var(--surface);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   text-decoration: none;
-  color: #333; /* Neutral text color */
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 2%;
+}
+
+.players-recent-game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.players-recent-game-card-win {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(50% - 16px);
+  max-width: 300px;
+  background: var(--surface);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 2%;
+  background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(0, 200, 83, 0.25) 100%);
+  border: 5px solid var(--accent);
+
+}
+
+.players-recent-game-card-win:hover {
+  background: linear-gradient(135deg, rgba(0, 200, 83, 0.15) 0%, rgba(0, 200, 83, 0.25) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
+}
+
+.players-recent-game-card-loss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(50% - 16px);
+  max-width: 300px;
+background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68, 0.2) 100%);
+  border: 5px solid var(--error);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+    margin: 2%;
+
+
+}
+
+.players-recent-game-card-loss:hover {
+  background: linear-gradient(135deg, rgba(255, 23, 68, 0.15) 0%, rgba(255, 23, 68, 0.25) 100%);
+  transform: translateY(-2px);
 }
 
 .players-recent-games {

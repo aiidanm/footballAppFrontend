@@ -50,11 +50,11 @@ const PlayerStats = () => {
             <p>Games played: {player.total_games_played}</p>
             <div className="players-recent-games">
               <h3>Recent games</h3>
-              {player.stats.map((game) => {
+              {player.stats.sort((a, b) => new Date(b.game_date) - new Date(a.game_date)).map((game) => {
                 return (
                   <Link
                     to={`/games/${game.game_id}`}
-                    className="players-recent-game-card"
+                    className={game.is_winning_team === 1 ? "players-recent-game-card-win": "players-recent-game-card-loss"}
                   >
                     <h3>
                       {new Intl.DateTimeFormat("en-GB").format(
