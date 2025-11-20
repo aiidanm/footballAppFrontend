@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { getGames } from "../../ApiFuncs";
-import GameInfo from "./GameInfo";
+import GameList from "./GameList";
 import { auth } from "../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -53,7 +53,7 @@ const navigate = useNavigate()
       {waiting.status ? (
         <h1>{waiting.message}</h1>
       ) : (
-        <GameInfo games={games} setGames={setGames} />
+        <GameList games={games} setGames={setGames} />
       )}
     </div>
   );
