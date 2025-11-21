@@ -4,18 +4,26 @@ import { Link } from "react-router-dom";
 const GameInfo = ({ games, setGames }) => {
   const [sortBy, setSortBy] = useState("date"); // Initial sort field
   const [sortOrder, setSortOrder] = useState("asc"); // Initial sort order (descending)
+  const [filtervalue, setFilterValue] = useState("all");
+  const [filterField, setFilterField] = useState("none");
+  const [filteredGames, setFilteredGames] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
    const handleSortChange = (event) => {
     setSortBy(event.target.value);
-    setGames(sortGames(games, event.target.value, sortOrder));
+    setFilteredGames(sortGames(filteredGames, event.target.value, sortOrder));
   };
 
   const handleOrderChange = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    setGames(
-      sortGames(games, sortBy, sortOrder === "asc" ? "desc" : "asc")
+    setFilteredGames(
+      sortGames(filteredGames, sortBy, sortOrder === "asc" ? "desc" : "asc")
     );
   };
+
+  const handleGamesMutation = () => {
+    setFilteredGames(sortGames(games, sortBy, sortOrder));
+  }
  
 
 const sortGames = (games, field, order) => {
@@ -63,28 +71,55 @@ const sortGames = (games, field, order) => {
 }
 
 const filterGames = (games, field, value) => {
-  return games.filter((game) => game[field] === value);
+
+  let result = [...games];
+
+  if(value === "all" || field === "none"){
+    // Return all games
+  } else if(field === "player_count"){
+    result = result.filter((game) => {
+      let playersInvolved = 0;
+        for (const team in game.teams){
+          playersInvolved += game.teams[team].length
+        }
+        return playersInvolved.toString() === value;
+    });
+  }
+
+  setFilteredGames(result);
 }
 
-const handleFilterChange = (event) => {
-  const value = event.target.value;
-  if (value === "all") {
-    setGames(games);
-  } else {
-    setGames(filterGames(games, "some_field", value)); // Replace "some_field" with actual field to filter by
-  }
-}
+
+
+
+
 
 useEffect(() => {
-  sortGames(games, "game_date", "asc");
+    setFilteredGames(games);
+}, [games]);
+
+// On mount, close the sidebar for small screens for better UX
+useEffect(() => {
+  if (typeof window !== "undefined" && window.innerWidth <= 768) {
+    setSidebarOpen(false);
+  }
 }, []);
   return (
-    <div className="pageContainer">
-      <div className="sortContainer">
-            <label htmlFor="gamesSortSelect" className="sortByLabel">
-              Sort by:
-            </label>
-            <div class="playerSortSelect-wrapper">
+    <div className="gameListLayout">
+      <aside className={`gameSidebar ${sidebarOpen ? 'open' : 'closed'}`}>
+        <div className="sidebarContent">
+          <h2 className="sidebarTitle">Sort & Filter</h2>
+          <button
+            className="sidebarCloseX"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+          
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Sort by:</label>
+            <div className="playerSortSelect-wrapper">
               <select
                 value={sortBy}
                 onChange={handleSortChange}
@@ -93,41 +128,79 @@ useEffect(() => {
                 <option value="total_goals_scored">Goals Scored</option>
                 <option value="biggest_margin">Biggest Margin</option>
                 <option value="date">Date</option>
-                <option value="player_count">player count</option>
+                <option value="player_count">Player count</option>
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
-              Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
+              {sortOrder === "asc" ? "↑ Ascending" : "↓ Descending"}
             </button>
-            <div className="playerSortSelect-wrapper">
-              <h3>Filter</h3>
-              <select
-                onChange={handleFilterChange}
-                className="gamesSortSelect"
-              >
-                <option value="all">All Games</option>
-                <option value="some_value">Some Filter</option>
-              </select>
-              
-            </div>
           </div>
-      {games.map((game) => 
-      {
-        let playersInvolved = 0;
-        for (const team in game.teams){
-          playersInvolved += game.teams[team].length
-        }
-        return (
-        <Link to={`/games/${game.game_id}`} className="recentGameCard">
-          <p>
-            Game Date:{" "}
-            {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
-          </p>
-          <p>Red team score: {game.team1_score} </p>
-          <p>Blue team score: {game.team2_score}</p>
-          <p>Players involved: {playersInvolved}</p>
-        </Link>
-      )})}
+
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Filter by:</label>
+            <div className="playerSortSelect-wrapper">
+              <select
+                onChange={(e) => setFilterField(e.target.value)}
+                className="gamesSortSelect"
+                value={filterField}
+              >
+                <option value="none">All Games</option>
+                <option value="player_count">Player count</option>
+              </select>
+            </div>
+            {filterField !== "none" && (
+              <>
+                <input 
+                  type="text" 
+                  className="filterInput"
+                  placeholder="Enter value"
+                  value={filtervalue}
+                  onChange={(e) => setFilterValue(e.target.value)} 
+                />
+                <button 
+                  onClick={() => filterGames(games, filterField, filtervalue)}
+                  className="filterButton"
+                >
+                  Apply Filter
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </aside>
+
+      <main className="gameListContent">
+        {!sidebarOpen && (
+          <div className="filterOpenWrapper">
+            <button
+              className="filterOpenButton"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open filters"
+            >
+              ☰ Filters
+            </button>
+          </div>
+        )}
+        <div className="gamesContainer">
+          {filteredGames.map((game) => 
+          {
+            let playersInvolved = 0;
+            for (const team in game.teams){
+              playersInvolved += game.teams[team].length
+            }
+            return (
+            <Link to={`/games/${game.game_id}`} className="recentGameCard" key={game.game_id}>
+              <p>
+                Game Date:{" "}
+                {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
+              </p>
+              <p>Red team score: {game.team1_score} </p>
+              <p>Blue team score: {game.team2_score}</p>
+              <p>Players involved: {playersInvolved}</p>
+            </Link>
+          )})}
+        </div>
+      </main>
     </div>
   );
 };
