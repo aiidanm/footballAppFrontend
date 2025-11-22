@@ -827,7 +827,6 @@ button {
   border: none;
   border-radius: 16px;
   padding: 20px;
-  margin: 12px auto;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
   text-decoration: none;
   color: var(--text-primary);

@@ -49,11 +49,10 @@ const navigate = useNavigate()
         <h1 className="TitleHeader">MNF</h1>
       </Link>
       <h2>Recent games</h2>
-      <button onClick={handleUpdate}>Update list</button>
       {waiting.status ? (
         <h1>{waiting.message}</h1>
       ) : (
-        <GameList games={games} setGames={setGames} />
+        <GameList games={games} setGames={setGames} handleUpdate={handleUpdate} />
       )}
     </div>
   );

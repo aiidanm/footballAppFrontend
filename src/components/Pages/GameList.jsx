@@ -1,112 +1,89 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
-const GameInfo = ({ games, setGames }) => {
-  const [sortBy, setSortBy] = useState("date"); // Initial sort field
-  const [sortOrder, setSortOrder] = useState("asc"); // Initial sort order (descending)
-  const [filtervalue, setFilterValue] = useState("all");
-  const [filterField, setFilterField] = useState("none");
-  const [filteredGames, setFilteredGames] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const GameInfo = ({ games, setGames, handleUpdate }) => {
+  const [sort, setSort] = useState({ by: "date", order: "asc" });
+  const [filter, setFilter] = useState({ field: "none", value: "all" });
+  const [sidebarOpen, setSidebarOpen] = useState(
+    typeof window !== "undefined" ? window.innerWidth > 768 : true
+  );
 
-   const handleSortChange = (event) => {
-    setSortBy(event.target.value);
-    setFilteredGames(sortGames(filteredGames, event.target.value, sortOrder));
+  const handleSortChange = (e) => {
+    setSort((prev) => ({ ...prev, by: e.target.value }));
   };
-
   const handleOrderChange = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    setFilteredGames(
-      sortGames(filteredGames, sortBy, sortOrder === "asc" ? "desc" : "asc")
-    );
+    setSort((prev) => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
   };
-
-  const handleGamesMutation = () => {
-    setFilteredGames(sortGames(games, sortBy, sortOrder));
-  }
+  const handleFilterFieldChange = (e) => {
+    setFilter({ field: e.target.value, value: "all" });
+  };
+  const handleFilterValueChange = (e) => {
+    setFilter((prev) => ({ ...prev, value: e.target.value }));
+  };
  
 
-const sortGames = (games, field, order) => {
-  const sortedGames = [...games];
+  const getPlayerCount = (game) =>
+    Object.values(game.teams).reduce((acc, team) => acc + team.length, 0);
 
-  sortedGames.sort((a, b) => {
+  // Compute filter values for dropdown
+  const filterValueArray = useMemo(() => {
+    if (filter.field === "player_count") {
+      return Array.from(
+        new Set(games.map(getPlayerCount))
+      )
+        .sort((a, b) => b - a)
+        .map((num) => num.toString());
+    }
+    return [];
+  }, [games, filter.field]);
 
-      let aValue;
-      let bValue;
-      let marginA = Math.abs(a.team1_score - a.team2_score);
-      let marginB = Math.abs(b.team1_score - b.team2_score);
-
-      let playersInvolvedGame1 = 0;
-        for (const team in a.teams){
-          playersInvolvedGame1 += a.teams[team].length
-        }
-
-        let playersInvolvedGame2 = 0;
-        for (const team in b.teams){
-          playersInvolvedGame2 += b.teams[team].length
-        }
-
-      if (field === "total_goals_scored") {
-        aValue = a.team1_score + a.team2_score;
-        bValue = b.team1_score + b.team2_score;
-      }  else if (field === "biggest_margin") {
-        aValue = marginA;    
-        bValue = marginB
-      } else if (field === "date"){
-        aValue = new Date(a.game_date);
-        bValue = new Date(b.game_date);
-      } else if (field === "player_count") {
-        aValue = playersInvolvedGame1
-        bValue = playersInvolvedGame2
-      } 
-      if (order === "asc") {
+  // Filter and sort games
+  const filteredGames = useMemo(() => {
+    let result = [...games];
+    if (filter.field === "player_count" && filter.value !== "all") {
+      result = result.filter(
+        (game) => getPlayerCount(game).toString() === filter.value
+      );
+    }
+    // Sorting
+    result.sort((a, b) => {
+      let aValue, bValue;
+      const marginA = Math.abs(a.team1_score - a.team2_score);
+      const marginB = Math.abs(b.team1_score - b.team2_score);
+      const playersA = getPlayerCount(a);
+      const playersB = getPlayerCount(b);
+      switch (sort.by) {
+        case "total_goals_scored":
+          aValue = a.team1_score + a.team2_score;
+          bValue = b.team1_score + b.team2_score;
+          break;
+        case "biggest_margin":
+          aValue = marginA;
+          bValue = marginB;
+          break;
+        case "date":
+          aValue = new Date(a.game_date);
+          bValue = new Date(b.game_date);
+          break;
+        case "player_count":
+          aValue = playersA;
+          bValue = playersB;
+          break;
+        default:
+          aValue = 0;
+          bValue = 0;
+      }
+      if (sort.order === "asc") {
         return aValue - bValue;
       } else {
         return bValue - aValue;
       }
-  });
-
-  return sortedGames;
-  
-}
-
-const filterGames = (games, field, value) => {
-
-  let result = [...games];
-
-  if(value === "all" || field === "none"){
-    // Return all games
-  } else if(field === "player_count"){
-    result = result.filter((game) => {
-      let playersInvolved = 0;
-        for (const team in game.teams){
-          playersInvolved += game.teams[team].length
-        }
-        return playersInvolved.toString() === value;
     });
-  }
-
-  setFilteredGames(result);
-}
-
-
-
-
-
-
-useEffect(() => {
-    setFilteredGames(games);
-}, [games]);
-
-// On mount, close the sidebar for small screens for better UX
-useEffect(() => {
-  if (typeof window !== "undefined" && window.innerWidth <= 768) {
-    setSidebarOpen(false);
-  }
-}, []);
+    return result;
+  }, [games, sort, filter]);
   return (
     <div className="gameListLayout">
-      <aside className={`gameSidebar ${sidebarOpen ? 'open' : 'closed'}`}>
+      <aside className={`gameSidebar ${sidebarOpen ? "open" : "closed"}`}>
         <div className="sidebarContent">
           <h2 className="sidebarTitle">Sort & Filter</h2>
           <button
@@ -116,12 +93,11 @@ useEffect(() => {
           >
             ✕
           </button>
-          
           <div className="sidebarSection">
             <label className="sidebarLabel">Sort by:</label>
             <div className="playerSortSelect-wrapper">
               <select
-                value={sortBy}
+                value={sort.by}
                 onChange={handleSortChange}
                 className="gamesSortSelect"
               >
@@ -132,43 +108,34 @@ useEffect(() => {
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
-              {sortOrder === "asc" ? "↑ Ascending" : "↓ Descending"}
+              {sort.order === "asc" ? "↑ Ascending" : "↓ Descending"}
             </button>
           </div>
-
           <div className="sidebarSection">
             <label className="sidebarLabel">Filter by:</label>
             <div className="playerSortSelect-wrapper">
               <select
-                onChange={(e) => setFilterField(e.target.value)}
+                onChange={handleFilterFieldChange}
                 className="gamesSortSelect"
-                value={filterField}
+                value={filter.field}
               >
                 <option value="none">All Games</option>
                 <option value="player_count">Player count</option>
               </select>
             </div>
-            {filterField !== "none" && (
+            {filter.field !== "none" && (
               <>
-                <input 
-                  type="text" 
-                  className="filterInput"
-                  placeholder="Enter value"
-                  value={filtervalue}
-                  onChange={(e) => setFilterValue(e.target.value)} 
-                />
-                <button 
-                  onClick={() => filterGames(games, filterField, filtervalue)}
-                  className="filterButton"
-                >
-                  Apply Filter
-                </button>
+                <select onChange={handleFilterValueChange} value={filter.value}>
+                  <option value="all">All</option>
+                  {filterValueArray.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
               </>
             )}
           </div>
         </div>
       </aside>
-
       <main className="gameListContent">
         {!sidebarOpen && (
           <div className="filterOpenWrapper">
@@ -182,23 +149,17 @@ useEffect(() => {
           </div>
         )}
         <div className="gamesContainer">
-          {filteredGames.map((game) => 
-          {
-            let playersInvolved = 0;
-            for (const team in game.teams){
-              playersInvolved += game.teams[team].length
-            }
-            return (
+          <button onClick={handleUpdate}>Reset</button>
+          {filteredGames.map((game) => (
             <Link to={`/games/${game.game_id}`} className="recentGameCard" key={game.game_id}>
               <p>
-                Game Date:{" "}
-                {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
+                Game Date: {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
               </p>
               <p>Red team score: {game.team1_score} </p>
               <p>Blue team score: {game.team2_score}</p>
-              <p>Players involved: {playersInvolved}</p>
+              <p>Players involved: {getPlayerCount(game)}</p>
             </Link>
-          )})}
+          ))}
         </div>
       </main>
     </div>
