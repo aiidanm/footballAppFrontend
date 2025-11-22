@@ -33,6 +33,10 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
       )
         .sort((a, b) => b - a)
         .map((num) => num.toString());
+    } else if(filter.field === "winning-team"){
+      return ["Red Team", "Blue Team", "draw"];
+    } else if(filter.field === "total goals scored"){
+      return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((num) => num.toString());
     }
     return [];
   }, [games, filter.field]);
@@ -43,6 +47,23 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
     if (filter.field === "player_count" && filter.value !== "all") {
       result = result.filter(
         (game) => getPlayerCount(game).toString() === filter.value
+      );
+    } else if(filter.field === "winning-team"){
+      result = result.filter(
+        (game) => {
+          if(filter.value === "Red Team" && game.team1_score > game.team2_score){
+            return true;
+          } else if(filter.value === "Blue Team" && game.team2_score > game.team1_score){
+            return true;
+          } else if(filter.value === "draw" && game.team1_score === game.team2_score){
+            return true;
+          }
+          return false;
+        }
+      );
+    } else if(filter.field === "total goals scored" && filter.value !== "all"){
+      result = result.filter(
+        (game) => (game.team1_score + game.team2_score).toString() === filter.value
       );
     }
     // Sorting
@@ -121,6 +142,8 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
               >
                 <option value="none">All Games</option>
                 <option value="player_count">Player count</option>
+                <option value="winning-team">Winning Team</option>
+                <option value="total goals scored">Total Goals Scored</option>
               </select>
             </div>
             {filter.field !== "none" && (
