@@ -25,7 +25,6 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
   const getPlayerCount = (game) =>
     Object.values(game.teams).reduce((acc, team) => acc + team.length, 0);
 
-  // Compute filter values for dropdown
   const filterValueArray = useMemo(() => {
     if (filter.field === "player_count") {
       return Array.from(
@@ -41,7 +40,6 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
     return [];
   }, [games, filter.field]);
 
-  // Filter and sort games
   const filteredGames = useMemo(() => {
     let result = [...games];
     if (filter.field === "player_count" && filter.value !== "all") {
@@ -61,12 +59,8 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
           return false;
         }
       );
-    } else if(filter.field === "total goals scored" && filter.value !== "all"){
-      result = result.filter(
-        (game) => (game.team1_score + game.team2_score).toString() === filter.value
-      );
     }
-    // Sorting
+    
     result.sort((a, b) => {
       let aValue, bValue;
       const marginA = Math.abs(a.team1_score - a.team2_score);
@@ -102,6 +96,7 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
     });
     return result;
   }, [games, sort, filter]);
+
   return (
     <div className="gameListLayout">
       <aside className={`gameSidebar ${sidebarOpen ? "open" : "closed"}`}>

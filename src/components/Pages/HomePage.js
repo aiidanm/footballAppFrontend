@@ -52,14 +52,14 @@ const HomePage = () => {
           <FontAwesomeIcon icon={faGamepad} className="icon" />
           <span className="text"> Recent Games</span>
         </Link>
-        <Link to="/aiReq" className="icon-button">
+        {/* <Link to="/aiReq" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>
         </Link>
         <Link to="/stats" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Stats</span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

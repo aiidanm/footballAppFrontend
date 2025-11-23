@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "../../App.css";
 import { getPlayers } from "../../ApiFuncs";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,12 +7,26 @@ import { auth } from "../Firebase";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
-  const [sortBy, setSortBy] = useState("total_goals_scored"); // Initial sort field
-  const [sortOrder, setSortOrder] = useState("desc"); // Initial sort order (descending)
+  const [sort, setSort] = useState({ by: "date", order: "asc" });
   const [waiting, setWaiting] = useState({
     status: false,
     message: "loading players please wait",
   });
+  const [filter, setFilter] = useState({ field: "none", value: "all" , operator: "equals" });
+  const [sidebarOpen, setSidebarOpen] = useState(
+      typeof window !== "undefined" ? window.innerWidth > 768 : true
+    );
+
+  const handleFilterFieldChange = (e) => {
+    setFilter({ field: e.target.value, value: "all" });
+  };
+  const handleFilterValueChange = (e) => {
+    setFilter((prev) => ({ ...prev, value: e.target.value }));
+  };
+  const handleFilterOperatorChange = (e) => {
+    setFilter((prev) => ({ ...prev, operator: e.target.value }));
+  };
+  
   const navigate = useNavigate();
   useEffect(() => {
     setWaiting({ status: true, message: "loading players please wait" });
@@ -21,85 +35,151 @@ const PlayerList = () => {
       setPlayers(data);
     });
 
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        console.log("uid", uid);
       } else {
         navigate("/login");
       }
     });
   },[navigate]);
 
-  const sortPlayers = (playerData, field, order) => {
-    const sortedPlayers = [...playerData];
-
-    sortedPlayers.sort((a, b) => {
-      let aValue;
-      let bValue;
-
-      if (field === "total_goals_scored") {
-        aValue = a.total_goals_scored;
-        bValue = b.total_goals_scored;
-      } else if (field === "total_kicked_over_fence") {
-        aValue = a.over_fence_per_game;
-        bValue = b.over_fence_per_game;
-      } else if (field === "Games_Played") {
-        aValue = a.games_played;    
-        bValue = b.games_played;
-      } else if (field === "Wins"){
-        aValue = a.total_wins;
-        bValue = b.total_wins;  
-      } else if (field === "GPG") {
-        aValue = a.total_goals_scored / a.games_played; 
-        bValue = b.total_goals_scored / b.games_played;
-      } else if (field === "Win_Ratio") {
-        aValue = (a.total_wins / a.games_played).toFixed(2)
-        bValue = (b.total_wins / b.games_played).toFixed(2)
-      }
-      if (order === "asc") {
-        return aValue - bValue;
-      } else {
-        return bValue - aValue;
-      }
-    });
-
-    return sortedPlayers;
+  const handleSortChange = (e) => {
+    setSort((prev) => ({ ...prev, by: e.target.value }));
   };
-
-  const handleSortChange = (event) => {
-    setSortBy(event.target.value);
-    setPlayers(sortPlayers(players, event.target.value, sortOrder));
-  };
-
   const handleOrderChange = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    setPlayers(
-      sortPlayers(players, sortBy, sortOrder === "asc" ? "desc" : "asc")
-    );
+    setSort((prev) => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
   };
+
+
+
+
+     const filteredPlayers = useMemo(() => {
+        let result = [...players];
+        let compareString = filter.operator
+        let filterValue = filter.value; 
+       if (filterValue !== "all" && compareString !== "all") {
+    
+    result = result.filter((player) => {
+        let playerValue;
+        
+
+        switch (filter.field) {
+            case "games_played":
+                playerValue = player.games_played;
+                break;
+
+            case "goals scored":
+                playerValue = player.total_goals_scored;
+                break;
+                
+            case "Win ratio":
+                playerValue = (player.total_wins / player.games_played).toFixed(2);
+                break;
+            default:
+                return true; 
+        }
+
+        
+        const numPlayerValue = Number(playerValue);
+        const numFilterValue = Number(filterValue);
+        
+        switch (compareString) {
+            case "===":
+                return playerValue.toString() === filterValue.toString();
+            case ">=":
+                return numPlayerValue >= numFilterValue;
+            case "<=":
+                return numPlayerValue <= numFilterValue;
+            case "&&":
+                const [min, max] = filterValue.split("-").map(Number);
+                return numPlayerValue >= min && numPlayerValue <= max;
+            default:
+                return false; 
+        }
+    });
+}
+        
+        result.sort((a, b) => {
+          let aValue, bValue;
+          switch (sort.by) {
+            case "total_goals_scored":
+               aValue = a.total_goals_scored;
+              bValue = b.total_goals_scored;
+              break;
+            case "Games_Played":
+               aValue = a.games_played;    
+               bValue = b.games_played;
+              break;
+            case "Wins":
+              aValue = a.total_wins;
+              bValue = b.total_wins;
+              break;
+            case "GPG":
+              aValue = a.total_goals_scored / a.games_played; 
+              bValue = b.total_goals_scored / b.games_played;
+              break;
+            case "Win_Ratio":
+              aValue = (a.total_wins / a.games_played).toFixed(2)
+              bValue = (b.total_wins / b.games_played).toFixed(2)
+              break;  
+            default:
+              aValue = 0;
+              bValue = 0;
+          }
+          if (sort.order === "asc") {
+            return aValue - bValue;
+          } else {
+            return bValue - aValue;
+          }
+        });
+        return result;
+      }, [players, sort, filter]);
+
+
+  
 
   return (
     <div className="MainContainer">
       <Link to="/" className="HomeLink">
         <h1 className="TitleHeader">MNF</h1>
       </Link>
+      {!sidebarOpen && (
+          <div className="filterOpenWrapper">
+            <button
+              className="filterOpenButton"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open filters"
+            >
+              ☰ Filters
+            </button>
+          </div>
+      )}
       <h2>Players</h2>
       {waiting.status ? (
         <h2>{waiting.message}</h2>
       ) : (
         <>
-          <div className="sortContainer">
-            <label htmlFor="playerSortSelect" className="sortByLabel">
-              Sort by:
-            </label>
-            <div class="playerSortSelect-wrapper">
+        <aside className={`gameSidebar ${sidebarOpen ? "open" : "closed"}`}>
+        <div className="sidebarContent">
+          <h2 className="sidebarTitle">Sort & Filter</h2>
+          <button
+            className="sidebarCloseX"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close sidebar"
+          >
+            ✕
+          </button>
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Sort by:</label>
+            <div className="playerSortSelect-wrapper">
               <select
-                value={sortBy}
+                value={sort.by}
                 onChange={handleSortChange}
-                className="playerSortSelect"
+                className="gamesSortSelect"
               >
-                <option value="total_goals_scored">Goals Scored</option>
+                 <option value="total_goals_scored">Goals Scored</option>
                 <option value="total_kicked_over_fence">Over the fence</option>
                 <option value="GPG">Goals per game</option>
                 <option value="Wins">Wins</option>
@@ -108,11 +188,42 @@ const PlayerList = () => {
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
-              Toggle Order ({sortOrder === "asc" ? "Ascending" : "Descending"})
+              {sort.order === "asc" ? "↑ Ascending" : "↓ Descending"}
             </button>
           </div>
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Filter by:</label>
+            <div className="playerSortSelect-wrapper">
+              <select
+                onChange={handleFilterFieldChange}
+                className="gamesSortSelect"
+                value={filter.field}
+              >
+                <option value="none">All Players</option>
+                <option value="games_played">Games played</option>
+                <option value="goals scored">Goals Scored</option>
+                <option value="Win ratio">Win Ratio</option>
+              </select>
+            </div>
+            {filter.field !== "none" && (
+              <>
+              <select onChange={handleFilterOperatorChange}>
+                <option value ={"all"}>Select Operator</option>
+                <option value={"==="}>Equals</option>
+                <option value={">="}>Greater or equal to</option>
+                <option value={"<="}> less or equal to</option>
+                <option value={"&&"}>Between (e.g 10-12)</option>
+              </select>
+                <input onChange={handleFilterValueChange} value={filter.value}>
+                </input>
+              </>
+            )}
+          </div>
+        </div>
+      </aside>
+
           <div className="Players">
-            {players.map((player) => (
+            {filteredPlayers.map((player) => (
               <Link
                 to={`/players/${player.player_id}`}
                 className="playerCard-list"
