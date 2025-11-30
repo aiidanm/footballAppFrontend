@@ -26,12 +26,26 @@ const PlayerList = () => {
   const handleFilterOperatorChange = (e) => {
     setFilter((prev) => ({ ...prev, operator: e.target.value }));
   };
+
+  const calculateForm = (formString) => {
+    if(!formString) return 0;
+    return formString.split("").reduce((acc, curr) => {
+      if(curr === "W"){
+        return acc + 1
+      }else if(curr === "L"){
+        return acc - 1
+      } else if(curr === "D"){
+        return acc
+      } return acc
+    }, 0)
+  }
   
   const navigate = useNavigate();
   useEffect(() => {
     setWaiting({ status: true, message: "loading players please wait" });
     getPlayers().then((data) => {
       setWaiting({ status: false, message: "loading players please wait" });
+      
       setPlayers(data);
     });
 
@@ -123,7 +137,11 @@ const PlayerList = () => {
             case "Win_Ratio":
               aValue = (a.total_wins / a.games_played).toFixed(2)
               bValue = (b.total_wins / b.games_played).toFixed(2)
-              break;  
+              break;
+            case "Form":
+              aValue = calculateForm(a.form);
+              bValue = calculateForm(b.form);
+              break;
             default:
               aValue = 0;
               bValue = 0;
@@ -185,6 +203,7 @@ const PlayerList = () => {
                 <option value="Wins">Wins</option>
                 <option value="Win_Ratio">Win ratio</option>
                 <option value="Games_Played">Games played</option>
+                <option value="Form">Form</option>
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
