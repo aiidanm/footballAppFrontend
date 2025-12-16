@@ -6,10 +6,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 const NewPlayer = () => {
-  const [newPlayer, setNewPlayer] = useState({
+  const [players, setPlayers] = useState([{
     name: "",
     preferred_position: "",
-  });
+  }]);
   const [waiting, setWaiting] = useState(false);
   const navigate = useNavigate()
 
@@ -23,25 +23,34 @@ const NewPlayer = () => {
             }
           });
 
-    })
+    }, [])
 
   const handleSave = () => {
     setWaiting(true);
-    addPlayer(newPlayer).then(() => {
+    addPlayer(players).then(() => {
       setWaiting(false);
-      setNewPlayer({
+      setPlayers([{
         name: "",
         preferred_position: "",
-      });
+      }]);
     });
   };
 
-  const handleUpdate = (e) => {
+  const handleAddFields = () => {
+    setPlayers([...players, {name: '', preferred_position: ''}])
+  }
+
+  const handleRemoveFields = (index) => {
+    const newPlayers = [...players]
+    newPlayers.splice(index, 1)
+    setPlayers(newPlayers)
+  }
+
+  const handleUpdate = (index, e) => {
     const { name, value } = e.target;
-    setNewPlayer((prevPlayer) => ({
-      ...prevPlayer,
-      [name]: value,
-    }));
+    const newPlayers = [...players]
+    newPlayers[index][name] = value
+    setPlayers(newPlayers);
   };
 
   return (
@@ -52,26 +61,28 @@ const NewPlayer = () => {
       <h2>Players</h2>
       {waiting ? (
         <h1>Submitting to server..</h1>
-      ) : (
+      ) : 
         <div className="edit-form">
           <form className="login_form" onSubmit={e => { e.preventDefault(); handleSave(); }}>
-            <div className="login-pair">
+            {players.map((player, index) => (
+          <div key={index}>
+          <div className="login-pair">
               <label htmlFor="NameEntry" className="login_label">Name:</label>
               <input
-                id="NameEntry"
+                id={'NameEntry-' + index}
                 name="name"
-                value={newPlayer.name}
-                onChange={handleUpdate}
+                value={player.name}
+                onChange={(e) => handleUpdate(index, e)}
                 required
               />
             </div>
             <div className="login-pair">
               <label htmlFor="PositionEntry" className="login_label">Preferred Position</label>
               <select
-                id="PositionEntry"
+                id={"PositionEntry-"+ index}
                 name="preferred_position"
-                value={newPlayer.preferred_position}
-                onChange={handleUpdate}
+                value={player.preferred_position}
+                onChange={(e) => handleUpdate(index, e)}
                 className="playerSortSelect"
                 required
               >
@@ -82,10 +93,20 @@ const NewPlayer = () => {
                 <option value="FW">Forward</option>
               </select>
             </div>
-            <button type="submit">Add Player</button>
+            {players.length > 1 && (
+              <button type="button" onClick={() => handleRemoveFields(index)}>
+                Remove
+              </button>
+            )}
+            </div>
+      ))}   
+            <button type="button" onClick={handleAddFields} style={{ marginRight: '10px' }}>
+            + Add Another Player
+          </button>
+            <button type="submit">Submit to database</button>
           </form>
         </div>
-      )}
+      }
     </div>
   );
 };

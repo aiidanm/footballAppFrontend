@@ -81,7 +81,7 @@ export const getGameById = (id) => {
     });
 };
 
-export const submitAiReq = (prompt, token) => {
+export const submitAiReq = (prompt, token) => {       
   const data = {
     prompt: prompt,
   };
