@@ -65,7 +65,7 @@ const NewPlayer = () => {
         <div className="edit-form">
           <form className="login_form" onSubmit={e => { e.preventDefault(); handleSave(); }}>
             {players.map((player, index) => (
-          <div key={index}>
+          <div key={index} className="input-group">
           <div className="login-pair">
               <label htmlFor="NameEntry" className="login_label">Name:</label>
               <input
@@ -94,7 +94,7 @@ const NewPlayer = () => {
               </select>
             </div>
             {players.length > 1 && (
-              <button type="button" onClick={() => handleRemoveFields(index)}>
+              <button className="remove-input-button" type="button" onClick={() => handleRemoveFields(index)}>
                 Remove
               </button>
             )}

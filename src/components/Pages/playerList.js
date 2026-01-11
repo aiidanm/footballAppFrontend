@@ -8,6 +8,7 @@ import { auth } from "../Firebase";
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
   const [sort, setSort] = useState({ by: "date", order: "asc" });
+  const [year, setYear] = useState("2026")
   const [waiting, setWaiting] = useState({
     status: false,
     message: "loading players please wait",
@@ -16,6 +17,10 @@ const PlayerList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(
       typeof window !== "undefined" ? window.innerWidth > 768 : true
     );
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value)
+  }
 
   const handleFilterFieldChange = (e) => {
     setFilter({ field: e.target.value, value: "all" });
@@ -41,9 +46,10 @@ const PlayerList = () => {
   }
   
   const navigate = useNavigate();
+  
   useEffect(() => {
     setWaiting({ status: true, message: "loading players please wait" });
-    getPlayers().then((data) => {
+    getPlayers(year).then((data) => {
       setWaiting({ status: false, message: "loading players please wait" });
       
       setPlayers(data);
@@ -57,7 +63,7 @@ const PlayerList = () => {
         navigate("/login");
       }
     });
-  },[navigate]);
+  },[navigate, year]);
 
   const handleSortChange = (e) => {
     setSort((prev) => ({ ...prev, by: e.target.value }));
@@ -170,7 +176,7 @@ const PlayerList = () => {
               onClick={() => setSidebarOpen(true)}
               aria-label="Open filters"
             >
-              ☰ Filters
+              ☰ Filters      
             </button>
           </div>
       )}
@@ -188,7 +194,18 @@ const PlayerList = () => {
             aria-label="Close sidebar"
           >
             ✕
-          </button>
+          </button>\
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Year</label>
+            <select
+            onChange={handleYearChange}
+            className="gamesSortSelect"
+            >
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+            </select>
+          </div>
           <div className="sidebarSection">
             <label className="sidebarLabel">Sort by:</label>
             <div className="playerSortSelect-wrapper">
@@ -226,7 +243,7 @@ const PlayerList = () => {
             </div>
             {filter.field !== "none" && (
               <>
-              <select onChange={handleFilterOperatorChange}>
+              <select onChange={handleFilterOperatorChange} className="gamesSortSelect">
                 <option value ={"all"}>Select Operator</option>
                 <option value={"==="}>Equals</option>
                 <option value={">="}>Greater or equal to</option>

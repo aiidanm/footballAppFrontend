@@ -1,12 +1,38 @@
 import axios from "axios";
 import { getAuth } from "firebase/auth";
+import {auth} from './components/Firebase'
 
-const BASE_URL = "https://footballbackend-d13q.onrender.com";
+const BASE_URL = "https://footballbackend-d13q.onrender.com"
+
+const api = axios.create({
+  baseURL: BASE_URL,
+});
+
+api.interceptors.request.use(async (config) => {
+  const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe(); 
+        resolve(user);
+      }, reject);
+    });
+  };  const user = auth.currentUser || (await getCurrentUser());
+
+  if (user) {
+    const token = await user.getIdToken();
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+  }
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 // add a new player
 export const addPlayer = (playerData) => {
-  return axios
-    .post(`${BASE_URL}/players`, playerData)
+  return api
+    .post(`/players`, playerData)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error adding player:", error);
@@ -15,9 +41,13 @@ export const addPlayer = (playerData) => {
 };
 
 // get all players
-export const getPlayers = () => {
-  return axios
-    .get(`${BASE_URL}/players`)
+export const getPlayers = (year) => {
+  return api
+    .get(`/players`, {
+      params: {
+        year: year
+      }
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error fetching players:", error);
@@ -25,9 +55,13 @@ export const getPlayers = () => {
     });
 };
 
-export const getGames = () => {
-  return axios
-    .get(`${BASE_URL}/games/`)
+export const getGames = (year) => {
+  return api
+    .get(`/games`, {
+      params: {
+        year: year
+      }
+    })
     .then((response) => {
       return response.data;
     })
@@ -38,9 +72,13 @@ export const getGames = () => {
 };
 
 // get a player by ID
-export const getPlayerById = (id) => {
-  return axios
-    .get(`${BASE_URL}/players/${id}`)
+export const getPlayerById = (id, year) => {
+  return api
+    .get(`/players/${id}`, {
+      params: {
+        year: year
+      }
+    })  
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error fetching player by ID:", error);
@@ -50,8 +88,8 @@ export const getPlayerById = (id) => {
 
 // update a player by ID
 export const updatePlayerById = (id, playerData) => {
-  return axios
-    .put(`${BASE_URL}/players/${id}`, playerData)
+  return api
+    .put(`/players/${id}`, playerData)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error updating player:", error);
@@ -61,8 +99,8 @@ export const updatePlayerById = (id, playerData) => {
 
 // record a new game
 export const recordGame = (gameData) => {
-  return axios
-    .post(`${BASE_URL}/games`, gameData)
+  return api
+    .post(`/games`, gameData)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error recording game:", error);
@@ -72,8 +110,8 @@ export const recordGame = (gameData) => {
 
 // get a game by ID
 export const getGameById = (id) => {
-  return axios
-    .get(`${BASE_URL}/games/${id}`)
+  return api
+    .get(`/games/${id}`)
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error fetching game by ID:", error);
@@ -94,7 +132,7 @@ export const submitAiReq = (prompt, token) => {
 
   console.log(data, prompt);
 
-  return axios
+  return api
     .post(`https://footballtestbackend.onrender.com/ai/`, data, config)
     .then((response) => response.data)
     .catch((error) => {
@@ -112,7 +150,7 @@ export const submitAiReq = (prompt, token) => {
 
 // get a list of games
 // export const getGames = (limit = 10) => {
-//   return axios.get(`${BASE_URL}/games`, { params: { limit } })
+//   return api.get(`/games`, { params: { limit } })
 //     .then(response => {
 //       console.log(response)
 

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "../../App.css";
 import { Link } from "react-router-dom";
-const GameInfo = ({ games, setGames, handleUpdate }) => {
+const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
   const [sort, setSort] = useState({ by: "date", order: "asc" });
   const [filter, setFilter] = useState({ field: "none", value: "all" });
   const [sidebarOpen, setSidebarOpen] = useState(
@@ -20,6 +20,10 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
   const handleFilterValueChange = (e) => {
     setFilter((prev) => ({ ...prev, value: e.target.value }));
   };
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value)
+  }
  
 
   const getPlayerCount = (game) =>
@@ -109,6 +113,17 @@ const GameInfo = ({ games, setGames, handleUpdate }) => {
           >
             ✕
           </button>
+          <div className="sidebarSection">
+            <label className="sidebarLabel">Year</label>
+            <select
+            onChange={handleYearChange}
+            className="gamesSortSelect"
+            >
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+            </select>
+          </div>
           <div className="sidebarSection">
             <label className="sidebarLabel">Sort by:</label>
             <div className="playerSortSelect-wrapper">

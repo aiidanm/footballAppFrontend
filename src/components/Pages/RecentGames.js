@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const RecentGames = () => {
   const [games, setGames] = useState([]);
+  const [year, setYear] = useState("2026")
   const [waiting, setWaiting] = useState({
     status: true,
     message: "Loading games, please wait.",
@@ -25,7 +26,7 @@ const navigate = useNavigate()
 
     const fetchData = async () => {
       setWaiting({ status: true, message: "Loading games, please wait." });
-      const dbgames = await getGames();
+      const dbgames = await getGames(year);
       setGames(dbgames);
       setWaiting({ status: false, message: "" });
     };
@@ -34,7 +35,7 @@ const navigate = useNavigate()
 
 
 
-  },[navigate]);
+  },[navigate, year]);
 
   const handleUpdate = async () => {
     setWaiting({ status: true, message: "Refreshing games, please wait." });
@@ -52,7 +53,7 @@ const navigate = useNavigate()
       {waiting.status ? (
         <h1>{waiting.message}</h1>
       ) : (
-        <GameList games={games} setGames={setGames} handleUpdate={handleUpdate} />
+        <GameList games={games} setGames={setGames} handleUpdate={handleUpdate} year={year} setYear={setYear} />
       )}
     </div>
   );
