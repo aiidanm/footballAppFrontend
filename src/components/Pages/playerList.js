@@ -279,14 +279,16 @@ const PlayerList = () => {
                     <h3>Per Game Stats</h3>
                     <p>
                       GPG:{" "}
-                      {(
+                      {isNaN(((
                         player.total_goals_scored / player.games_played
-                      ).toFixed(2)}
+                      ).toFixed(2))) ? 0 : ((
+                        player.total_goals_scored / player.games_played
+                      ).toFixed(2)) }
                     </p>
                   
                     <p>
                       Win ratio:{" "}
-                      {(player.total_wins / player.games_played).toFixed(2)}
+                      {isNaN((player.total_wins / player.games_played).toFixed(2)) ? 0 : (player.total_wins / player.games_played).toFixed(2)}
                     </p>
                   </div>
                 </div>
