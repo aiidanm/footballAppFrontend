@@ -1,31 +1,24 @@
 import React, { useState } from "react";
 import {
-  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../Firebase";
+import { auth,} from "../Firebase";
 import {useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [waiting, setWaiting] = useState({status: false, message: ""})
 
-  const onLogin = (e) => {
+  const onSignup = (e) => {
     e.preventDefault();
     setWaiting({status: true, message: "Logging in, please wait"})
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setWaiting({ status: false, message: "" });
-        navigate("/");
-      })
-      .catch((error) => {
-        setWaiting({ status: "error", message: "incorrect password, try again" });
-        setTimeout(() => {
-          setWaiting({ status: false, message: "" });
-        }, 3000);
-        console.log(error)
-      });
+    createUserWithEmailAndPassword(auth , email, password)
+        .then((userCred) => {
+            setWaiting({ status: false, message: "" });
+            navigate("/");
+        })
   };
 
 
@@ -35,7 +28,7 @@ const Login = () => {
       <div className="pageContainer">
         <div className="login_container">
           <form className="login_form">
-            <h2>Login</h2>
+            <h2>Signup</h2>
             <div className="login-pair">
               <label htmlFor="email-address" className="login_label">
                 Email address
@@ -67,8 +60,8 @@ const Login = () => {
               <h4 className="passwordErrorMessage">Incorrect password please try again</h4>
             </div>): null }
             
-            <button className="login-button login" onClick={onLogin}>
-              Login
+            <button className="login-button login" onClick={onSignup}>
+              Signup
             </button>
           </form>
         </div>
@@ -77,4 +70,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

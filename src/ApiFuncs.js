@@ -51,7 +51,7 @@ export const getPlayers = (year) => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error fetching players:", error);
-      throw error;
+      return []
     });
 };
 
@@ -67,7 +67,7 @@ export const getGames = (year) => {
     })
     .catch((error) => {
       console.error("Error fetching games:", error);
-      throw error;
+      return []
     });
 };
 
@@ -148,16 +148,10 @@ export const submitAiReq = (prompt, token) => {
     });
 };
 
-// get a list of games
-// export const getGames = (limit = 10) => {
-//   return api.get(`/games`, { params: { limit } })
-//     .then(response => {
-//       console.log(response)
-
-//       return response.data
-//     })
-//     .catch(error => {
-//       console.error('Error fetching games:', error);
-//       throw error;
-//     });
-// };
+export const registerLeague = (uid, User) => {
+  return api
+    .post("/leagues", uid, User)
+    .then((leagueId) => {
+      if(leagueId) return "signedup"
+    })
+}

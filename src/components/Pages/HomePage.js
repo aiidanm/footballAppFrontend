@@ -27,7 +27,7 @@ const HomePage = () => {
       if (user) {
         const uid = user.uid;
       } else {
-        navigate("/login");
+        navigate("/Landing");
       }
     });
   });

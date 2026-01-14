@@ -15,6 +15,8 @@ import Login from "./components/Pages/Login";
 import PlayerStats from "./components/Pages/PlayerInfo";
 import AiReq from "./components/Pages/aiReq";
 import BulkEntry from "./components/Pages/bulkEntry";
+import Signup from "./components/Pages/signup";
+import Landing from "./components/Pages/login-signup"
 
 const router = createBrowserRouter([
   {
@@ -61,6 +63,14 @@ const router = createBrowserRouter([
   {
     path: "/stats",
     element: <StatsPage />,
+  },
+  {
+    path: "/signup",
+    element: <Signup/>
+  },
+  {
+    path: "/landing",
+    element: <Landing/>
   }
 ]);
 
