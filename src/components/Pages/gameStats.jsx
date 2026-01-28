@@ -14,11 +14,10 @@ const GameStats = () => {
 
   useEffect(() => {
     getGameById(gameid).then((data) => {
-      console.log(data);
       setGame(data);
       setWaiting({ status: false, message: "" });
     });
-  });
+  }, [gameid]);
 
   return (
     <div className="MainContainer">
@@ -47,6 +46,7 @@ const GameStats = () => {
                       <th>Name</th>
                       <th>Goals Scored</th>
                       <th>Over the fence</th>
+                      <th>Own goals</th>
                     </tr>
                     {game.teams[0].players.map((player) => {
                       return (
@@ -54,6 +54,7 @@ const GameStats = () => {
                           <td>{player.player_name}</td>
                           <td>{player.goals_scored}</td>
                           <td>{player.kicked_over_fence}</td>
+                          <td>{player.own_goals}</td>
                         </tr>
                       );
                     })}
@@ -69,6 +70,7 @@ const GameStats = () => {
                       <th>Name</th>
                       <th>Goals Scored</th>
                       <th>Over the fence</th>
+                      <th>Own goals</th>
                     </tr>
                     {game.teams[1].players.map((player) => {
                       return (
@@ -76,6 +78,7 @@ const GameStats = () => {
                           <td>{player.player_name}</td>
                           <td>{player.goals_scored}</td>
                           <td>{player.kicked_over_fence}</td>
+                          <td>{player.own_goals}</td>
                         </tr>
                       );
                     })}

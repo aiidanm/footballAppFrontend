@@ -87,6 +87,31 @@ const RecordGame = () => {
     });
   };
 
+  const ownGoals = (e, player) => {
+    setSelectedPlayers((prevSelected) => {
+      const currentPlayerData = prevSelected[player.player_id] || {};
+      const currentOwnGoals = currentPlayerData.own_goals || 0;
+
+      if(e.target.value === "+"){
+        return {
+          ...prevSelected,
+          [player.player_id] : {
+            ...currentPlayerData,
+            own_goals : currentOwnGoals + 1
+          }
+        }
+      } else if(e.target.value === "-"){
+        return {
+          ...prevSelected,
+          [player.player_id] : {
+            ...currentPlayerData,
+            own_goals : currentOwnGoals - 1
+          }
+        }
+      }
+    })
+  }
+
   const overTheFence = (e, player) => {
     setSelectedPlayers((prevSelected) => {
       const currentPlayerData = prevSelected[player.player_id] || {};
@@ -136,6 +161,7 @@ const RecordGame = () => {
           player_id: playerObj.id,
           goals_scored: playerObj.goals_scored || 0,
           kicked_over_fence: playerObj.kicked_over_fence || 0,
+          own_goals: playerObj.own_goals || 0
         });
       }
     });
@@ -145,16 +171,23 @@ const RecordGame = () => {
       0
     );
 
+    const team1ExtraGoals= result.team2.reduce((acc, player) => acc + (player.own_goals || 0), 0)
+
     const team2Score = result.team2.reduce(
       (acc, player) => acc + (player.goals_scored || 0),
       0
     );
 
+    const team2ExtraGoals = result.team1.reduce((acc, player) => acc + (player.own_goals || 0), 0)
+
+    const team1FinalScore = team1Score + team1ExtraGoals
+    const team2FinalScore = team2Score + team2ExtraGoals
+
     const newValue = {
       date,
       teams: result,
-      team1Score,
-      team2Score,
+      team1Score: team1FinalScore,
+      team2Score: team2FinalScore,
     };
 
     await recordGame(newValue);
@@ -203,6 +236,7 @@ const RecordGame = () => {
             goalsScored={goalsScored}
             overTheFence={overTheFence}
             handleSubmit={handleSubmit}
+            ownGoals={ownGoals}
           />
           <input
             type="date"

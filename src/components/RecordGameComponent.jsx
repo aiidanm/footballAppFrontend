@@ -2,7 +2,7 @@ import React from "react";
 import "../App.css";
 
 
-const RecordGameList = ({players, selectedPlayers, handleDivClick, goalsScored, overTheFence}) => {
+const RecordGameList = ({players, selectedPlayers, handleDivClick, goalsScored, overTheFence, ownGoals}) => {
   
     return (
         <div className="Players">
@@ -54,6 +54,28 @@ const RecordGameList = ({players, selectedPlayers, handleDivClick, goalsScored, 
                       onClick={(e) => {
                         e.stopPropagation();
                         overTheFence(e, player);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                       <div className="counter-container">
+                    <p>Own goals: {currentSelection.own_goals || 0}</p>
+                    <button
+                      value={"-"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ownGoals(e, player);
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      value={"+"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ownGoals(e, player);
                       }}
                     >
                       +

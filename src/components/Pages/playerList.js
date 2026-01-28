@@ -50,6 +50,7 @@ const PlayerList = () => {
   useEffect(() => {
     setWaiting({ status: true, message: "loading players please wait" });
     getPlayers(year).then((data) => {
+      console.log(data)
       setWaiting({ status: false, message: "loading players please wait" });
       
       setPlayers(data);
@@ -148,6 +149,10 @@ const PlayerList = () => {
               aValue = calculateForm(a.form);
               bValue = calculateForm(b.form);
               break;
+            case "own_goals":
+              aValue = a.own_goals;
+              bValue = b.own_goals;
+              break;
             default:
               aValue = 0;
               bValue = 0;
@@ -221,6 +226,7 @@ const PlayerList = () => {
                 <option value="Win_Ratio">Win ratio</option>
                 <option value="Games_Played">Games played</option>
                 <option value="Form">Form</option>
+                <option value="own_goals">Own Goals</option>
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
@@ -272,6 +278,7 @@ const PlayerList = () => {
                     <p>
                       Form. (oldest to newest) {player.form}
                     </p>
+                    <p>Own Goals: {player.own_goals}</p>
                     <p>Games Played: {player.games_played}</p>
                     <p>Wins: {player.total_wins}</p>
                   </div>
