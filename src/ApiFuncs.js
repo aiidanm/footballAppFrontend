@@ -155,3 +155,9 @@ export const registerLeague = (uid, User) => {
       if(leagueId) return "signedup"
     })
 }
+
+// export const registerUser = (uid, User) => {
+//   return api
+//     .post("/users", uid, User)
+//     .then(())
+// }

@@ -7,7 +7,7 @@ import { auth } from "../Firebase";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
-  const [sort, setSort] = useState({ by: "date", order: "asc" });
+  const [sort, setSort] = useState({ by: "Win_Ratio", order: "desc" });
   const [year, setYear] = useState("2026")
   const [waiting, setWaiting] = useState({
     status: false,
@@ -186,6 +186,7 @@ const PlayerList = () => {
           </div>
       )}
       <h2>Players</h2>
+      <h3>Sorted by {sort.by}, {sort.order}</h3>
       {waiting.status ? (
         <h2>{waiting.message}</h2>
       ) : (
