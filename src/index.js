@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PlayerAdminPage from "./components/Pages/PlayerAdminPage";
 import HomePage from "./components/Pages/HomePage";
 import StatsPage from "./components/Pages/StatsPage";
-import RecordGame from "./components/RecordGame";
+import RecordGame from "./components/RecordGame/RecordGame";
 import AddPlayer from "./components/AddPlayer";
 import PlayerList from "./components/Pages/playerList";
 import RecentGames from "./components/Pages/RecentGames";

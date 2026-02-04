@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import "../App.css";
 
 const SubmitPreview = ({
@@ -9,9 +8,6 @@ const SubmitPreview = ({
   handleSubmit,
   setSubmitPage
 }) => {
-  useEffect(() => {
-    console.log(selectedPlayers);
-  });
 
   const redTeam = Object.values(selectedPlayers).filter(
     (player) => player.team === "team1"
@@ -26,7 +22,8 @@ const SubmitPreview = ({
       <h2>Confirm Selection</h2>
       <div className="red_team_container">
         <h3>red Team</h3>
-          <h4>{redTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
+          <h4>Goals:{redTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
+            <h5>Player Count: {redTeam.length}</h5>
             <table>
               <tr>
                 <th>Name</th>
@@ -34,7 +31,6 @@ const SubmitPreview = ({
                 <th>Over the fence</th>
               </tr>
               {redTeam.map((player) => {
-                const currentSelection = player || {};
                 return (
                   <tr>
                     <td>{player.name}</td>
@@ -48,7 +44,8 @@ const SubmitPreview = ({
       </div>
       <div className="blue_team_container">
         <h3>blue Team</h3>
-        <h4>{blueTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
+        <h4>Goals:{blueTeam.reduce((total, player) => total + (player.goals_scored || 0), 0)}</h4>
+            <h5>Player Count:{blueTeam.length}</h5>
             <table>
               <tr>
                 <th>Name</th>
@@ -56,7 +53,6 @@ const SubmitPreview = ({
                 <th>Over the fence</th>
               </tr>
               {blueTeam.map((player) => {
-                const currentSelection = player || {};
                 return (
                   <tr>
                     <td>{player.name}</td>

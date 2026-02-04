@@ -24,7 +24,6 @@ const Login = () => {
         setTimeout(() => {
           setWaiting({ status: false, message: "" });
         }, 3000);
-        console.log(error)
       });
   };
 

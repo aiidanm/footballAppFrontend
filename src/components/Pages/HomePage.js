@@ -17,7 +17,6 @@ const HomePage = () => {
     signOut(auth)
       .then(() => {
         navigate("/login");
-        console.log("Signed out successfully");
       })
       .catch((error) => {});
   };
@@ -25,7 +24,6 @@ const HomePage = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
       } else {
         navigate("/Landing");
       }

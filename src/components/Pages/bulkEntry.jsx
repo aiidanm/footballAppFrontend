@@ -20,7 +20,6 @@ const BulkEntry = ({}) => {
       <h4>upload</h4>
     <input className="bulkfileUpload" type="file" />
       <button className="bulkfileSubmit">Submit file</button>
-     
     </div>
   );
 };

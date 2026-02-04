@@ -7,7 +7,7 @@ import { auth } from "../Firebase";
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
-  const [sort, setSort] = useState({ by: "Win_Ratio", order: "desc" });
+  const [sort, setSort] = useState({ by: "Win Ratio", order: "↓ Descending" });
   const [year, setYear] = useState("2026")
   const [waiting, setWaiting] = useState({
     status: false,
@@ -50,16 +50,15 @@ const PlayerList = () => {
   useEffect(() => {
     setWaiting({ status: true, message: "loading players please wait" });
     getPlayers(year).then((data) => {
-      console.log(data)
       setWaiting({ status: false, message: "loading players please wait" });
-      
-      setPlayers(data);
+      let thisyearsPlayers = data.filter((player) => player.games_played !== "0   ")
+      setPlayers(thisyearsPlayers);
     });
 
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
+        // const uid = user.uid;
       } else {
         navigate("/login");
       }
@@ -70,7 +69,7 @@ const PlayerList = () => {
     setSort((prev) => ({ ...prev, by: e.target.value }));
   };
   const handleOrderChange = () => {
-    setSort((prev) => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
+    setSort((prev) => ({ ...prev, order: prev.order === "↑ Ascending" ? "↓ Descending" : "↑ Ascending" }));
   };
 
 
@@ -125,11 +124,11 @@ const PlayerList = () => {
         result.sort((a, b) => {
           let aValue, bValue;
           switch (sort.by) {
-            case "total_goals_scored":
+            case "total goals scored":
                aValue = a.total_goals_scored;
               bValue = b.total_goals_scored;
               break;
-            case "Games_Played":
+            case "Games Played":
                aValue = a.games_played;    
                bValue = b.games_played;
               break;
@@ -137,11 +136,11 @@ const PlayerList = () => {
               aValue = a.total_wins;
               bValue = b.total_wins;
               break;
-            case "GPG":
+            case "Goals Per Game":
               aValue = a.total_goals_scored / a.games_played; 
               bValue = b.total_goals_scored / b.games_played;
               break;
-            case "Win_Ratio":
+            case "Win Ratio":
               aValue = (a.total_wins / a.games_played).toFixed(2)
               bValue = (b.total_wins / b.games_played).toFixed(2)
               break;
@@ -149,7 +148,7 @@ const PlayerList = () => {
               aValue = calculateForm(a.form);
               bValue = calculateForm(b.form);
               break;
-            case "own_goals":
+            case "Own Goals":
               aValue = a.own_goals;
               bValue = b.own_goals;
               break;
@@ -157,7 +156,7 @@ const PlayerList = () => {
               aValue = 0;
               bValue = 0;
           }
-          if (sort.order === "asc") {
+          if (sort.order === "↑ Ascending") {
             return aValue - bValue;
           } else {
             return bValue - aValue;
@@ -220,18 +219,18 @@ const PlayerList = () => {
                 onChange={handleSortChange}
                 className="gamesSortSelect"
               >
-                 <option value="total_goals_scored">Goals Scored</option>
-                <option value="total_kicked_over_fence">Over the fence</option>
-                <option value="GPG">Goals per game</option>
+                 <option value="total goals scored">Goals Scored</option>
+                <option value="total kicked_over fence">Over the fence</option>
+                <option value="Goals Per Game">Goals per game</option>
                 <option value="Wins">Wins</option>
-                <option value="Win_Ratio">Win ratio</option>
-                <option value="Games_Played">Games played</option>
+                <option value="Win Ratio">Win ratio</option>
+                <option value="Games Played">Games played</option>
                 <option value="Form">Form</option>
-                <option value="own_goals">Own Goals</option>
+                <option value="Own Goals">Own Goals</option>
               </select>
             </div>
             <button onClick={handleOrderChange} className="sortButton">
-              {sort.order === "asc" ? "↑ Ascending" : "↓ Descending"}
+              {sort.order === "↑ Ascending" ? "↑ Ascending" : "↓ Descending"}
             </button>
           </div>
           <div className="sidebarSection">

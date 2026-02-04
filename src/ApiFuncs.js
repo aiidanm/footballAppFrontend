@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAuth } from "firebase/auth";
 import {auth} from './components/Firebase'
 
 const BASE_URL = "https://footballbackend-d13q.onrender.com"
@@ -130,7 +129,6 @@ export const submitAiReq = (prompt, token) => {
     },
   };
 
-  console.log(data, prompt);
 
   return api
     .post(`https://footballtestbackend.onrender.com/ai/`, data, config)

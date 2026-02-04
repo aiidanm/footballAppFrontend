@@ -16,8 +16,6 @@ const NewPlayer = () => {
   useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
-              const uid = user.uid;
-              console.log("uid", uid)
             } else {
               navigate('/login')
             }

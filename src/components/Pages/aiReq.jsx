@@ -15,9 +15,7 @@ const AiReq = ({}) => {
   };
 
   const handleSubmit = (e) => {
-    console.log(aiInput);
     user.getIdToken().then((token) => {
-      console.log(token);
       submitAiReq(aiInput, token).then((res) => console.log(res));
     });
   };

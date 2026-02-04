@@ -17,8 +17,7 @@ const navigate = useNavigate()
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
             if (user) {
-              const uid = user.uid;
-              console.log("uid", uid)
+              // const uid = user.uid;
             } else {
               navigate('/login')
             }

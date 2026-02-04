@@ -10,7 +10,6 @@ const Landing = () => {
   const [waiting, setWaiting] = useState({status: false, message: ""})
 
   const buttonClicked = (e) => {
-    console.log(e.target.outerText)
     navigate(`/${e.target.outerText}`)
   }
 
