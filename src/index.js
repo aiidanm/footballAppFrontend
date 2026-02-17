@@ -17,6 +17,7 @@ import AiReq from "./components/Pages/aiReq";
 import BulkEntry from "./components/Pages/bulkEntry";
 import Signup from "./components/Pages/signup";
 import Landing from "./components/Pages/login-signup"
+import JoinLeague from "./components/Pages/joinLeague";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
   {
     path: "/landing",
     element: <Landing/>
+  },
+  {
+    path: "/joinLeague",
+    element: <JoinLeague/>
   }
 ]);
 

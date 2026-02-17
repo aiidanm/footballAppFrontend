@@ -24,6 +24,7 @@ const HomePage = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user)
       } else {
         navigate("/Landing");
       }
@@ -50,6 +51,10 @@ const HomePage = () => {
           <FontAwesomeIcon icon={faGamepad} className="icon" />
           <span className="text"> Recent Games</span>
         </Link>
+        {/* <Link to="/joinLeague" className="icon-button">
+            <FontAwesomeIcon icon={faClipboardList} className="icon"/>
+            <span className="text">Join league</span>
+        </Link> */}
         {/* <Link to="/aiReq" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>

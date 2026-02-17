@@ -35,7 +35,7 @@ const SubmitPreview = ({
                   <tr>
                     <td>{player.name}</td>
                     <td>{player.goals_scored || 0}</td>
-                    <td>{player.times_over_fence || 0}</td>
+                    <td>{player.kicked_over_fence || 0}</td>
                   </tr>
                 );
               })}
@@ -57,7 +57,7 @@ const SubmitPreview = ({
                   <tr>
                     <td>{player.name}</td>
                     <td>{player.goals_scored || 0}</td>
-                    <td>{player.times_over_fence || 0}</td>
+                    <td>{player.kicked_over_fence || 0}</td>
                   </tr>
                 );
               })}

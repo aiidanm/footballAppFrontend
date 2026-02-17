@@ -146,11 +146,21 @@ export const submitAiReq = (prompt, token) => {
     });
 };
 
-export const registerLeague = (uid, User) => {
+export const registerLeague = (uid, userName) => {
   return api
-    .post("/leagues", uid, User)
-    .then((leagueId) => {
-      if(leagueId) return "signedup"
+    .post("/leagues", uid, userName)
+    .then(({league_id}) => {
+      if(league_id) return "signedup"
+    })
+}
+
+export const joinLeague = ({uid, userName, leagueCode}) => {
+  return api
+    .post("/leagues/join", uid, userName, leagueCode)
+    .then((res) => {
+      if(res.message === "success"){
+        return res.message
+      }
     })
 }
 
