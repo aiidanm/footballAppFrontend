@@ -3,21 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PlayerAdminPage from "./components/Pages/PlayerAdminPage";
+import PlayerAdminPage from "./components/Pages/Players/PlayerAdminPage";
 import HomePage from "./components/Pages/HomePage";
 import StatsPage from "./components/Pages/StatsPage";
-import RecordGame from "./components/RecordGame/RecordGame";
-import AddPlayer from "./components/AddPlayer";
-import PlayerList from "./components/Pages/playerList";
-import RecentGames from "./components/Pages/RecentGames";
-import GameStats from "./components/Pages/gameStats";
-import Login from "./components/Pages/Login";
-import PlayerStats from "./components/Pages/PlayerInfo";
-import AiReq from "./components/Pages/aiReq";
+import RecordGame from "./components/Pages/RecordGame/RecordGame";
+import AddPlayer from "./components/Pages/Players/AddPlayer";
+import PlayerList from "./components/Pages/Players/playerList";
+import RecentGames from "./components/Pages/Recent Games/RecentGames";
+import GameStats from "./components/Pages/Recent Games/gameStats";
+import Login from "./components/Pages/Accounts/Login";
+import PlayerStats from "./components/Pages/Players/PlayerInfo";
 import BulkEntry from "./components/Pages/bulkEntry";
-import Signup from "./components/Pages/signup";
-import Landing from "./components/Pages/login-signup"
-import JoinLeague from "./components/Pages/joinLeague";
+import Signup from "./components/Pages/Accounts/signup";
+import Landing from "./components/Pages/Accounts/login-signup";
+import JoinLeague from "./components/Pages/Accounts/joinLeague";
+import { UserProvider } from "./contexts/userContext";
+import { RoleRoute } from "./components/roleWrapper";
 
 const router = createBrowserRouter([
   {
@@ -28,10 +29,10 @@ const router = createBrowserRouter([
     path: "/Players",
     element: <PlayerAdminPage />,
   },
-  { path: "/RecordGame", element: <RecordGame /> },
+  { path: "/RecordGame", element: <RoleRoute requiredRole="admin"><RecordGame /></RoleRoute>},
   {
     path: "/add-player",
-    element: <AddPlayer />,
+    element: <RoleRoute requiredRole="admin"><AddPlayer/></RoleRoute>,
   },
   {
     path: "/playerList",
@@ -54,10 +55,6 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/aiReq",
-    element: <AiReq />,
-  },
-  {
     path: "/bulkEntry",
     element: <BulkEntry />,
   },
@@ -67,20 +64,22 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <Signup/>
+    element: <Signup />,
   },
   {
     path: "/landing",
-    element: <Landing/>
+    element: <Landing />,
   },
   {
     path: "/joinLeague",
-    element: <JoinLeague/>
-  }
+    element: <JoinLeague />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <UserProvider>
+    <RouterProvider router={router} />
+  </UserProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../Firebase";
+import {useAuth} from "../../contexts/userContext"
 import {
   faUserEdit,
   faClipboardList,
@@ -11,25 +12,25 @@ import {
 import "../../App.css";
 import { Link, useNavigate } from "react-router-dom";
 
+
 const HomePage = () => {
+  const {user, login, logout} = useAuth()
   const navigate = useNavigate();
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        logout()
         navigate("/login");
       })
       .catch((error) => {});
   };
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user)
-      } else {
-        navigate("/Landing");
-      }
-    });
-  });
+
+console.log(user)
+ if (!user) {
+    navigate("/Landing");
+    return null;
+  }
 
   return (
     <div className="MainContainer">
@@ -43,18 +44,19 @@ const HomePage = () => {
           <FontAwesomeIcon icon={faUserEdit} className="icon" />
           <span className="text">Player page</span>
         </Link>
-        <Link to="/RecordGame" className="icon-button">
+        {user.role === 'admin' ? <Link to="/RecordGame" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Record a game</span>
-        </Link>
+        </Link> : null}
+        
         <Link to="/Games" className="icon-button">
           <FontAwesomeIcon icon={faGamepad} className="icon" />
           <span className="text"> Recent Games</span>
         </Link>
-        {/* <Link to="/joinLeague" className="icon-button">
+        <Link to="/joinLeague" className="icon-button">
             <FontAwesomeIcon icon={faClipboardList} className="icon"/>
             <span className="text">Join league</span>
-        </Link> */}
+        </Link>
         {/* <Link to="/aiReq" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>

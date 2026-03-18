@@ -1,26 +1,22 @@
 import React, { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { auth,} from "../Firebase";
-import {useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [waiting, setWaiting] = useState({status: false, message: ""})
+  const [waiting, setWaiting] = useState({ status: false, message: "" });
 
   const onSignup = (e) => {
     e.preventDefault();
-    setWaiting({status: true, message: "Logging in, please wait"})
-    createUserWithEmailAndPassword(auth , email, password)
-        .then((userCred) => {
-            setWaiting({ status: false, message: "" });
-            navigate("/");
-        })
+    setWaiting({ status: true, message: "Logging in, please wait" });
+    createUserWithEmailAndPassword(auth, email, password).then((userCred) => {
+      setWaiting({ status: false, message: "" });
+      navigate("/");
+    });
   };
-
 
   return (
     <div className="MainContainer">
@@ -56,10 +52,14 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {waiting.status === "error" ?(<div className="passwordErrorMessageDiv">
-              <h4 className="passwordErrorMessage">Incorrect password please try again</h4>
-            </div>): null }
-            
+            {waiting.status === "error" ? (
+              <div className="passwordErrorMessageDiv">
+                <h4 className="passwordErrorMessage">
+                  Incorrect password please try again
+                </h4>
+              </div>
+            ) : null}
+
             <button className="login-button login" onClick={onSignup}>
               Signup
             </button>

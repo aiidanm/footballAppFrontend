@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import "../../App.css";
+import "../../../App.css";
 import { Link } from "react-router-dom";
 const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
   const [sort, setSort] = useState({ by: "date", order: "asc" });

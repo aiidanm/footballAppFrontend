@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
-import { getGames } from "../../ApiFuncs";
+import "../../../App.css";
+import { getGames } from "../../../ApiFuncs";
 import GameList from "./GameList";
-import { auth } from "../Firebase";
+import { auth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
 const RecentGames = () => {
   const [games, setGames] = useState([]);
-  const [year, setYear] = useState("2026")
+  const [year, setYear] = useState("2026");
   const [waiting, setWaiting] = useState({
     status: true,
     message: "Loading games, please wait.",
   });
-const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-            if (user) {
-              // const uid = user.uid;
-            } else {
-              navigate('/login')
-            }
-          });
+      if (user) {
+        // const uid = user.uid;
+      } else {
+        navigate("/login");
+      }
+    });
 
     const fetchData = async () => {
       setWaiting({ status: true, message: "Loading games, please wait." });
@@ -31,10 +31,7 @@ const navigate = useNavigate()
     };
 
     fetchData();
-
-
-
-  },[navigate, year]);
+  }, [navigate, year]);
 
   const handleUpdate = async () => {
     setWaiting({ status: true, message: "Refreshing games, please wait." });
@@ -52,7 +49,13 @@ const navigate = useNavigate()
       {waiting.status ? (
         <h1>{waiting.message}</h1>
       ) : (
-        <GameList games={games} setGames={setGames} handleUpdate={handleUpdate} year={year} setYear={setYear} />
+        <GameList
+          games={games}
+          setGames={setGames}
+          handleUpdate={handleUpdate}
+          year={year}
+          setYear={setYear}
+        />
       )}
     </div>
   );

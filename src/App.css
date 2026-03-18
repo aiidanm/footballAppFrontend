@@ -471,15 +471,15 @@ button {
   .playerCard-unselected,
   .playerCard-team1,
   .playerCard-team2 {
-    width: calc(50% - 6px);
-    padding: 8px;
+    width: calc(50% - 3px);
+    padding: 1px;
     font-size: 0.85rem;
   }
 
   .playerCard-unselected p,
   .playerCard-team1 p,
   .playerCard-team2 p {
-    font-size: 0.85rem;
+    font-size: 1rem;
     margin: 4px 0;
   }
 }
@@ -1027,10 +1027,10 @@ background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68,
 .counter-container {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 6px 0;
+  gap: 4px;
+  margin: 2px 0;
   background: rgba(255, 255, 255, 0.9);
-  padding: 6px;
+  padding: 3px;
   border-radius: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -1046,8 +1046,8 @@ background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68,
 /* Responsive adjustments for counter containers */
 @media screen and (max-width: 768px) {
   .counter-container {
-    gap: 6px;
-    padding: 5px;
+    gap: 4px;
+    padding: 2px;
   }
 
   .counter-container p {
@@ -1058,8 +1058,8 @@ background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68,
 
 @media screen and (max-width: 480px) {
   .counter-container {
-    gap: 4px;
-    padding: 4px;
+    gap: 10px;
+    padding: 2px;
     flex-wrap: wrap;
   }
 
@@ -1077,7 +1077,7 @@ background: linear-gradient(135deg, rgba(255, 23, 68, 0.1) 0%, rgba(255, 23, 68,
 
 .counter-container button {
   width: 28px;
-  height: 28px;
+  height: 20px;
   padding: 0;
   border-radius: 6px;
   border: none;

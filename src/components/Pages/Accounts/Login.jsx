@@ -1,32 +1,36 @@
 import React, { useState } from "react";
-import {
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../Firebase";
-import {useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/userContext";
+import { getRoles } from "../../../ApiFuncs";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [waiting, setWaiting] = useState({status: false, message: ""})
+  const [waiting, setWaiting] = useState({ status: false, message: "" });
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
-    setWaiting({status: true, message: "Logging in, please wait"})
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setWaiting({ status: false, message: "" });
-        navigate("/");
-      })
-      .catch((error) => {
-        setWaiting({ status: "error", message: "incorrect password, try again" });
-        setTimeout(() => {
-          setWaiting({ status: false, message: "" });
-        }, 3000);
-      });
-  };
+    setWaiting({ status: true, message: "Logging in, please wait" });
+    try {
+      const userCreds = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = await userCreds.user.getIdToken();
+      const userData = await getRoles(idToken);
+      login(userData);
+      setWaiting({ status: false, message: "" });
+      navigate("/");
+    } catch (error) {
+      console.error("Login Error:", error);
+      setWaiting({ status: "error", message: "Incorrect email or password" });
 
+      setTimeout(() => {
+        setWaiting({ status: false, message: "" });
+      }, 3000);
+    }
+  };
 
   return (
     <div className="MainContainer">
@@ -62,10 +66,14 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {waiting.status === "error" ?(<div className="passwordErrorMessageDiv">
-              <h4 className="passwordErrorMessage">Incorrect password please try again</h4>
-            </div>): null }
-            
+            {waiting.status === "error" ? (
+              <div className="passwordErrorMessageDiv">
+                <h4 className="passwordErrorMessage">
+                  Incorrect password please try again
+                </h4>
+              </div>
+            ) : null}
+
             <button className="login-button login" onClick={onLogin}>
               Login
             </button>

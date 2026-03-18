@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
-import {useParams } from "react-router-dom";
-import { getGameById } from "../../ApiFuncs";
+import "../../../App.css";
+import { useParams } from "react-router-dom";
+import { getGameById } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
 
 const GameStats = () => {
@@ -32,7 +32,7 @@ const GameStats = () => {
             <p>
               Game Date:{" "}
               {new Intl.DateTimeFormat("en-GB").format(
-                new Date(game.game_date)
+                new Date(game.game_date),
               )}
             </p>
             <p>Game ID: {game.game_id}</p>

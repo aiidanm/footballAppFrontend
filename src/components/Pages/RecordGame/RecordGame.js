@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getPlayers, recordGame } from "../../ApiFuncs.js";
-import RecordGameList from "../RecordGameComponent.jsx";
-import SubmitPreview from "../submitPreview.jsx";
-import { auth } from "../Firebase.js";
+import { getPlayers, recordGame } from "../../../ApiFuncs.js";
+import RecordGameList from "./RecordGameComponent.jsx";
+import SubmitPreview from "./submitPreview.jsx";
+import { auth } from "../../Firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -17,6 +17,7 @@ const RecordGame = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user);
         // const uid = user.uid;
       } else {
         navigate("/login");
@@ -26,7 +27,7 @@ const RecordGame = () => {
     getPlayers().then((res) => {
       setWaiting({ status: false, message: "" });
       setPlayers(
-        res.sort((a, b) => a.player_name.localeCompare(b.player_name))
+        res.sort((a, b) => a.player_name.localeCompare(b.player_name)),
       );
     });
   }, [navigate]);
@@ -91,25 +92,25 @@ const RecordGame = () => {
       const currentPlayerData = prevSelected[player.player_id] || {};
       const currentOwnGoals = currentPlayerData.own_goals || 0;
 
-      if(e.target.value === "+"){
+      if (e.target.value === "+") {
         return {
           ...prevSelected,
-          [player.player_id] : {
+          [player.player_id]: {
             ...currentPlayerData,
-            own_goals : currentOwnGoals + 1
-          }
-        }
-      } else if(e.target.value === "-"){
+            own_goals: currentOwnGoals + 1,
+          },
+        };
+      } else if (e.target.value === "-") {
         return {
           ...prevSelected,
-          [player.player_id] : {
+          [player.player_id]: {
             ...currentPlayerData,
-            own_goals : currentOwnGoals - 1
-          }
-        }
+            own_goals: currentOwnGoals - 1,
+          },
+        };
       }
-    })
-  }
+    });
+  };
 
   const overTheFence = (e, player) => {
     setSelectedPlayers((prevSelected) => {
@@ -160,27 +161,33 @@ const RecordGame = () => {
           player_id: playerObj.id,
           goals_scored: playerObj.goals_scored || 0,
           kicked_over_fence: playerObj.kicked_over_fence || 0,
-          own_goals: playerObj.own_goals || 0
+          own_goals: playerObj.own_goals || 0,
         });
       }
     });
 
     const team1Score = result.team1.reduce(
       (acc, player) => acc + (player.goals_scored || 0),
-      0
+      0,
     );
 
-    const team1ExtraGoals= result.team2.reduce((acc, player) => acc + (player.own_goals || 0), 0)
+    const team1ExtraGoals = result.team2.reduce(
+      (acc, player) => acc + (player.own_goals || 0),
+      0,
+    );
 
     const team2Score = result.team2.reduce(
       (acc, player) => acc + (player.goals_scored || 0),
-      0
+      0,
     );
 
-    const team2ExtraGoals = result.team1.reduce((acc, player) => acc + (player.own_goals || 0), 0)
+    const team2ExtraGoals = result.team1.reduce(
+      (acc, player) => acc + (player.own_goals || 0),
+      0,
+    );
 
-    const team1FinalScore = team1Score + team1ExtraGoals
-    const team2FinalScore = team2Score + team2ExtraGoals
+    const team1FinalScore = team1Score + team1ExtraGoals;
+    const team2FinalScore = team2Score + team2ExtraGoals;
 
     const newValue = {
       date,

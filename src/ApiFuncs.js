@@ -154,9 +154,9 @@ export const registerLeague = (uid, userName) => {
     })
 }
 
-export const joinLeague = ({uid, userName, leagueCode}) => {
+export const joinLeague = ({uid, Name, leagueCode}) => {
   return api
-    .post("/leagues/join", uid, userName, leagueCode)
+    .post("/leagues/join", {uid, Name, leagueCode})
     .then((res) => {
       if(res.message === "success"){
         return res.message
@@ -164,8 +164,18 @@ export const joinLeague = ({uid, userName, leagueCode}) => {
     })
 }
 
-// export const registerUser = (uid, User) => {
-//   return api
-//     .post("/users", uid, User)
-//     .then(())
-// }
+export const getRoles = (idToken) => {
+  console.log(idToken)
+  return api 
+    .post("/leagues/login", {}, {
+      headers: {
+        Authorization: `Bearer ${idToken}`
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      return res.data.user
+    })
+    .catch((err) => console.log(err))
+}
+
