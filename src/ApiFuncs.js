@@ -118,45 +118,19 @@ export const getGameById = (id) => {
     });
 };
 
-export const submitAiReq = (prompt, token) => {       
-  const data = {
-    prompt: prompt,
-  };
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
 
 
+export const registerLeague = (uid, playerName) => {
   return api
-    .post(`https://footballtestbackend.onrender.com/ai/`, data, config)
-    .then((response) => response.data)
-    .catch((error) => {
-      if (error.response) {
-        console.error("Error response data:", error.response.data);
-        console.error("Error response status:", error.response.status);
-      } else if (error.request) {
-        console.error("Error request:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
-      throw error;
-    });
-};
-
-export const registerLeague = (uid, userName) => {
-  return api
-    .post("/leagues", uid, userName)
+    .post("/leagues", uid, playerName)
     .then(({league_id}) => {
       if(league_id) return "signedup"
     })
 }
 
-export const joinLeague = ({uid, Name, leagueCode}) => {
+export const joinLeague = ({uid, playerName, leagueCode, email}) => {
   return api
-    .post("/leagues/join", {uid, Name, leagueCode})
+    .post("/leagues/join", {uid, playerName, leagueCode, email})
     .then((res) => {
       if(res.message === "success"){
         return res.message
@@ -165,7 +139,6 @@ export const joinLeague = ({uid, Name, leagueCode}) => {
 }
 
 export const getRoles = (idToken) => {
-  console.log(idToken)
   return api 
     .post("/leagues/login", {}, {
       headers: {

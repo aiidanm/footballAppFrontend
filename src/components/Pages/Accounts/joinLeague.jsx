@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { joinLeague } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase";
+import {useAuth} from "../../../contexts/userContext"
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,31 +10,30 @@ const JoinLeague = () => {
   const navigate = useNavigate();
 
   const [waiting, setWaiting] = useState({ status: false, message: "" });
-  const [joiningUser, setJoiningUser] = useState({});
+  const [leagueCode, setLeagueCode] = useState("")
+  const {user, loading, login} = useAuth()
+  
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user);
-        setJoiningUser({ uid: user.uid, Name: user.email, leagueCode: "" });
-      } else {
-        navigate("/Landing");
-      }
-    });
-  }, []);
+  if(loading) return <div>Loading...</div>
 
-  const handleLeagueCodeChange = (e) => {
-    let lc = e.target.value;
-    console.log(lc);
-    setJoiningUser((prev) => {
-      return { ...prev, leagueCode: lc };
-    });
-  };
+  if(!user){
+    navigate("/login")
+    return null
+  }
 
   const handleJoin = (e) => {
     e.preventDefault();
     setWaiting({ status: true, message: "joining" });
-    joinLeague(joiningUser);
+
+    const joiningUserData = {
+      uid: user.uid,
+      playerName: user.email,
+      leagueCode: leagueCode,
+      email: user.email
+    }
+    joinLeague(joiningUserData).then(() => {
+      setWaiting({status:false, message: ""})
+    })
   };
 
   return (
@@ -56,7 +55,7 @@ const JoinLeague = () => {
                 type="league-code"
                 required
                 placeholder="league code"
-                onChange={handleLeagueCodeChange}
+                onChange={(e) => setLeagueCode(e.target.value)}
               />
             </div>
             {waiting.status === "error" ? (

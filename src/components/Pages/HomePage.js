@@ -25,7 +25,6 @@ const HomePage = () => {
       .catch((error) => {});
   };
 
-
 console.log(user)
  if (!user) {
     navigate("/Landing");
@@ -53,10 +52,10 @@ console.log(user)
           <FontAwesomeIcon icon={faGamepad} className="icon" />
           <span className="text"> Recent Games</span>
         </Link>
-        <Link to="/joinLeague" className="icon-button">
+        {user.league_id === null ? <Link to="/joinLeague" className="icon-button">
             <FontAwesomeIcon icon={faClipboardList} className="icon"/>
             <span className="text">Join league</span>
-        </Link>
+        </Link> : null}
         {/* <Link to="/aiReq" className="icon-button">
           <FontAwesomeIcon icon={faClipboardList} className="icon" />
           <span className="text">Ai Request</span>
