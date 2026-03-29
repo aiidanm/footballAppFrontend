@@ -152,3 +152,8 @@ export const getRoles = (idToken) => {
     .catch((err) => console.log(err))
 }
 
+export const deleteGame = (gameId) => {
+  return api
+    .delete(`/games/${gameId}`)
+}
+

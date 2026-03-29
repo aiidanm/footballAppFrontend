@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import "../../../App.css";
 import { Link } from "react-router-dom";
 const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
-  const [sort, setSort] = useState({ by: "date", order: "asc" });
+  const [sort, setSort] = useState({ by: "date", order: "desc" });
   const [filter, setFilter] = useState({ field: "none", value: "all" });
   const [sidebarOpen, setSidebarOpen] = useState(
     typeof window !== "undefined" ? window.innerWidth > 768 : true
@@ -184,6 +184,7 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
         <div className="gamesContainer">
           <button onClick={handleUpdate}>Reset</button>
           {filteredGames.map((game) => (
+           
             <Link to={`/games/${game.game_id}`} className="recentGameCard" key={game.game_id}>
               <p>
                 Game Date: {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
@@ -192,6 +193,7 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
               <p>Blue team score: {game.team2_score}</p>
               <p>Players involved: {getPlayerCount(game)}</p>
             </Link>
+            
           ))}
         </div>
       </main>

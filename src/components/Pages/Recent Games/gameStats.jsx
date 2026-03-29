@@ -3,6 +3,7 @@ import "../../../App.css";
 import { useParams } from "react-router-dom";
 import { getGameById } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
+import { deleteGame } from "../../../ApiFuncs";
 
 const GameStats = () => {
   const { gameid } = useParams();
@@ -11,6 +12,9 @@ const GameStats = () => {
     status: true,
     message: "Loading game stats, please wait.",
   });
+  const handleDelete = (e) => {
+    deleteGame(gameid)
+  }
 
   useEffect(() => {
     getGameById(gameid).then((data) => {
@@ -36,6 +40,7 @@ const GameStats = () => {
               )}
             </p>
             <p>Game ID: {game.game_id}</p>
+            <button onClick={handleDelete}>Delete Game</button>
             <div className="teams_container">
               <div className="team_container-red">
                 <h2>Red Team</h2>
