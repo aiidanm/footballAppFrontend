@@ -19,7 +19,7 @@ import Landing from "./components/Pages/Accounts/login-signup";
 import JoinLeague from "./components/Pages/Accounts/joinLeague";
 import { UserProvider } from "./contexts/userContext";
 import { RoleRoute } from "./components/roleWrapper";
-
+import Settings from "./components/Pages/Accounts/settings";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,6 +74,10 @@ const router = createBrowserRouter([
     path: "/joinLeague",
     element: <RoleRoute requiredRole=""><JoinLeague /></RoleRoute> 
   },
+  {
+    path: "/settings",
+    element: <RoleRoute requiredRole="admin"><Settings /></RoleRoute>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

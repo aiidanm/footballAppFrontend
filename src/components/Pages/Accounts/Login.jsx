@@ -19,13 +19,12 @@ const Login = () => {
       const userCreds = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCreds.user.getIdToken();
       const userData = await getRoles(idToken);
+      console.log(userData)
       login(userData);
       setWaiting({ status: false, message: "" });
       navigate("/");
     } catch (error) {
-      console.error("Login Error:", error);
       setWaiting({ status: "error", message: "Incorrect email or password" });
-
       setTimeout(() => {
         setWaiting({ status: false, message: "" });
       }, 3000);

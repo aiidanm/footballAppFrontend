@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getPlayers, recordGame } from "../../../ApiFuncs.js";
+import { getPlayers, recordGame, updatePlayers, addPlayer} from "../../../ApiFuncs.js";
 import RecordGameList from "./RecordGameComponent.jsx";
 import SubmitPreview from "./submitPreview.jsx";
 import { auth } from "../../Firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../header.jsx"
 
 const RecordGame = () => {
   const [players, setPlayers] = useState([]);
@@ -25,6 +26,7 @@ const RecordGame = () => {
     });
     setWaiting({ status: true, message: "Waiting for server to load players" });
     getPlayers().then((res) => {
+      console.log(res)
       setWaiting({ status: false, message: "" });
       setPlayers(
         res.sort((a, b) => a.player_name.localeCompare(b.player_name)),
@@ -44,6 +46,7 @@ const RecordGame = () => {
           team: nextTeam,
           name: player.player_name,
           id: player.player_id,
+          editedName: player.editedName
         },
       };
     });
@@ -137,88 +140,269 @@ const RecordGame = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!submitPage) {
-      setSubmitPage(true);
-      return;
-    }
-    setWaiting({
-      status: true,
-      message: "Submitting to database, please wait...",
-    });
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!submitPage) {
+//       setSubmitPage(true);
+//       return;
+//     }
+//     setWaiting({
+//       status: true,
+//       message: "Submitting to database, please wait...",
+//     });
 
-    let date = new Date(dateSelected);
-    const result = {
-      team1: [],
-      team2: [],
-    };
+//     let date = new Date(dateSelected);
+//     const result = {
+//       team1: [],
+//       team2: [],
+//     };
+//     console.log(selectedPlayers)
+//     Object.values(selectedPlayers).forEach((playerObj) => {
+//       if (playerObj.team !== "unselected") {
+//         result[playerObj.team].push({
+//           name: playerObj.name,
+//           player_id: playerObj.id,
+//           goals_scored: playerObj.goals_scored || 0,
+//           kicked_over_fence: playerObj.kicked_over_fence || 0,
+//           own_goals: playerObj.own_goals || 0,
+//         });
+//       }
+//     });
 
-    Object.values(selectedPlayers).forEach((playerObj) => {
-      if (playerObj.team !== "unselected") {
-        result[playerObj.team].push({
-          name: playerObj.name,
-          player_id: playerObj.id,
-          goals_scored: playerObj.goals_scored || 0,
-          kicked_over_fence: playerObj.kicked_over_fence || 0,
-          own_goals: playerObj.own_goals || 0,
-        });
+//     const team1Score = result.team1.reduce(
+//       (acc, player) => acc + (player.goals_scored || 0),
+//       0,
+//     );
+
+//     const team1ExtraGoals = result.team2.reduce(
+//       (acc, player) => acc + (player.own_goals || 0),
+//       0,
+//     );
+
+//     const team2Score = result.team2.reduce(
+//       (acc, player) => acc + (player.goals_scored || 0),
+//       0,
+//     );
+
+//     const team2ExtraGoals = result.team1.reduce(
+//       (acc, player) => acc + (player.own_goals || 0),
+//       0,
+//     );
+
+//     const team1FinalScore = team1Score + team1ExtraGoals;
+//     const team2FinalScore = team2Score + team2ExtraGoals;
+
+//     const newValue = {
+//       date,
+//       teams: result,
+//       team1Score: team1FinalScore,
+//       team2Score: team2FinalScore,
+//     };
+//     const playersToUpdate = players.filter((player) => player.editedName)
+//     if(playersToUpdate.length > 0){
+//       let payload = playersToUpdate.map((player) => {
+//         console.log(player)
+//         return {
+//             "player_id": player.player_id,
+//             "player_name": player.player_name
+//         }
+//       })
+//       await updatePlayers(payload)
+//     }
+
+
+//     // collect players to submit to db≈
+//     let customPlayers = players.filter(
+//   (player) => player.player_id?.toString().includes("Custom") && player.player_name?.trim() !== ""
+// );
+//     if(customPlayers.length > 0){
+//       let customPlayersPayload = customPlayers.map((customPlayer) => {
+//         return {
+//           "player_name": customPlayer.player_name
+//         }
+//       })
+//       const createdPlayers = await addPlayer(customerPlayersPayload)
+//       setPlayers((currPlayers) => {
+//         const matchedPlayers = currPlayers.map((player) => {
+//           if(String(player.player_id).includes("Custom")){
+//             let matchedCreatedPlayer = createdPlayers.find((createdPlayer) => createdPlayer.player_name === player.player_name) 
+//             return {
+//               ...player,
+//               player_id: matchedCreatedPlayer ? matchedCreatedPlayer.player_id : player.player_id
+//             }
+//           } else {
+//             return player
+//           }
+//         })
+//         return matchedPlayers
+//       })
+//     }
+//     // await recordGame(newValue);
+
+//     setSelectedPlayers({});
+//     setSubmitPage(false);
+//     setWaiting({
+//       status: true,
+//       message: "Game submitted successfully! Redirecting...",
+//     });
+
+//     setTimeout(() => {
+//       navigate("/");
+//     }, 3000);
+//   };
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!submitPage) {
+    setSubmitPage(true);
+    return;
+  }
+  setWaiting({
+    status: true,
+    message: "Submitting to database, please wait...",
+  });
+
+  const playersToUpdate = players.filter((player) => player.editedName && !String(player.player_id).includes("Custom"));
+  if (playersToUpdate.length > 0) {
+    const payload = playersToUpdate.map((player) => ({
+      player_id: player.player_id,
+      player_name: player.player_name,
+    }));
+    console.log("update players payload", payload)
+    await updatePlayers(payload);
+  }
+
+  const customIdMap = {}; 
+  const customPlayers = players.filter(
+    (player) =>
+      player.player_id?.toString().includes("Custom") &&
+      player.player_name?.trim() !== ""
+  );
+
+  if (customPlayers.length > 0) {
+    const customPlayersPayload = customPlayers.map((p) => ({
+      name: p.player_name.trim(),
+    }));
+    console.log("created players payload", customPlayersPayload)
+    // const createdPlayers = []
+    const createdPlayers = await addPlayer(customPlayersPayload);
+
+    customPlayers.forEach((customPlayer) => {
+      const matched = createdPlayers.find(
+        (cp) => cp.player_name === customPlayer.player_name
+      );
+      if (matched) {
+        customIdMap[customPlayer.player_id] = matched.player_id;
       }
     });
 
-    const team1Score = result.team1.reduce(
-      (acc, player) => acc + (player.goals_scored || 0),
-      0,
+    setPlayers((currPlayers) =>
+      currPlayers.map((player) => ({
+        ...player,
+        player_id: customIdMap[player.player_id] || player.player_id,
+      }))
     );
+  }
 
-    const team1ExtraGoals = result.team2.reduce(
-      (acc, player) => acc + (player.own_goals || 0),
-      0,
-    );
-
-    const team2Score = result.team2.reduce(
-      (acc, player) => acc + (player.goals_scored || 0),
-      0,
-    );
-
-    const team2ExtraGoals = result.team1.reduce(
-      (acc, player) => acc + (player.own_goals || 0),
-      0,
-    );
-
-    const team1FinalScore = team1Score + team1ExtraGoals;
-    const team2FinalScore = team2Score + team2ExtraGoals;
-
-    const newValue = {
-      date,
-      teams: result,
-      team1Score: team1FinalScore,
-      team2Score: team2FinalScore,
-    };
-
-    await recordGame(newValue);
-
-    setSelectedPlayers({});
-    setSubmitPage(false);
-    setWaiting({
-      status: true,
-      message: "Game submitted successfully! Redirecting...",
-    });
-
-    setTimeout(() => {
-      navigate("/");
-    }, 3000);
+  let date = new Date(dateSelected);
+  const result = {
+    team1: [],
+    team2: [],
   };
 
+  Object.values(selectedPlayers).forEach((playerObj) => {
+    if (playerObj.team !== "unselected") {
+      const resolvedId = customIdMap[playerObj.id] || playerObj.id;
+
+      result[playerObj.team].push({
+        name: playerObj.name,
+        player_id: resolvedId,
+        goals_scored: playerObj.goals_scored || 0,
+        kicked_over_fence: playerObj.kicked_over_fence || 0,
+        own_goals: playerObj.own_goals || 0,
+      });
+    }
+  });
+
+  const team1Score = result.team1.reduce(
+    (acc, player) => acc + (player.goals_scored || 0),
+    0
+  );
+  const team1ExtraGoals = result.team2.reduce(
+    (acc, player) => acc + (player.own_goals || 0),
+    0
+  );
+  const team2Score = result.team2.reduce(
+    (acc, player) => acc + (player.goals_scored || 0),
+    0
+  );
+  const team2ExtraGoals = result.team1.reduce(
+    (acc, player) => acc + (player.own_goals || 0),
+    0
+  );
+
+  const team1FinalScore = team1Score + team1ExtraGoals;
+  const team2FinalScore = team2Score + team2ExtraGoals;
+
+  const newValue = {
+    date,
+    teams: result,
+    team1Score: team1FinalScore,
+    team2Score: team2FinalScore,
+  };
+  console.log("record game payload", newValue)
+  await recordGame(newValue);
+
+  setSelectedPlayers({});
+  setSubmitPage(false);
+  setWaiting({
+    status: true,
+    message: "Game submitted successfully! Redirecting...",
+  });
+
+  setTimeout(() => {
+    navigate("/");
+  }, 3000);
+};
   const handleDateChange = (e) => {
     setDateSelected(new Date(e.target.value));
   };
 
+  const addNewPlayer = (e) => {
+    e.preventDefault()
+    setPlayers((currPlayers) => {
+      const numCustomPlayers = currPlayers.filter((oPlayer) => oPlayer.player_id.toString().includes("Custom")).length + 1
+      return [...currPlayers, {form: "", games_played: "0", own_goals: "0", player_id: "Custom" + numCustomPlayers, player_name: "", preferred_position: "", total_draws: "", total_goals_scored: "", total_kicked_over_fence: "", total_losses: "", total_wins: ""}]
+    })
+  }
+
+  const handlePlayerNameChange = (playerId, newName) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.map((player) =>
+        player.player_id === playerId
+          ? { ...player, player_name: newName, editedName: true}
+          : player
+      )
+    );
+    setSelectedPlayers((prevSelected) => {
+      if (prevSelected[playerId]) {
+        return {
+          ...prevSelected,
+          [playerId]: {
+            ...prevSelected[playerId],
+            name: newName,
+            editedName: true
+          },
+        };
+      }
+      return prevSelected;
+    });
+  };
+
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <h2>Record Game Page:</h2>
 
       {waiting.status ? (
@@ -243,6 +427,8 @@ const RecordGame = () => {
             overTheFence={overTheFence}
             handleSubmit={handleSubmit}
             ownGoals={ownGoals}
+            addNewPlayer={addNewPlayer}
+            handlePlayerNameChange={handlePlayerNameChange}
           />
           <input
             type="date"

@@ -18,8 +18,13 @@ export const UserProvider = ({children}) => {
 
     useEffect(() => {
         const savedUser = localStorage.getItem('app_user');
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
+        if (savedUser !== null) {
+            console.log("sved user", savedUser)
+            try {
+                setUser(JSON.parse(savedUser))
+            } catch (e){
+                setUser({})
+            }
         }
         setLoading(false);
     }, []);

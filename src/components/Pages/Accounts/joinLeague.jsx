@@ -3,6 +3,7 @@ import { joinLeague } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
 import { auth } from "../../Firebase";
 import {useAuth} from "../../../contexts/userContext"
+import Header from "../header"
 
 import { useNavigate } from "react-router-dom";
 
@@ -38,9 +39,7 @@ const JoinLeague = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <div className="pageContainer">
         <div className="login_container">
           <form className="login_form">

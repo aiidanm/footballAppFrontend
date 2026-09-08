@@ -3,6 +3,7 @@ import "../../../App.css";
 import { useParams } from "react-router-dom";
 import { getPlayerById } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
+import Header from "../header"
 
 const PlayerStats = () => {
   const { playerid } = useParams();
@@ -36,9 +37,7 @@ const PlayerStats = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <div className="pageContainer">
         {waiting.status ? (
           <h1>{waiting.message}</h1>

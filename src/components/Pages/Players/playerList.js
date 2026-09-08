@@ -4,6 +4,7 @@ import { getPlayers } from "../../../ApiFuncs";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase";
+import Header from "../header"
 
 const PlayerList = () => {
   const [players, setPlayers] = useState([]);
@@ -170,9 +171,7 @@ const PlayerList = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       {!sidebarOpen && (
         <div className="filterOpenWrapper">
           <button

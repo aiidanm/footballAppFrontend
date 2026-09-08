@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getGameById } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
 import { deleteGame } from "../../../ApiFuncs";
+import Header from "../header"
 
 const GameStats = () => {
   const { gameid } = useParams();
@@ -18,6 +19,7 @@ const GameStats = () => {
 
   useEffect(() => {
     getGameById(gameid).then((data) => {
+      console.log(data)
       setGame(data);
       setWaiting({ status: false, message: "" });
     });
@@ -25,9 +27,7 @@ const GameStats = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <div className="Game_Stats_Page">
         {waiting.status ? (
           <h1>{waiting.message}</h1>

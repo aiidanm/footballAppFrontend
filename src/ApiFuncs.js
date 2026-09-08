@@ -1,7 +1,9 @@
 import axios from "axios";
 import {auth} from './components/Firebase'
 
-const BASE_URL = "https://footballbackend-d13q.onrender.com"
+// const BASE_URL = "https://footballbackend-d13q.onrender.com"
+
+const BASE_URL = "http://localhost:5142"
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -34,7 +36,6 @@ export const addPlayer = (playerData) => {
     .post(`/players`, playerData)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error adding player:", error);
       throw error;
     });
 };
@@ -120,9 +121,9 @@ export const getGameById = (id) => {
 
 
 
-export const registerLeague = (uid, playerName) => {
+export const registerLeague = (uid, playerName, league_name) => {
   return api
-    .post("/leagues", uid, playerName)
+    .post("/leagues", uid, playerName, league_name)
     .then(({league_id}) => {
       if(league_id) return "signedup"
     })
@@ -146,7 +147,6 @@ export const getRoles = (idToken) => {
       }
     })
     .then((res) => {
-      console.log(res)
       return res.data.user
     })
     .catch((err) => console.log(err))
@@ -155,5 +155,23 @@ export const getRoles = (idToken) => {
 export const deleteGame = (gameId) => {
   return api
     .delete(`/games/${gameId}`)
+}
+
+export const getLeagueCode = (uid, leagueId) => {
+  return api 
+    .post("/leagues/leagueCode", {uid, leagueId})
+    .then((res) => {
+      return res.data.league_code
+    })
+
+}
+
+export const updatePlayers = (aPlayers) => {
+  return api
+    .put(`/players/`, aPlayers)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("error updating players")
+    })
 }
 

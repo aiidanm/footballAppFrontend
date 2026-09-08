@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../../App.css";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "./header"
 
 
 const HomePage = () => {
@@ -33,10 +34,7 @@ console.log(user)
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
-      <button className="logoutButton" onClick={handleLogout}>Logout</button>
+      <Header />
       <h2>Home</h2>
       <div className="pageContainer">
         <Link to="/Players" className="icon-button">
@@ -56,14 +54,11 @@ console.log(user)
             <FontAwesomeIcon icon={faClipboardList} className="icon"/>
             <span className="text">Join league</span>
         </Link> : null}
-        {/* <Link to="/aiReq" className="icon-button">
-          <FontAwesomeIcon icon={faClipboardList} className="icon" />
-          <span className="text">Ai Request</span>
-        </Link>
-        <Link to="/stats" className="icon-button">
-          <FontAwesomeIcon icon={faClipboardList} className="icon" />
-          <span className="text">Stats</span>
-        </Link> */}
+         {user.league_id !== null ? <Link to="/settings" className="icon-button">
+            <FontAwesomeIcon icon={faClipboardList} className="icon"/>
+            <span className="text">Settings</span>
+        </Link> : null}
+     
       </div>
     </div>
   );

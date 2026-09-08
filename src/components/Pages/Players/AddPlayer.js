@@ -4,6 +4,7 @@ import { addPlayer } from "../../../ApiFuncs";
 import { auth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../header"
 
 const NewPlayer = () => {
   const [players, setPlayers] = useState([
@@ -56,9 +57,7 @@ const NewPlayer = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+     <Header />
       <h2>Players</h2>
       {waiting ? (
         <h1>Submitting to server..</h1>
