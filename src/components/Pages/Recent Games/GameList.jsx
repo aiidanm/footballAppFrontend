@@ -7,6 +7,9 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
   const [sidebarOpen, setSidebarOpen] = useState(
     typeof window !== "undefined" ? window.innerWidth > 768 : true
   );
+  const [years, setYears] = useState([
+    "2026", "2025", "2024"
+  ])
 
   const handleSortChange = (e) => {
     setSort((prev) => ({ ...prev, by: e.target.value }));
@@ -116,12 +119,16 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
           <div className="sidebarSection">
             <label className="sidebarLabel">Year</label>
             <select
-            onChange={handleYearChange}
+            onChange={handleYearChange} 
             className="gamesSortSelect"
             >
-              <option value="2026">2026</option>
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
+            {years.map((sYear) => {
+              if(sYear === year){
+                return <option value={sYear} selected>{sYear}</option>
+              } else {
+                return <option value={sYear}>{sYear}</option>
+              }
+            })}
             </select>
           </div>
           <div className="sidebarSection">
