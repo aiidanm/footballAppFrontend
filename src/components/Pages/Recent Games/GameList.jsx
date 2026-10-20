@@ -11,6 +11,24 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
     "2026", "2025", "2024"
   ])
 
+  const collectDates = (aGames) => {
+    let aMonths = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    let mCollected = new Map()
+    aGames.forEach((oGame) => {
+      let dDate = new Intl.DateTimeFormat("en-GB").format(new Date(oGame.game_date))
+      let sMonth = aMonths[dDate.getMonth()]
+      if(mCollected.get(sMonth)){
+        mCollected.get(sMonth).push(oGame)
+      } else {
+        mCollected.set(sMonth, [oGame])
+      }
+
+    })
+
+    console.log()
+
+  }
+
   const handleSortChange = (e) => {
     setSort((prev) => ({ ...prev, by: e.target.value }));
   };
@@ -188,8 +206,10 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
             </button>
           </div>
         )}
+                  <button onClick={handleUpdate}>Reset</button>
+
+        
         <div className="gamesContainer">
-          <button onClick={handleUpdate}>Reset</button>
           {filteredGames.map((game) => (
            
             <Link to={`/games/${game.game_id}`} className="recentGameCard" key={game.game_id}>

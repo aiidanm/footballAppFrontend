@@ -19,7 +19,6 @@ const Login = () => {
       const userCreds = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCreds.user.getIdToken();
       const userData = await getRoles(idToken);
-      console.log(userData)
       login(userData);
       setWaiting({ status: false, message: "" });
       navigate("/");

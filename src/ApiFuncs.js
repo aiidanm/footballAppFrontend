@@ -1,9 +1,9 @@
 import axios from "axios";
 import {auth} from './components/Firebase'
 
-// const BASE_URL = "https://footballbackend-d13q.onrender.com"
+const BASE_URL = "https://footballbackend-d13q.onrender.com"
 
-const BASE_URL = "http://localhost:5142"
+// const BASE_URL = "http://localhost:5142"
 
 const api = axios.create({
   baseURL: BASE_URL,

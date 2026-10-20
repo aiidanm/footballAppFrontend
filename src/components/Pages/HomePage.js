@@ -21,12 +21,11 @@ const HomePage = () => {
     signOut(auth)
       .then(() => {
         logout()
-        navigate("/login");
+        navigate("/login-signup");
       })
       .catch((error) => {});
   };
 
-console.log(user)
  if (!user) {
     navigate("/Landing");
     return null;

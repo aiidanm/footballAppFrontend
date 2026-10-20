@@ -72,7 +72,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/joinLeague",
-    element: <RoleRoute requiredRole=""><JoinLeague /></RoleRoute> 
+    element: <JoinLeague />
   },
   {
     path: "/settings",
