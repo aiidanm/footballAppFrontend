@@ -4,7 +4,7 @@ import { addPlayer } from "../../../ApiFuncs";
 import { auth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../header"
+import Header from "../header";
 
 const NewPlayer = () => {
   const [players, setPlayers] = useState([
@@ -57,7 +57,7 @@ const NewPlayer = () => {
 
   return (
     <div className="MainContainer">
-     <Header />
+      <Header />
       <h2>Players</h2>
       {waiting ? (
         <h1>Submitting to server..</h1>
@@ -115,13 +115,15 @@ const NewPlayer = () => {
               </div>
             ))}
             <button
+              className="add-another-player-button"
               type="button"
               onClick={handleAddFields}
-              style={{ marginRight: "10px" }}
             >
               + Add Another Player
             </button>
-            <button type="submit">Submit to database</button>
+            <button className="submit-players-button" type="submit">
+              Submit to database
+            </button>
           </form>
         </div>
       )}

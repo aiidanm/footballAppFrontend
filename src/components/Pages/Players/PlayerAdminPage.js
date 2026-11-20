@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
+import Header from "../header";
 
 const PlayerAdminPage = () => {
   const navigate = useNavigate();
@@ -20,9 +21,7 @@ const PlayerAdminPage = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <h2>Player admin</h2>
       <div className="pageContainer">
         <Link to="/add-player" className="icon-button">

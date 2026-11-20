@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getGameById } from "../../../ApiFuncs";
 import { Link } from "react-router-dom";
 import { deleteGame } from "../../../ApiFuncs";
-import Header from "../header"
+import Header from "../header";
 
 const GameStats = () => {
   const { gameid } = useParams();
@@ -14,12 +14,12 @@ const GameStats = () => {
     message: "Loading game stats, please wait.",
   });
   const handleDelete = (e) => {
-    deleteGame(gameid)
-  }
+    deleteGame(gameid);
+  };
 
   useEffect(() => {
     getGameById(gameid).then((data) => {
-      console.log(data)
+      console.log(data);
       setGame(data);
       setWaiting({ status: false, message: "" });
     });
@@ -40,7 +40,9 @@ const GameStats = () => {
               )}
             </p>
             <p>Game ID: {game.game_id}</p>
-            <button onClick={handleDelete}>Delete Game</button>
+            <button className="delete-game-button" onClick={handleDelete}>
+              Delete Game
+            </button>
             <div className="teams_container">
               <div className="team_container-red">
                 <h2>Red Team</h2>

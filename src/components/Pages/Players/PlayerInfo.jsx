@@ -43,10 +43,14 @@ const PlayerStats = () => {
           <h1>{waiting.message}</h1>
         ) : (
           <div className="player_stats_container">
-            <h2 className="playerName">{player.player_name} Stats</h2>
-            <p>Total goals scored: {player.total_goals_scored}</p>
-            <p>Total times kicked over the fence: {player.total_over_fence}</p>
-            <p>Games played: {player.total_games_played}</p>
+            <div className="player-summary-card">
+              <h2 className="playerName">{player.player_name} Stats</h2>
+              <div className="player-summary-stats">
+                <p><strong>{player.total_goals_scored}</strong> Goals scored</p>
+                <p><strong>{player.total_over_fence}</strong> Over the fence</p>
+                <p><strong>{player.total_games_played}</strong> Games played</p>
+              </div>
+            </div>
             <div className="players-recent-games">
               <h3>Recent games</h3>
               {player.stats

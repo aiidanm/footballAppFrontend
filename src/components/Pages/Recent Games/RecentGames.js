@@ -5,6 +5,7 @@ import GameList from "./GameList";
 import { auth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../header";
 
 const RecentGames = () => {
   const [games, setGames] = useState([]);
@@ -42,9 +43,7 @@ const RecentGames = () => {
 
   return (
     <div className="MainContainer">
-      <Link to="/" className="HomeLink">
-        <h1 className="TitleHeader">MNF</h1>
-      </Link>
+      <Header />
       <h2>Recent games</h2>
       {waiting.status ? (
         <h1>{waiting.message}</h1>

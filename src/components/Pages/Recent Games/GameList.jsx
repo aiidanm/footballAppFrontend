@@ -1,39 +1,53 @@
 import React, { useState, useMemo } from "react";
 import "../../../App.css";
 import { Link } from "react-router-dom";
-const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
+const GameInfo = ({ games, setGames, handleUpdate, year, setYear }) => {
   const [sort, setSort] = useState({ by: "date", order: "desc" });
   const [filter, setFilter] = useState({ field: "none", value: "all" });
   const [sidebarOpen, setSidebarOpen] = useState(
-    typeof window !== "undefined" ? window.innerWidth > 768 : true
+    typeof window !== "undefined" ? window.innerWidth > 768 : true,
   );
-  const [years, setYears] = useState([
-    "2026", "2025", "2024"
-  ])
+  const [years, setYears] = useState(["2026", "2025", "2024"]);
 
   const collectDates = (aGames) => {
-    let aMonths = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    let mCollected = new Map()
+    let aMonths = [
+      "January",
+      "Febuary",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    let mCollected = new Map();
     aGames.forEach((oGame) => {
-      let dDate = new Intl.DateTimeFormat("en-GB").format(new Date(oGame.game_date))
-      let sMonth = aMonths[dDate.getMonth()]
-      if(mCollected.get(sMonth)){
-        mCollected.get(sMonth).push(oGame)
+      let dDate = new Intl.DateTimeFormat("en-GB").format(
+        new Date(oGame.game_date),
+      );
+      let sMonth = aMonths[dDate.getMonth()];
+      if (mCollected.get(sMonth)) {
+        mCollected.get(sMonth).push(oGame);
       } else {
-        mCollected.set(sMonth, [oGame])
+        mCollected.set(sMonth, [oGame]);
       }
+    });
 
-    })
-
-    console.log()
-
-  }
+    console.log();
+  };
 
   const handleSortChange = (e) => {
     setSort((prev) => ({ ...prev, by: e.target.value }));
   };
   const handleOrderChange = () => {
-    setSort((prev) => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
+    setSort((prev) => ({
+      ...prev,
+      order: prev.order === "asc" ? "desc" : "asc",
+    }));
   };
   const handleFilterFieldChange = (e) => {
     setFilter({ field: e.target.value, value: "all" });
@@ -43,24 +57,23 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
   };
 
   const handleYearChange = (e) => {
-    setYear(e.target.value)
-  }
- 
+    setYear(e.target.value);
+  };
 
   const getPlayerCount = (game) =>
     Object.values(game.teams).reduce((acc, team) => acc + team.length, 0);
 
   const filterValueArray = useMemo(() => {
     if (filter.field === "player_count") {
-      return Array.from(
-        new Set(games.map(getPlayerCount))
-      )
+      return Array.from(new Set(games.map(getPlayerCount)))
         .sort((a, b) => b - a)
         .map((num) => num.toString());
-    } else if(filter.field === "winning-team"){
+    } else if (filter.field === "winning-team") {
       return ["Red Team", "Blue Team", "draw"];
-    } else if(filter.field === "total goals scored"){
-      return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((num) => num.toString());
+    } else if (filter.field === "total goals scored") {
+      return [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+      ].map((num) => num.toString());
     }
     return [];
   }, [games, filter.field]);
@@ -69,23 +82,30 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
     let result = [...games];
     if (filter.field === "player_count" && filter.value !== "all") {
       result = result.filter(
-        (game) => getPlayerCount(game).toString() === filter.value
+        (game) => getPlayerCount(game).toString() === filter.value,
       );
-    } else if(filter.field === "winning-team"){
-      result = result.filter(
-        (game) => {
-          if(filter.value === "Red Team" && game.team1_score > game.team2_score){
-            return true;
-          } else if(filter.value === "Blue Team" && game.team2_score > game.team1_score){
-            return true;
-          } else if(filter.value === "draw" && game.team1_score === game.team2_score){
-            return true;
-          }
-          return false;
+    } else if (filter.field === "winning-team") {
+      result = result.filter((game) => {
+        if (
+          filter.value === "Red Team" &&
+          game.team1_score > game.team2_score
+        ) {
+          return true;
+        } else if (
+          filter.value === "Blue Team" &&
+          game.team2_score > game.team1_score
+        ) {
+          return true;
+        } else if (
+          filter.value === "draw" &&
+          game.team1_score === game.team2_score
+        ) {
+          return true;
         }
-      );
+        return false;
+      });
     }
-    
+
     result.sort((a, b) => {
       let aValue, bValue;
       const marginA = Math.abs(a.team1_score - a.team2_score);
@@ -136,17 +156,18 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
           </button>
           <div className="sidebarSection">
             <label className="sidebarLabel">Year</label>
-            <select
-            onChange={handleYearChange} 
-            className="gamesSortSelect"
-            >
-            {years.map((sYear) => {
-              if(sYear === year){
-                return <option value={sYear} selected>{sYear}</option>
-              } else {
-                return <option value={sYear}>{sYear}</option>
-              }
-            })}
+            <select onChange={handleYearChange} className="gamesSortSelect">
+              {years.map((sYear) => {
+                if (sYear === year) {
+                  return (
+                    <option value={sYear} selected>
+                      {sYear}
+                    </option>
+                  );
+                } else {
+                  return <option value={sYear}>{sYear}</option>;
+                }
+              })}
             </select>
           </div>
           <div className="sidebarSection">
@@ -186,7 +207,9 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
                 <select onChange={handleFilterValueChange} value={filter.value}>
                   <option value="all">All</option>
                   {filterValueArray.map((val) => (
-                    <option key={val} value={val}>{val}</option>
+                    <option key={val} value={val}>
+                      {val}
+                    </option>
                   ))}
                 </select>
               </>
@@ -195,32 +218,39 @@ const GameInfo = ({ games, setGames, handleUpdate, year, setYear}) => {
         </div>
       </aside>
       <main className="gameListContent">
-        {!sidebarOpen && (
-          <div className="filterOpenWrapper">
-            <button
-              className="filterOpenButton"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open filters"
-            >
-              ☰ Filters
-            </button>
-          </div>
-        )}
-                  <button onClick={handleUpdate}>Reset</button>
-
-        
+        <div className="gameListActions">
+          {!sidebarOpen && (
+            <div className="filterOpenWrapper">
+              <button
+                className="filterOpenButton"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open filters"
+              >
+                ☰ Filters
+              </button>
+            </div>
+          )}
+          <button className="resetGamesButton" onClick={handleUpdate}>
+            Reset
+          </button>
+        </div>
         <div className="gamesContainer">
           {filteredGames.map((game) => (
-           
-            <Link to={`/games/${game.game_id}`} className="recentGameCard" key={game.game_id}>
+            <Link
+              to={`/games/${game.game_id}`}
+              className="recentGameCard"
+              key={game.game_id}
+            >
               <p>
-                Game Date: {new Intl.DateTimeFormat("en-GB").format(new Date(game.game_date))}
+                Game Date:{" "}
+                {new Intl.DateTimeFormat("en-GB").format(
+                  new Date(game.game_date),
+                )}
               </p>
               <p>Red team score: {game.team1_score} </p>
               <p>Blue team score: {game.team2_score}</p>
               <p>Players involved: {getPlayerCount(game)}</p>
             </Link>
-            
           ))}
         </div>
       </main>
